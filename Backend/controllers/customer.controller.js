@@ -62,7 +62,7 @@ export const SignupCustomer = async (req, res) => {
       address,
       contactNumber,
     });
-    console.log("HEHEHE");
+    // console.log("HEHEHE");
 
     await newCustomer.save();
     generateTokenAndSetCookie(newCustomer._id, "customer", res);

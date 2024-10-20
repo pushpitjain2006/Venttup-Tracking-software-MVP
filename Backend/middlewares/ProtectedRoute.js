@@ -13,7 +13,6 @@ const protectedRoute = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const LoggedInUserType = decoded.LoggedInUserType;
-
     if (LoggedInUserType == "customer") {
       const customerId = decoded.userID;
 

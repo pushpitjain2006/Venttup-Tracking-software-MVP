@@ -129,7 +129,8 @@ export const UpdateProgress = async (req, res) => {
     }
     let VendorOrder = order[0];
     let allowed = false;
-    for (let i = 0; i < order.length; i++) {
+    let i = 0;
+    for (; i < order.length; i++) {
       if (order[i].vendorId == vendorId) {
         allowed = true;
         VendorOrder = order[i];
@@ -141,15 +142,20 @@ export const UpdateProgress = async (req, res) => {
         .status(401)
         .json({ message: "You are not authorized to update this order" });
     }
-    if (VendorOrder.progress != 5) {
+
+    if (VendorOrder.progress < 5) {
       VendorOrder.progress = VendorOrder.progress + 1;
-      if (VendorOrder.progress == 5) {
-        VendorOrder.status = "completed";
-        const vendor = await Vendor.findById(vendorId);
-        vendor.available = true;
-        await vendor.save();
-      }
     } else {
+      VendorOrder.status = "completed";
+      const vendor = await Vendor.findById(vendorId);
+      vendor.available = true;
+      const order_ = await Order.findById(orderId);
+      console.log(order_);
+      order.length >= VendorOrder.totalGates
+        ? (order_.currentStatus = "completed")
+        : (order_.currentStatus = "pending");
+      await vendor.save();
+      await order_.save();
       return res.status(400).json({ message: "Order already completed" });
     }
 

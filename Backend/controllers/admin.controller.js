@@ -7,6 +7,7 @@ import generateTokenAndSetCookie from "../utils/GenerateJWT.js";
 import bcrypt from "bcryptjs";
 
 export const LoginAdmin = async (req, res) => {
+  console.log("Trying to login admin");
   try {
     const { username, password } = req.body;
     if (!username || !password) {
@@ -20,8 +21,13 @@ export const LoginAdmin = async (req, res) => {
     const isMatch = await bcrypt.compare(password, admin.password);
 
     if (isMatch) {
-      generateTokenAndSetCookie(admin._id, "admin", res);
-      return res.status(200).json({ message: "Login Successful" });
+      const { token, LoggedInUserType, userID } = generateTokenAndSetCookie(
+        admin._id,
+        "admin",
+        res
+      );
+
+      return res.status(200).json({ token, LoggedInUserType, userID });
     }
     res.status(400).json({ message: "Invalid Credentials" });
   } catch (error) {

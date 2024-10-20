@@ -10,6 +10,7 @@ const generateTokenAndSetCookie = (userID, LoggedInUserType, res) => {
     sameSite: "strict",
     secure: process.env.NODE_ENV !== "Development", // Only works on HTTPS
   });
+  return { token, LoggedInUserType, userID };
 };
 
 export default generateTokenAndSetCookie;
