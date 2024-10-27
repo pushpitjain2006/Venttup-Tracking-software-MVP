@@ -1,33 +1,35 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from "../pages/Login/Login.jsx";
+import Login from "./pages/Login/Login.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
-import MasterDashboard from "../pages/Dashboard/AdminDashboard/masterDashboard.jsx";
-import customerDashboard from "../pages/Dashboard/customerDashboard/customerDashboard.jsx";
-import vendorDashboard from "../pages/Dashboard/VedorDashboard/vendorDashboard.jsx";
+import MasterDashboard from "./pages/Dashboard/AdminDashboard/masterDashboard.jsx";
+import CustomerDashboard from "./pages/Dashboard/customerDashboard/customerDashboard.jsx";
+import VendorDashboard from "./pages/Dashboard/VedorDashboard/vendorDashboard.jsx";
 
 function Redirect({ page }) {
   const { auth, setAuth } = useAuth();
   console.log(auth);
   if (auth.token) {
     const userType = auth.userType;
-    if (userType == "admin") {
+    switch (userType) {
+    case "admin":
       return <MasterDashboard />;
-    } else if (userType == "customer") {
-      return <customerDashboard />;
-    } else if (userType == "vendor") {
-      return <vendorDashboard />;
-    } else {
+    case "customer":
+      return <CustomerDashboard />;
+    case "vendor":
+      return <VendorDashboard />;
+    default:
       console.log(auth);
       setAuth(null);
       localStorage.removeItem("auth");
       console.log(auth);
       console.log("Invalid user type");
       if (page === "signup") {
-        return <div>signup page</div>;
+        return <div>Signup Page</div>;
       }
       return <Login />;
-    }
+  }
+
   } else {
     if (page === "signup") {
       return <div>op</div>;

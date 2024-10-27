@@ -1,6 +1,6 @@
 import React from 'react'
 
-const vendorDashboard = () => {
+const VendorDashboard = () => {
   return (
     <div>
       vendorDashboard
@@ -8,4 +8,4 @@ const vendorDashboard = () => {
   )
 }
 
-export default vendorDashboard
+export default VendorDashboard
