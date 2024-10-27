@@ -9,8 +9,9 @@ export const useVendorLogin = () => {
 
   const vendorLogin = async (GSTIN, password) => {
     setLoading(true);
+    console.log("Inside vendorLogin");
     try {
-      const res = await axios.post(`${process.env.BackendURL}/vendor/login`, {
+      const res = await axios.post(`http://localhost:3001/vendor/login`, {
         GSTIN,
         password,
       });
@@ -20,6 +21,7 @@ export const useVendorLogin = () => {
         userId: res.data.userId,
       });
       setError(null);
+      redirect("/");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
     } finally {

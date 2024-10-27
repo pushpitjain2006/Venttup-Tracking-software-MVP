@@ -20,8 +20,12 @@ export const LoginVendor = async (req, res) => {
     if (!isMatch) {
       res.status(400).json({ message: "Invalid Credentials" });
     }
-    generateTokenAndSetCookie(vendor._id, "vendor", res);
-    res.status(200).json({ message: "Login Successful" });
+    const { userID, token, LoggedInUserType } = generateTokenAndSetCookie(
+      vendor._id,
+      "vendor",
+      res
+    );
+    res.status(200).json({ userID, token, LoggedInUserType });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

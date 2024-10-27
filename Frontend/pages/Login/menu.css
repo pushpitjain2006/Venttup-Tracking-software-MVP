@@ -31,8 +31,16 @@
   top: 0;
   height: 100%;
   width: 33.33%;
-  background-color: #00008b; 
+  background-color: #00008b;
   border-radius: 5px;
-  z-index: 1; 
+  z-index: 1;
   transition: left 0.4s ease-in-out;
+}
+
+.login-form {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
