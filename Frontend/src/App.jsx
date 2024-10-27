@@ -13,27 +13,26 @@ function Redirect({ page }) {
   if (auth.token) {
     const userType = auth.userType;
     switch (userType) {
-    case "admin":
-      return <MasterDashboard />;
-    case "customer":
-      return <CustomerDashboard />;
-    case "vendor":
-      return <VendorDashboard />;
-    default:
-      console.log(auth);
-      setAuth(null);
-      localStorage.removeItem("auth");
-      console.log(auth);
-      console.log("Invalid user type");
-      if (page === "signup") {
-        return <Signup/>;
-      }
-      return <Login />;
-  }
-
+      case "admin":
+        return <MasterDashboard />;
+      case "customer":
+        return <CustomerDashboard />;
+      case "vendor":
+        return <VendorDashboard />;
+      default:
+        console.log(auth);
+        setAuth(null);
+        localStorage.removeItem("auth");
+        console.log(auth);
+        console.log("Invalid user type");
+        if (page === "signup") {
+          return <Signup />;
+        }
+        return <Login />;
+    }
   } else {
     if (page === "signup") {
-      return <Signup/>;
+      return <Signup />;
     }
     return <Login />;
   }
@@ -46,7 +45,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Redirect page="/login"/>,
+    element: <Redirect page="login" />,
   },
   {
     path: "/signup",

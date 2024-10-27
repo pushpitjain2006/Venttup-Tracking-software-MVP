@@ -15,15 +15,15 @@ export const useAdminLogin = () => {
       console.log("Inside adminLogin");
       // const backendURL = process.env.REACT_APP_BackendURL || "http://localhost:3001";
       // console.log("backendURL : ", backendURL);
-      const res = await axios.post(`http://localhost:3000/admin/login`, {
+      const res = await axios.post(`http://localhost:3001/admin/login`, {
         username,
         password,
       });
       console.log(res);
       setAuth({
         userType: "admin",
-        token: res.token,
-        userId: res.userId,
+        token: res.data.token,
+        userId: res.data.userId,
       });
       console.log("auth : ", auth);
       setError(null);
