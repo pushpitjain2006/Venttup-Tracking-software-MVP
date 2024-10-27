@@ -3,20 +3,23 @@ import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { redirect } from "react-router-dom";
 
-export const useCustomerLogin = () => {
+export const useCustomerSignup = () => {
   const { setAuth } = useAuth();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const customerLogin = async (GSTIN, password) => {
+  const customerSignup = async (GSTIN, password, ConfirmPassword, address, contactNumber) => {
     setLoading(true);
     try {
       console.log("Inside customerLogin");
       // const backendURL = process.env.REACT_APP_BackendURL || "http://localhost:3001";
       // console.log("backendURL : ", backendURL);
-      const res = await axios.post(`http://localhost:3001/customer/login`, {
+      const res = await axios.post(`http://localhost:3000/customer/signup`, {
         GSTIN: GSTIN,
         password: password,
+        ConfirmPassword,
+        address,
+        contactNumber
       });
       console.log(res);
       setAuth({
@@ -27,12 +30,12 @@ export const useCustomerLogin = () => {
       setError(null);
       redirect("/")
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
+      setError(err.response?.data?.message || "Signup failed");
       console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
-  return { customerLogin, error, loading };
+  return { customerSignup, error, loading };
 };

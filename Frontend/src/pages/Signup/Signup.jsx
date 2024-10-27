@@ -1,9 +1,9 @@
-import React from "react";
-import { useState } from "react";
-import AdminLogin from "../../components/Login-components/Adminlogin.jsx";
-import VendorLogin from "../../components/Login-components/VendorLogin.jsx";
-import CustomerLogin from "../../components/Login-components/CustomerLogin.jsx";
-const Login = () => {
+import React, { useState } from "react";
+import AdminSignup from "../../components/Signup-components/AdminSignup.jsx";
+import VendorSignup from "../../components/Signup-components/VendorSignup.jsx";
+import CustomerSignup from "../../components/Signup-components/CustomerSignup.jsx";
+
+const Signup = () => {
   const [selected, setSelected] = useState("Customer");
 
   const handleSelect = (option) => {
@@ -35,14 +35,14 @@ const Login = () => {
           />
         </div>
 
-        <div className="w-full max-w-sm p-6 bg-slate-700 rounded-3xl shadow-md border border-gray-200 h-96">
-          {selected === "Admin" && <AdminLogin />}
-          {selected === "Vendor" && <VendorLogin />}
-          {selected === "Customer" && <CustomerLogin />}
+        <div className="w-full max-w-sm p-6 bg-slate-700 rounded-3xl shadow-md border border-gray-200 min-h-[400px]">
+          {selected === "Admin" && <AdminSignup />}
+          {selected === "Vendor" && <VendorSignup />}
+          {selected === "Customer" && <CustomerSignup />}
         </div>
       </div>
     </>
   );
 };
 
-export default Login;
+export default Signup;

@@ -4,21 +4,21 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { redirect } from "react-router-dom";
 
-export const useAdminLogin = () => {
+export const useAdminSignup = () => {
   const { auth, setAuth } = useAuth();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const adminLogin = async (username, password) => {
+  const adminSignup = async (username, password, confirmPassword) => {
     setLoading(true);
     try {
-      console.log("Inside adminLogin");
       // const backendURL = process.env.REACT_APP_BackendURL || "http://localhost:3001";
-      // console.log("backendURL : ", backendURL);
-      const res = await axios.post(`http://localhost:3000/admin/login`, {
+      const res = await axios.post(`http://localhost:3000/admin/signup`, {
         username,
         password,
+        confirmPassword
       });
+      
       console.log(res);
       setAuth({
         userType: "admin",
@@ -27,16 +27,16 @@ export const useAdminLogin = () => {
       });
       console.log("auth : ", auth);
       setError(null);
-
-      toast.success("Login successful");
-      redirect("/");
+      toast.success("Signup successful");
+      redirect("/login");
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
-      toast.error(err.response?.data?.message || "Login failed");
+      console.log(err);
+      setError(err.response?.data?.message || "Signup failed");
+      toast.error(err.response?.data?.message || "Signup failed");
     } finally {
       setLoading(false);
     }
   };
 
-  return { adminLogin, error, loading };
+  return { adminSignup, error, loading };
 };

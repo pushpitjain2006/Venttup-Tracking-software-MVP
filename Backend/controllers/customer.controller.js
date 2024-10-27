@@ -42,8 +42,7 @@ export const LogoutCustomer = async (req, res) => {
 
 export const SignupCustomer = async (req, res) => {
   try {
-    const { GSTIN, password, ConfirmPassword, address, contactNumber } =
-      req.body;
+    const { GSTIN, password, ConfirmPassword, address, contactNumber } = req.body;
 
     if (!GSTIN || !password || !address || !contactNumber) {
       return res.status(400).json({ message: "Please fill all the fields" });

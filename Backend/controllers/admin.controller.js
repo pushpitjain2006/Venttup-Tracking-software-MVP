@@ -48,7 +48,6 @@ export const LogoutAdmin = async (req, res) => {
   }
 };
 
-/*
 export const SignupAdmin = async (req, res) => {
   try {
     const { username, password, confirmPassword } = req.body;
@@ -78,7 +77,7 @@ export const SignupAdmin = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-*/
+
 export const GetOrdersWithPendingAssignment = async (req, res) => {
   try {
     const orders = await Order.find({ currentStatus: "pending" });

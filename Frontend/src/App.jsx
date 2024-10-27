@@ -1,10 +1,11 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./pages/Login/Login.jsx";
+import Signup from "./pages/Signup/Signup.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import MasterDashboard from "./pages/Dashboard/AdminDashboard/masterDashboard.jsx";
 import CustomerDashboard from "./pages/Dashboard/customerDashboard/customerDashboard.jsx";
-import VendorDashboard from "./pages/Dashboard/VedorDashboard/vendorDashboard.jsx";
+import VendorDashboard from "./pages/Dashboard/VendorDashboard/vendorDashboard.jsx";
 
 function Redirect({ page }) {
   const { auth, setAuth } = useAuth();
@@ -25,14 +26,14 @@ function Redirect({ page }) {
       console.log(auth);
       console.log("Invalid user type");
       if (page === "signup") {
-        return <div>Signup Page</div>;
+        return <Signup/>;
       }
       return <Login />;
   }
 
   } else {
     if (page === "signup") {
-      return <div>op</div>;
+      return <Signup/>;
     }
     return <Login />;
   }
@@ -45,7 +46,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Redirect />,
+    element: <Redirect page="/login"/>,
   },
   {
     path: "/signup",
