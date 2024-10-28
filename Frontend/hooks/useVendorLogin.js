@@ -11,7 +11,8 @@ export const useVendorLogin = () => {
     setLoading(true);
     console.log("Inside vendorLogin");
     try {
-      const res = await axios.post(`http://localhost:3001/vendor/login`, {
+    const backendURL = import.meta.env.VITE_BackendURL || "http://localhost:3001";
+      const res = await axios.post(`${backendURL}/vendor/login`, {
         GSTIN,
         password,
       });

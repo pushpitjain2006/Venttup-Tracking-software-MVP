@@ -9,9 +9,9 @@ export const useVendorSignup = () => {
 
   const vendorSignup = async (GSTIN, password, ConfirmPassword, address, contactNumber) => {
     setLoading(true);
-    console.log("Inside");
     try {
-      const res = await axios.post(`http://localhost:3000/vendor/signup`, {
+      const backendURL = import.meta.env.VITE_BackendURL || "http://localhost:3001";
+      const res = await axios.post(`${backendURL}/vendor/signup`, {
         GSTIN,
         password,
         ConfirmPassword,

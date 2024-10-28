@@ -4,13 +4,13 @@ import Vendor from "../database/models/vendor.model.js";
 import jwt from "jsonwebtoken";
 
 const protectedRoute = async (req, res, next) => {
-  const token = req.cookies.jwt;
-
-  if (!token) {
+  const auth = req.headers.authorization;
+  if (!auth) {
     return res.status(401).json({ message: "No token, authorization denied" });
   }
 
   try {
+    const token=auth.split(" ")[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const LoggedInUserType = decoded.LoggedInUserType;
     if (LoggedInUserType == "customer") {

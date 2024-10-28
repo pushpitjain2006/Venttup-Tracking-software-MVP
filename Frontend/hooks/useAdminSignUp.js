@@ -12,8 +12,8 @@ export const useAdminSignup = () => {
   const adminSignup = async (username, password, confirmPassword) => {
     setLoading(true);
     try {
-      // const backendURL = process.env.REACT_APP_BackendURL || "http://localhost:3001";
-      const res = await axios.post(`http://localhost:3000/admin/signup`, {
+      const backendURL = import.meta.env.VITE_BackendURL || "http://localhost:3001";
+      const res = await axios.post(`${backendURL}/admin/signup`, {
         username,
         password,
         confirmPassword

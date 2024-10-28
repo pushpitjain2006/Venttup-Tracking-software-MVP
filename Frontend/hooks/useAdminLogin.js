@@ -12,10 +12,9 @@ export const useAdminLogin = () => {
   const adminLogin = async (username, password) => {
     setLoading(true);
     try {
-      console.log("Inside adminLogin");
-      // const backendURL = process.env.REACT_APP_BackendURL || "http://localhost:3001";
-      // console.log("backendURL : ", backendURL);
-      const res = await axios.post(`http://localhost:3001/admin/login`, {
+      // console.log("Inside adminLogin");
+      const backendURL = import.meta.env.VITE_BackendURL || "http://localhost:3001";
+      const res = await axios.post(`${backendURL}/admin/login`, {
         username,
         password,
       });

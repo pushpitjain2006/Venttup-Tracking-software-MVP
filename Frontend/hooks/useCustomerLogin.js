@@ -11,10 +11,9 @@ export const useCustomerLogin = () => {
   const customerLogin = async (GSTIN, password) => {
     setLoading(true);
     try {
-      console.log("Inside customerLogin");
-      // const backendURL = process.env.REACT_APP_BackendURL || "http://localhost:3001";
-      // console.log("backendURL : ", backendURL);
-      const res = await axios.post(`http://localhost:3001/customer/login`, {
+      // console.log("Inside customerLogin");
+      const backendURL = import.meta.env.VITE_BackendURL || "http://localhost:3001";
+      const res = await axios.post(`${backendURL}/customer/login`, {
         GSTIN: GSTIN,
         password: password,
       });
