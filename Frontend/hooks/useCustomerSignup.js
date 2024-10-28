@@ -1,36 +1,29 @@
-import { useAuth } from "../context/AuthContext";
+import useAxios from "./useAxios";
 import { useState } from "react";
-import api from "../src/utils/api.js";
+import { useNavigate } from "react-router-dom";
 
 export const useCustomerSignup = () => {
-  const { setAuth } = useAuth();
+  const axios=useAxios();
+  const navigate=useNavigate();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const customerSignup = async (GSTIN, password, ConfirmPassword, address, contactNumber) => {
     setLoading(true);
     try {
-      console.log("Inside customerLogin");
-      // const backendURL = process.env.REACT_APP_BackendURL || "http://localhost:3001";
-      // console.log("backendURL : ", backendURL);
-      const res = await api.post(`/customer/signup`, {
+      const res = await axios.post(`/customer/signup`, {
         GSTIN: GSTIN,
         password: password,
         ConfirmPassword,
         address,
         contactNumber
       });
-      console.log(res);
-      setAuth({
-        userType: "customer",
-        token: res.data.token,
-        userId: res.data.userId,
-      });
       setError(null);
-      window.location.href = "/";
+      toast.success("Signup successful");
+      navigate("/login");
     } catch (err) {
       setError(err.response?.data?.message || "Signup failed");
-      console.error(err);
+      toast.error("Signup failed");
     } finally {
       setLoading(false);
     }

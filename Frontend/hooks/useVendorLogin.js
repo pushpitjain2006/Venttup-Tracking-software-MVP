@@ -1,8 +1,11 @@
+import useAxios from "./useAxios.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useState } from "react";
-import api from "../src/utils/api.js";
+import { useNavigate } from "react-router-dom";
 
 export const useVendorLogin = () => {
+  const axios=useAxios();
+  const navigate=useNavigate();
   const { setAuth } = useAuth();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -11,7 +14,7 @@ export const useVendorLogin = () => {
     setLoading(true);
     console.log("Inside vendorLogin");
     try {
-      const res = await api.post(`/vendor/login`, {
+      const res = await axios.post(`/vendor/login`, {
         GSTIN,
         password,
       });
@@ -21,9 +24,11 @@ export const useVendorLogin = () => {
         userId: res.data.userId,
       });
       setError(null);
-      window.location.href = "/";
+      toast.success("Login Successful")
+      navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
+      toast.error("Login failed");
     } finally {
       setLoading(false);
     }

@@ -1,9 +1,11 @@
+import useAxios from "./useAxios.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import api from "../src/utils/api.js";
 
 export const useAdminLogin = () => {
+  const axios=useAxios();
   const { auth, setAuth } = useAuth();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -11,20 +13,15 @@ export const useAdminLogin = () => {
   const adminLogin = async (username, password) => {
     setLoading(true);
     try {
-      console.log("Inside adminLogin");
-      // const backendURL = process.env.REACT_APP_BackendURL || "http://localhost:3001";
-      // console.log("backendURL : ", backendURL);
-      const res = await api.post(`/admin/login`, {
+      const res = await axios.post(`/admin/login`, {
         username,
         password,
       });
-      console.log(res);
       setAuth({
         userType: "admin",
         token: res.data.token,
         userId: res.data.userId,
       });
-      console.log("auth : ", auth);
       setError(null);
 
       toast.success("Login successful");

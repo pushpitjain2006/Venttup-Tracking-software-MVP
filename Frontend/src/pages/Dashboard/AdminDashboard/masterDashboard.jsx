@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"
 import { Bell } from "lucide-react"; 
 import { DashboardCard } from "../../../components/AdminDashboard/DashboardCard";
 
 function MasterDashboard() {
+  const navigate = useNavigate();
   return (
   <>
     <div className="absolute w-12 h-12 bg-blue-400 flex items-center justify-center rounded-full m-2 left-[1450px]">
@@ -16,7 +18,7 @@ function MasterDashboard() {
       <div className="grid grid-cols-2 gap-6 w-full max-w-4xl p-4">
         <DashboardCard title="Assign Vendors" />
         <DashboardCard title="View Orders" />
-        <DashboardCard title="Edit Customers & Vendors" />
+        <DashboardCard title="Edit Customers & Vendors" onclick={()=>navigate("/view-users")}/>
         <DashboardCard title="Add More Admins" />
       </div>
     </div>

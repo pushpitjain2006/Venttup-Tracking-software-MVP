@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import MasterDashboard from "./pages/Dashboard/AdminDashboard/masterDashboard.jsx";
 import CustomerDashboard from "./pages/Dashboard/customerDashboard/customerDashboard.jsx";
 import VendorDashboard from "./pages/Dashboard/VendorDashboard/vendorDashboard.jsx";
+import EditUsers from "./components/AdminDashboard/EditUsers.jsx";
 
 function Redirect({ page }) {
   const { auth, setAuth } = useAuth();
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <Redirect page="signup" />,
   },
+  {
+    path: "/view-users",
+    element: <EditUsers/>
+  }
 ]);
 
 function App() {
