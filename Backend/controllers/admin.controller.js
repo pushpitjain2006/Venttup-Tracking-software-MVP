@@ -192,3 +192,31 @@ export const ViewUsers = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const deleteUsers= async(req, res)=>{
+  try {
+    const { type, id } = req.body;
+    if (!type || !id) {
+      return res.status(400).json({ message: "User type and ID are required" });
+    }
+
+    let userModel;
+    if (type === "vendor") {
+      userModel = Vendor; 
+    } else if (type === "customer") {
+      userModel = Customer; 
+    } else {
+      return res.status(400).json({ message: "Invalid user type" });
+    }
+
+    const user = await userModel.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await userModel.findByIdAndDelete(id);
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}

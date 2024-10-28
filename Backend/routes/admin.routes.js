@@ -6,7 +6,8 @@ import {
   GetAvailableVendors,
   AssignVendors,
   ViewUsers,
-  SignupAdmin
+  SignupAdmin,
+  deleteUsers
 } from "../controllers/admin.controller.js";
 import { ViewOrders, TrackOrders } from "../controllers/order.controller.js";
 import protectedRoute from "../middlewares/ProtectedRoute.js";
@@ -23,5 +24,6 @@ router.post("/assign-vendors",protectedRoute,isAdmin, AssignVendors); //Working
 router.get("/view-users",protectedRoute,isAdmin, ViewUsers); //Working
 router.get("/view-orders",protectedRoute,isAdmin, ViewOrders); //Working
 router.get("/track-orders",protectedRoute,isAdmin, TrackOrders);  //Working
+router.delete("/delete-user",protectedRoute,isAdmin,deleteUsers);
 
 export default router;

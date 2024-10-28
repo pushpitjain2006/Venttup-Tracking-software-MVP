@@ -1,15 +1,22 @@
 import React, { useState } from "react";
 import useFetchUsers from "../../../hooks/useFetchUsers";
-import axios from "axios";
+import useAxios from "../../../hooks/useAxios";
 import { toast } from "react-toastify";
 
 const EditUsers = () => {
+  const axios=useAxios();
   const [userType, setUserType] = useState("vendor");
   const { users, setUsers, loading, error } = useFetchUsers(userType);
   console.log(users);
-  const handleDelete = async (userId) => {
+  const handleDelete = async (userType,userId) => {
     try {
-      // await axios.delete(`/api/users/${userId}`);
+      console.log(userType,userId);
+      const res=await axios.delete(`/admin/delete-user`, {
+        data:{
+          type:userType,
+          id:userId
+        }
+      });
       // Update users state after deletion
       setUsers(users.filter(user => user._id !== userId));
       toast("User deleted successfully!");
@@ -57,7 +64,7 @@ const EditUsers = () => {
               <p className="text-gray-600">Contact: {user.contactNumber}</p>
             </div>
             <button
-              onClick={() => handleDelete(user._id)}
+              onClick={() => handleDelete(userType,user._id)}
               className="text-red-500 bg-red-100 px-3 py-1 rounded hover:bg-red-200"
             >
               Delete
