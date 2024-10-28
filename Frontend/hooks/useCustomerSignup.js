@@ -1,7 +1,6 @@
-import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
-import { redirect } from "react-router-dom";
+import api from "../src/utils/api.js";
 
 export const useCustomerSignup = () => {
   const { setAuth } = useAuth();
@@ -14,7 +13,7 @@ export const useCustomerSignup = () => {
       console.log("Inside customerLogin");
       // const backendURL = process.env.REACT_APP_BackendURL || "http://localhost:3001";
       // console.log("backendURL : ", backendURL);
-      const res = await axios.post(`http://localhost:3000/customer/signup`, {
+      const res = await api.post(`/customer/signup`, {
         GSTIN: GSTIN,
         password: password,
         ConfirmPassword,
@@ -28,7 +27,7 @@ export const useCustomerSignup = () => {
         userId: res.data.userId,
       });
       setError(null);
-      redirect("/")
+      window.location.href = "/";
     } catch (err) {
       setError(err.response?.data?.message || "Signup failed");
       console.error(err);

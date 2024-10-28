@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useState } from "react";
+import api from "../src/utils/api.js";
 
 export const useVendorLogin = () => {
   const { setAuth } = useAuth();
@@ -11,7 +11,7 @@ export const useVendorLogin = () => {
     setLoading(true);
     console.log("Inside vendorLogin");
     try {
-      const res = await axios.post(`http://localhost:3001/vendor/login`, {
+      const res = await api.post(`/vendor/login`, {
         GSTIN,
         password,
       });
@@ -21,7 +21,7 @@ export const useVendorLogin = () => {
         userId: res.data.userId,
       });
       setError(null);
-      redirect("/");
+      window.location.href = "/";
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
     } finally {

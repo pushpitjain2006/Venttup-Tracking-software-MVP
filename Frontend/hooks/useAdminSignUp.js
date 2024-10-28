@@ -1,8 +1,7 @@
-import axios from "axios";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { redirect } from "react-router-dom";
+import api from "../src/utils/api.js";
 
 export const useAdminSignup = () => {
   const { auth, setAuth } = useAuth();
@@ -13,7 +12,7 @@ export const useAdminSignup = () => {
     setLoading(true);
     try {
       // const backendURL = process.env.REACT_APP_BackendURL || "http://localhost:3001";
-      const res = await axios.post(`http://localhost:3000/admin/signup`, {
+      const res = await api.post(`/admin/signup`, {
         username,
         password,
         confirmPassword
@@ -28,7 +27,7 @@ export const useAdminSignup = () => {
       console.log("auth : ", auth);
       setError(null);
       toast.success("Signup successful");
-      redirect("/login");
+      window.location.href = "/";
     } catch (err) {
       console.log(err);
       setError(err.response?.data?.message || "Signup failed");
