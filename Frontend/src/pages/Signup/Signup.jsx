@@ -44,7 +44,7 @@ const Signup = () => {
         </div>
         <div>
           <p>
-            Already have an account? <span className="text-blue-600 underline" onClick={()=>navigate("/login")}>Login</span>
+            Already have an account? <span className="text-blue-600 underline cursor-pointer" onClick={()=>navigate("/login")}>Login</span>
           </p>
         </div>
       </div>
