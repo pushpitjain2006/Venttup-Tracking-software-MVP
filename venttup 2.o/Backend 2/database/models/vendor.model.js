@@ -1,0 +1,38 @@
+// • GSTIN (username)
+// • Hashed password
+// • Address
+// • contact info
+// • Available - boolean - free or not
+
+import mongoose from "mongoose";
+
+const vendorSchema = new mongoose.Schema(
+  {
+    GSTIN: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    contactNumber: {
+      type: String,
+      required: true,
+    },
+    available: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export default mongoose.model("Vendor", vendorSchema);

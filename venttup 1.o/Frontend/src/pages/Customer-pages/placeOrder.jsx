@@ -47,7 +47,7 @@ const PlaceOrder = () => {
       setFile(null);
       setPrice("");
     } else {
-      toast.error("Order placement might have failed");
+      toast.error("Order placement failed");
       console.log(res);
     }
   };
@@ -91,12 +91,9 @@ const PlaceOrder = () => {
               <option value="">Select Requirement</option>
               <option value="localization">Localisation / NPD</option>
               <option value="contract_manufacturing">
-                B2B Contract Manufacturing
+                Contract Manufacturing
               </option>
-              <option value="supply_chain">Green Building Material</option>
-              <option value="supply_chain">Component / Equipment Supply</option>
-              <option value="supply_chain">ESG Advisory</option>
-              <option value="supply_chain">Other</option>
+              <option value="supply_chain">Supply Chain Distribution</option>
             </select>
           </div>
 

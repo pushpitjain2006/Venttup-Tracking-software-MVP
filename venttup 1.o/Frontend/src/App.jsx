@@ -8,6 +8,7 @@ import CustomerDashboard from "./pages/Dashboard/customerDashboard/customerDashb
 import VendorDashboard from "./pages/Dashboard/VendorDashboard/vendorDashboard.jsx";
 import EditUsers from "./components/AdminDashboard/EditUsers.jsx";
 import PlaceOrder from "./pages/Customer-pages/placeOrder.jsx";
+import ViewOrders from "./pages/Customer-pages/viewOrders.jsx";
 
 function Redirect({ page }) {
   const { auth, setAuth } = useAuth();
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
     path: "/PlaceOrder",
     element: <PlaceOrder />,
   },
+  {
+    path: "ViewOrders",
+    element: <ViewOrders />,
+  }
 ]);
 
 function App() {
