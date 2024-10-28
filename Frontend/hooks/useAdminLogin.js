@@ -2,7 +2,6 @@ import useAxios from "./useAxios.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { redirect } from "react-router-dom";
 
 export const useAdminLogin = () => {
   const axios=useAxios();
@@ -25,7 +24,7 @@ export const useAdminLogin = () => {
       setError(null);
 
       toast.success("Login successful");
-      redirect("/");
+      window.location.href = "/";
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
       toast.error(err.response?.data?.message || "Login failed");

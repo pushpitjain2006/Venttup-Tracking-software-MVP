@@ -9,7 +9,13 @@ export const useVendorSignup = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const vendorSignup = async (GSTIN, password, ConfirmPassword, address, contactNumber) => {
+  const vendorSignup = async (
+    GSTIN,
+    password,
+    ConfirmPassword,
+    address,
+    contactNumber
+  ) => {
     setLoading(true);
     try {
       const res = await axios.post(`/vendor/signup`, {
@@ -17,7 +23,7 @@ export const useVendorSignup = () => {
         password,
         ConfirmPassword,
         address,
-        contactNumber
+        contactNumber,
       });
       setError(null);
       toast.success("Signup successful");
