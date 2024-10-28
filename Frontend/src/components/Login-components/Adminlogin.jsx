@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAdminLogin } from "../../../hooks/useAdminLogin.js";
+import { useAdminLogin } from "../../../hooks/Login-hooks/useAdminLogin.js";
 import { toast } from "react-toastify";
 
 const Adminlogin = () => {

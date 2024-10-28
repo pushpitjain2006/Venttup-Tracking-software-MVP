@@ -1,7 +1,8 @@
-import useAxios from "./useAxios.js";
-import { useAuth } from "../context/AuthContext.jsx";
+import useAxios from "../../src/utils/useAxios.js";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useAuth } from "../../context/AuthContext.jsx";
+
 
 export const useAdminLogin = () => {
   const axios=useAxios();

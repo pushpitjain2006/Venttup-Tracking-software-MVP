@@ -1,11 +1,11 @@
-import useAxios from "./useAxios.js";
+import useAxios from "../../src/utils/useAxios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export const useVendorSignup = () => {
-  const axios=useAxios();
-  const navigate=useNavigate();
+  const axios = useAxios();
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 

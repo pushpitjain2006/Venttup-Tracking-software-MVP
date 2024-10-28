@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useVendorLogin } from "../../../hooks/useVendorLogin";
+import { useVendorLogin } from "../../../hooks/Login-hooks/useVendorLogin";
 import { toast } from "react-toastify";
 
 const VendorLogin = () => {
