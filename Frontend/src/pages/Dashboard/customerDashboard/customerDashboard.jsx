@@ -1,18 +1,18 @@
 import React from "react";
 import { useAuth } from "../../../../context/AuthContext.jsx";
-import api from "../../../utils/api.js";
+import useAxios from "../../../utils/useAxios.js";
 
 const CustomerDashboard = () => {
   const { setAuth } = useAuth();
   async function handelLogout() {
     setAuth(null);
-    const res = await api.get("/customer/logout");
+    const axios = useAxios();
+    const res = await axios.get("/vendor/logout");
     console.log(res);
     window.location.href = "/";
   }
   return (
     <div className="min-h-screen bg-green-50 p-6">
-      {/* Navbar */}
       <div className="flex items-center justify-between bg-green-600 shadow-md p-4 mb-6 rounded-lg">
         <div className="flex gap-4 items-center">
           <h1 className="text-2xl font-semibold text-white">

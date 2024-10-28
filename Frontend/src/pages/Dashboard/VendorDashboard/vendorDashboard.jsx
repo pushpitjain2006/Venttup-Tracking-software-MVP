@@ -1,12 +1,13 @@
 import React from "react";
 import { useAuth } from "../../../../context/AuthContext.jsx";
-import api from "../../../utils/api.js";
+import useAxios from "../../../utils/useAxios.js";
 
 const VendorDashboard = () => {
   const { setAuth } = useAuth();
   async function handleLogout() {
     setAuth(null);
-    const res = await api.get("/vendor/logout");
+    const axios = useAxios();
+    const res = await axios.get("/vendor/logout");
     console.log(res);
     window.location.href = "/";
   }
@@ -45,7 +46,9 @@ const VendorDashboard = () => {
         </div>
 
         <div className="flex-1 bg-white shadow-lg rounded-lg p-[6rem] text-center transform transition duration-200 hover:scale-105 hover:shadow-2xl">
-          <h2 className="text-xl font-semibold text-blue-800">Orders History</h2>
+          <h2 className="text-xl font-semibold text-blue-800">
+            Orders History
+          </h2>
         </div>
       </div>
     </div>
