@@ -3,7 +3,10 @@ import { useState } from "react";
 import AdminLogin from "../../components/Login-components/Adminlogin.jsx";
 import VendorLogin from "../../components/Login-components/VendorLogin.jsx";
 import CustomerLogin from "../../components/Login-components/CustomerLogin.jsx";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
+  const navigate=useNavigate();
   const [selected, setSelected] = useState("Customer");
 
   const handleSelect = (option) => {
@@ -12,7 +15,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center p-8 space-y-8">
+      <div className="flex flex-col items-center p-8 space-y-2">
         <div className="relative w-80">
           <div className="flex justify-around bg-sky-700 border-2 border-sky-800 rounded-full shadow-lg">
             {["Admin", "Vendor", "Customer"].map((option) => (
@@ -39,6 +42,11 @@ const Login = () => {
           {selected === "Admin" && <AdminLogin />}
           {selected === "Vendor" && <VendorLogin />}
           {selected === "Customer" && <CustomerLogin />}
+        </div>
+        <div>
+          <p>
+            Don't have an account? <span className="text-blue-600 underline" onClick={()=>navigate("/signup")}>Signup</span>
+          </p>
         </div>
       </div>
     </>
