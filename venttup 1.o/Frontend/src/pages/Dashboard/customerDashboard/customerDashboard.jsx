@@ -46,7 +46,12 @@ const CustomerDashboard = () => {
           <h2 className="text-xl font-semibold text-green-800">Place Order</h2>
         </div>
 
-        <div className="flex-1 bg-white shadow-lg rounded-lg p-[6rem] text-center transform transition duration-200 hover:scale-105 hover:shadow-2xl cursor-pointer">
+        <div
+          className="flex-1 bg-white shadow-lg rounded-lg p-[6rem] text-center transform transition duration-200 hover:scale-105 hover:shadow-2xl cursor-pointer"
+          onClick={() => {
+            window.location.href = "/ViewOrders";
+          }}
+        >
           <h2 className="text-xl font-semibold text-green-800">View Orders</h2>
         </div>
       </div>
