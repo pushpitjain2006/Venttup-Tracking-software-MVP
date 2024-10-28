@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const useVendorLogin = () => {
-  const axios=useAxios();
-  const navigate=useNavigate();
+  const axios = useAxios();
+  const navigate = useNavigate();
   const { setAuth } = useAuth();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ export const useVendorLogin = () => {
         userId: res.data.userId,
       });
       setError(null);
-      toast.success("Login Successful")
+      toast.success("Login Successful");
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
