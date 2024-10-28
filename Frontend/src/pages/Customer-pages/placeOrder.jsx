@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa"; // Using Font Awesome icons
 import { toast } from "react-toastify";
 import useAxios from "../../utils/useAxios.js";
+import { useAuth } from "../../../context/AuthContext.jsx";
 
 const PlaceOrder = () => {
   const [orderType, setSelectedRequirement] = useState("");
@@ -16,6 +17,7 @@ const PlaceOrder = () => {
   const [file, setFile] = useState(null);
   const [totalAmount, setPrice] = useState("");
   const axios = useAxios();
+  const { setAuth } = useAuth();
 
   const handleFileUpload = (e) => setFile(e.target.files[0]);
 
@@ -31,7 +33,7 @@ const PlaceOrder = () => {
     if (!orderType || !selectedSector || !totalAmount) {
       return toast.error("Please fill all the fields");
     }
-    const res = await axios.post("/customer/place-order", {
+    const res = await axios.post("/customer/place-orders", {
       orderType,
       totalAmount,
     });
@@ -50,6 +52,13 @@ const PlaceOrder = () => {
     }
   };
 
+  async function handelLogout() {
+    const res = await axios.get("/vendor/logout");
+    setAuth(null);
+    console.log(res);
+    window.location.href = "/";
+  }
+
   return (
     <div className="min-h-screen bg-[url('/src/assets/sustainable-bg.jpg')] bg-cover bg-opacity-30 p-8 flex justify-center items-center">
       <div className="max-w-3xl w-full p-6 bg-white bg-opacity-90 rounded-lg shadow-lg">
@@ -58,7 +67,12 @@ const PlaceOrder = () => {
           <h1 className="text-2xl font-semibold text-green-700 flex items-center">
             <FaLeaf className="text-3xl mr-2" /> Place Order
           </h1>
-          <button className="text-white bg-green-600 px-4 py-2 rounded hover:bg-green-700">
+          <button
+            className="text-white bg-green-600 px-4 py-2 rounded hover:bg-green-700"
+            onClick={() => {
+              handelLogout();
+            }}
+          >
             Logout
           </button>
         </div>

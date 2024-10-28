@@ -3,10 +3,9 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/AuthContext.jsx";
 
-
 export const useAdminLogin = () => {
-  const axios=useAxios();
-  const { auth, setAuth } = useAuth();
+  const axios = useAxios();
+  const { setAuth } = useAuth();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -23,7 +22,6 @@ export const useAdminLogin = () => {
         userId: res.data.userId,
       });
       setError(null);
-
       toast.success("Login successful");
       window.location.href = "/";
     } catch (err) {
