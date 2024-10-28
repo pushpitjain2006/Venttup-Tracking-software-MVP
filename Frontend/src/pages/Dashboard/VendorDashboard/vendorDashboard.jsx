@@ -4,9 +4,9 @@ import useAxios from "../../../utils/useAxios.js";
 
 const VendorDashboard = () => {
   const { setAuth } = useAuth();
+  const axios = useAxios();
   async function handleLogout() {
     setAuth(null);
-    const axios = useAxios();
     const res = await axios.get("/vendor/logout");
     console.log(res);
     window.location.href = "/";
