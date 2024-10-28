@@ -64,6 +64,11 @@ const orderSchema = new mongoose.Schema(
       enum: currentStatusArray(this.orderType),
       default: "Vendor Selection",
     },
+    vendorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Vendor",
+      default: null,
+    },
   },
   {
     timestamps: true,
