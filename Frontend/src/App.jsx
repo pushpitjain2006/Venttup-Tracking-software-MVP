@@ -7,6 +7,7 @@ import MasterDashboard from "./pages/Dashboard/AdminDashboard/masterDashboard.js
 import CustomerDashboard from "./pages/Dashboard/customerDashboard/customerDashboard.jsx";
 import VendorDashboard from "./pages/Dashboard/VendorDashboard/vendorDashboard.jsx";
 import EditUsers from "./components/AdminDashboard/EditUsers.jsx";
+import PlaceOrder from "./pages/Customer-pages/placeOrder.jsx";
 
 function Redirect({ page }) {
   const { auth, setAuth } = useAuth();
@@ -54,8 +55,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/view-users",
-    element: <EditUsers/>
-  }
+    element: <EditUsers />,
+  },
+  {
+    path: "/PlaceOrder",
+    element: <PlaceOrder />,
+  },
 ]);
 
 function App() {

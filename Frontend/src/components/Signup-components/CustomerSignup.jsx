@@ -1,6 +1,6 @@
-import React, { useState }  from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { useCustomerSignup } from "../../../hooks/useCustomerSignup";
+import { useCustomerSignup } from "../../../hooks/signup-hooks/useCustomerSignup";
 
 const CustomerSignup = () => {
   const [GSTIN, setGSTIN] = useState("");
@@ -17,18 +17,22 @@ const CustomerSignup = () => {
       toast("Please fill all the fields");
       return;
     }
-    customerSignup(GSTIN, password,confirmPassword,address,contact);
+    customerSignup(GSTIN, password, confirmPassword, address, contact);
   }
 
   return (
     <>
-      <h2 className="text-3xl font-bold text-center text-white mb-6">Customer Signup</h2>
+      <h2 className="text-3xl font-bold text-center text-white mb-6">
+        Customer Signup
+      </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <label 
+          <label
             htmlFor="contact"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" 
-          >Contact</label>
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Contact
+          </label>
           <input
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="contact"
@@ -40,10 +44,12 @@ const CustomerSignup = () => {
           />
         </div>
         <div className="space-y-2">
-          <label 
+          <label
             htmlFor="address"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" 
-          >Address</label>
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Address
+          </label>
           <input
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="address"
@@ -55,10 +61,12 @@ const CustomerSignup = () => {
           />
         </div>
         <div className="space-y-2">
-          <label 
+          <label
             htmlFor="username"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" 
-          >GSTIN</label>
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            GSTIN
+          </label>
           <input
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="username"
@@ -70,10 +78,12 @@ const CustomerSignup = () => {
           />
         </div>
         <div className="space-y-2">
-          <label 
+          <label
             htmlFor="password"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >Password</label>
+          >
+            Password
+          </label>
           <input
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="password"
@@ -85,10 +95,12 @@ const CustomerSignup = () => {
           />
         </div>
         <div className="space-y-2">
-          <label 
+          <label
             htmlFor="cpassword"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >Confirm Password</label>
+          >
+            Confirm Password
+          </label>
           <input
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="cpassword"
@@ -99,9 +111,9 @@ const CustomerSignup = () => {
             required
           />
         </div>
-        <button 
-          type="submit" 
-          className="mx-[130px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" 
+        <button
+          type="submit"
+          className="mx-[130px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           disabled={loading}
         >
           Login
