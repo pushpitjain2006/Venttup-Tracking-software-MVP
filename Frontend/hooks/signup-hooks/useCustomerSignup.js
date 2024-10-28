@@ -1,14 +1,20 @@
-import useAxios from "./useAxios";
+import useAxios from "../../src/utils/useAxios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const useCustomerSignup = () => {
-  const axios=useAxios();
-  const navigate=useNavigate();
+  const axios = useAxios();
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const customerSignup = async (GSTIN, password, ConfirmPassword, address, contactNumber) => {
+  const customerSignup = async (
+    GSTIN,
+    password,
+    ConfirmPassword,
+    address,
+    contactNumber
+  ) => {
     setLoading(true);
     try {
       const res = await axios.post(`/customer/signup`, {
@@ -16,7 +22,7 @@ export const useCustomerSignup = () => {
         password: password,
         ConfirmPassword,
         address,
-        contactNumber
+        contactNumber,
       });
       setError(null);
       toast.success("Signup successful");
