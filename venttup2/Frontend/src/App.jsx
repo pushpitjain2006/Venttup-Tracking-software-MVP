@@ -12,6 +12,7 @@ import ViewOrders from "./pages/Customer-pages/viewOrders.jsx";
 import OrderUploadForm from "./pages/Admin-pages/OrderUpload.jsx";
 import OrderDetails from "./pages/Admin-pages/OrderDetails.jsx";
 import AllOrderDetails from "./pages/Admin-pages/ViewOrders.jsx";
+import OrderDetailsCustomer from "./pages/Customer-pages/orderDetailsCustomer.jsx";
 
 function Redirect({ page }) {
   const { auth, setAuth } = useAuth();
@@ -79,8 +80,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/order/:orderId",
-    element: <OrderDetails />
-  }
+    element: <OrderDetails />,
+  },
+  {
+    path: "/order-details/:orderId",
+    element: <OrderDetailsCustomer />,
+  },
 ]);
 
 function App() {
