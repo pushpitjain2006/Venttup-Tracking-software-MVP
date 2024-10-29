@@ -4,7 +4,7 @@ import useAxios from "../../utils/useAxios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const OrderUploadForm = ({ onSubmit }) => {
+const OrderUploadForm = () => {
   const navigate = useNavigate();
   const axios = useAxios();
   const [formData, setFormData] = useState({
