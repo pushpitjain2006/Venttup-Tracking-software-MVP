@@ -7,23 +7,19 @@ import adminRoutes from "./routes/admin.routes.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import isCustomer from "./middlewares/isCustomer.js";
-import isAdmin from "./middlewares/isAdmin.js";
-import isVendor from "./middlewares/isVendor.js";
-import protectedRoute from "./middlewares/ProtectedRoute.js";
 
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use("/vendor", protectedRoute, isVendor, vendorRoutes);
-app.use("/customer", protectedRoute, isCustomer, customerRoutes);
-app.use("/admin", protectedRoute, isAdmin, adminRoutes);
+app.use("/vendor", vendorRoutes);
+app.use("/customer", customerRoutes);
+app.use("/admin", adminRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
