@@ -5,6 +5,7 @@ import {
   FaRupeeSign,
   FaFileUpload,
   FaComments,
+  FaArrowLeft,
 } from "react-icons/fa"; // Using Font Awesome icons
 import { toast } from "react-toastify";
 import useAxios from "../../utils/useAxios.js";
@@ -62,8 +63,15 @@ const PlaceOrder = () => {
   return (
     <div className="min-h-screen bg-[url('/src/assets/sustainable-bg.jpg')] bg-cover bg-opacity-30 p-8 flex justify-center items-center">
       <div className="max-w-3xl w-full p-6 bg-white bg-opacity-90 rounded-lg shadow-lg">
-        {/* Navbar with Sustainability Icon */}
         <div className="flex items-center justify-between mb-4">
+        <button
+          onClick={() => {
+            window.location.href = "/";
+          }}
+          className="text-green-700 font-semibold flex items-center hover:text-green-800"
+        >
+          <FaArrowLeft className="mr-2" /> Home
+        </button>
           <h1 className="text-2xl font-semibold text-green-700 flex items-center">
             <FaLeaf className="text-3xl mr-2" /> Place Order
           </h1>

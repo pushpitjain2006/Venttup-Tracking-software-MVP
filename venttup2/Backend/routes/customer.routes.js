@@ -12,6 +12,7 @@ import {
   // ViewOrders,
   // ViewOrderDetails,
   // TrackOrders,
+  ViewAllOrders
 } from "../controllers/order.controller.js";
 import protectedRoute from "../middlewares/ProtectedRoute.js";
 import isCustomer from "../middlewares/isCustomer.js";
@@ -27,7 +28,7 @@ router.post("/signup", SignupCustomer); //Working
 // router.post("/place-orders", protectedRoute, isCustomer, PlaceOrders); // working
 // router.post("/payment-order", protectedRoute, isCustomer, PaymentOrder); //working
 // router.get("/track-orders", protectedRoute, isCustomer, TrackOrders); //working
-// router.get("/view-orders", protectedRoute, isCustomer, ViewOrders); //working
+router.get("/view-orders", protectedRoute, isCustomer, ViewAllOrders); //working
 // router.get("/view-order-details", protectedRoute, isCustomer, ViewOrderDetails); //working
 router.get("/vendor-details", protectedRoute, isCustomer, VendorDetails); //working
 

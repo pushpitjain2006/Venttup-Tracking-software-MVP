@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { House } from "lucide-react"
+import { House } from "lucide-react";
 import useAxios from "../../utils/useAxios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const OrderUploadForm = ({ onSubmit }) => {
-  const navigate=useNavigate();
-  const axios=useAxios();
+  const navigate = useNavigate();
+  const axios = useAxios();
   const [formData, setFormData] = useState({
     customerGstin: "",
     orderType: "",
@@ -21,9 +21,9 @@ const OrderUploadForm = ({ onSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-      const response = await axios.post("/admin/upload-order",{
-        data:formData
+    try {
+      const response = await axios.post("/admin/upload-order", {
+        data: formData,
       });
       toast(response.data.message);
       setFormData({
@@ -32,22 +32,28 @@ const OrderUploadForm = ({ onSubmit }) => {
         amount: "",
         sector: "",
       });
-    } catch(err) {
-      toast.error("Order not uploaded");
+    } catch (err) {
+      toast.error(err.message);
     }
   };
 
   return (
     <>
       <div className="fixed w-full h-16 flex justify-between bg-slate-400">
-        <House className="w-10 h-10 m-3 cursor-pointer" onClick={()=>navigate("/")}/>
+        <House
+          className="w-10 h-10 m-3 cursor-pointer"
+          onClick={() => navigate("/")}
+        />
       </div>
       <div className="flex justify-center items-center h-screen w-screen">
         <div className="w-96 p-4 border rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold mb-4 text-center">ORDER UPLOAD</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="customerGstin" className="block text-lg font-medium mb-1">
+              <label
+                htmlFor="customerGstin"
+                className="block text-lg font-medium mb-1"
+              >
                 Customer GSTIN
               </label>
               <input
@@ -61,7 +67,10 @@ const OrderUploadForm = ({ onSubmit }) => {
               />
             </div>
             <div>
-              <label htmlFor="orderType" className="block text-lg font-medium mb-1">
+              <label
+                htmlFor="orderType"
+                className="block text-lg font-medium mb-1"
+              >
                 Order Type
               </label>
               <select
@@ -74,12 +83,17 @@ const OrderUploadForm = ({ onSubmit }) => {
               >
                 <option value="">Select Order Type</option>
                 <option value="localization">Localization</option>
-                <option value="contract_manufacturing">Contract Manufacturing</option>
+                <option value="contract_manufacturing">
+                  Contract Manufacturing
+                </option>
                 <option value="supply_chain">Supply Chain</option>
               </select>
             </div>
             <div>
-              <label htmlFor="amount" className="block text-lg font-medium mb-1">
+              <label
+                htmlFor="amount"
+                className="block text-lg font-medium mb-1"
+              >
                 Amount
               </label>
               <input
@@ -93,7 +107,10 @@ const OrderUploadForm = ({ onSubmit }) => {
               />
             </div>
             <div>
-              <label htmlFor="sector" className="block text-lg font-medium mb-1">
+              <label
+                htmlFor="sector"
+                className="block text-lg font-medium mb-1"
+              >
                 Sector
               </label>
               <select
