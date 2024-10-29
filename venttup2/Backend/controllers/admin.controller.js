@@ -109,7 +109,6 @@ export const AssignVendors = async (req, res) => {
     order.currentStatus = "Vendor Assigned";
     order.currentStep = order.currentStep + 1;
     await order.save();
-
     res.status(200).json({ message: "Vendor Assigned", vendorId: vendor._id });
   } catch (error) {
     res.status(500).json({ message: error.message });
