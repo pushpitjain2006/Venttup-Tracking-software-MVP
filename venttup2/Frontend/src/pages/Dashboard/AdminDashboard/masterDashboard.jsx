@@ -44,7 +44,7 @@ function MasterDashboard() {
               onclick={() => navigate("/admin/ViewOrders")}
             />
             <DashboardCard
-              title="Edit Customers & Vendors"
+              title="Edit Users"
               onclick={() => navigate("/view-users")}
             />
             <DashboardCard
