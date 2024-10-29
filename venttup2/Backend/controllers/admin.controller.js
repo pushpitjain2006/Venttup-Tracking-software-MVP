@@ -4,6 +4,7 @@ import Vendor from "../database/models/vendor.model.js";
 import Customer from "../database/models/customer.model.js";
 import generateTokenAndSetCookie from "../utils/GenerateJWT.js";
 import bcrypt from "bcryptjs";
+import orderStatuses from "../config/orderStatusConfig.js";
 
 export const LoginAdmin = async (req, res) => {
   console.log("Trying to login admin");
@@ -185,3 +186,24 @@ export const orderUpload = async (req, res) => {
     res.status(500).json({ message: "Server error. Please try again later." });
   }
 };
+
+export const ApproveUpdate = async (req, res) => {
+  try {
+    const { orderId } = req.body;
+    if (!orderId) {
+      return res.status(400).json({ message: "Please fill all the fields" });
+    }
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+    const arr = orderStatuses[order.orderType];
+    order.currentStatus = arr[order.currentStep];
+    order.adminApproval = true;
+    await order.save();
+    res.status(200).json({ message: "Progress Approved" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
