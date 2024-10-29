@@ -12,6 +12,7 @@ import {
 } from "../controllers/admin.controller.js";
 // import { ViewOrders, TrackOrders } from "../controllers/order.controller.js";
 import {
+  deleteOrder,
   OrderDetails,
   ViewAllOrders,
 } from "../controllers/order.controller.js";
@@ -32,5 +33,6 @@ router.get("/view-orders", protectedRoute, isAdmin, ViewAllOrders); //Working (j
 router.delete("/delete-user", protectedRoute, isAdmin, deleteUsers);
 router.post("/upload-order", protectedRoute, isAdmin, orderUpload);
 router.get("/order/:orderID", protectedRoute, isAdmin, OrderDetails);
+router.delete("/delete-order",protectedRoute,isAdmin,deleteOrder);
 
 export default router;
