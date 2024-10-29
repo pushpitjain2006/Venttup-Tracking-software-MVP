@@ -38,7 +38,7 @@ function MasterDashboard() {
         </div>
         <div className="grid grid-cols-2 gap-6 w-full max-w-4xl p-4">
           <DashboardCard title="Assign Vendors" />
-          <DashboardCard title="View Orders" onclick={()=>navigate("/ViewOrders")}/>
+          <DashboardCard title="View Orders" onclick={()=>navigate("/admin/ViewOrders")}/>
           <DashboardCard title="Edit Customers & Vendors" onclick={()=>navigate("/view-users")}/>
           <DashboardCard title="Upload Order" onclick={()=>navigate("/upload-order")}/>
           <DashboardCard title="Add More Admins" />
