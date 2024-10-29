@@ -3,7 +3,7 @@ import useFetchOrders from "../../../hooks/useFetchOrders";
 import { House } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const OrderDetails = () => {
+const AllOrderDetails = () => {
   const navigate = useNavigate();
   const { orders, error, loading } = useFetchOrders();
 
@@ -23,9 +23,6 @@ const OrderDetails = () => {
             className="relative group bg-gray-800 rounded-lg shadow-lg p-6 m-3 transition duration-300 hover:shadow-xl"
           >
             <h2 className="text-xl font-bold mb-4">Order ID: {order._id}</h2>
-            <p className="text-gray-400 mb-2">
-              <span className="font-semibold text-gray-300">Customer ID:</span> {order.customerId}
-            </p>
             <p className="text-gray-400 mb-2">
               <span className="font-semibold text-gray-300">Order Type:</span> {order.orderType}
             </p>
@@ -52,7 +49,7 @@ const OrderDetails = () => {
             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
               <button
                 className="bg-blue-600 text-white py-2 px-4 rounded-full font-semibold hover:bg-blue-700 shadow-lg"
-                onClick={() => alert(`Details for Order ID: ${order._id}`)}
+                onClick={() => navigate(`/order/${order._id}`)}
               >
                 View Order Details
               </button>
@@ -64,4 +61,4 @@ const OrderDetails = () => {
   );
 };
 
-export default OrderDetails;
+export default AllOrderDetails;

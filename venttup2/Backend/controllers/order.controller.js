@@ -25,11 +25,12 @@ export const ViewAllOrders = async (req, res) => {
 export const OrderDetails = async (req, res) => {
   try {
     const { LoggedInUserType } = req.body;
+    const id=req.body.orderId || req.params.orderID;
 
-    if (!req.body.orderId) {
+    if (!id) {
       return res.status(400).json({ message: "Please provide orderId" });
     }
-    const order = await Order.findById(req.body.orderId);
+    const order = await Order.findById(id);
     if (
       LoggedInUserType === "customer" &&
       order.customerId !== req.body.customerId
