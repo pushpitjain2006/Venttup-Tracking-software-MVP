@@ -24,7 +24,7 @@ const orderSchema = new mongoose.Schema(
     currentStatus: {
       type: String,
       enum: orderStatuses.orderType,
-      default: "Vendor Selection",
+      default: "Waiting Admin Approval",
     },
     vendorId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -38,6 +38,11 @@ const orderSchema = new mongoose.Schema(
     sector: {
       type: String,
       required: true,
+    },
+    comments: {
+      type: String,
+      default: "",
+      required: false,
     },
   },
   {
