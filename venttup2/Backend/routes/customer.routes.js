@@ -9,6 +9,7 @@ import {
   VendorDetails,
 } from "../controllers/customer.controller.js";
 import {
+  ViewAllOrders
   // ViewOrders,
   // ViewOrderDetails,
   // TrackOrders,
@@ -27,7 +28,7 @@ router.post("/signup", SignupCustomer); //Working
 // router.post("/place-orders", protectedRoute, isCustomer, PlaceOrders); // working
 // router.post("/payment-order", protectedRoute, isCustomer, PaymentOrder); //working
 // router.get("/track-orders", protectedRoute, isCustomer, TrackOrders); //working
-// router.get("/view-orders", protectedRoute, isCustomer, ViewOrders); //working
+router.get("/view-orders", protectedRoute, isCustomer, ViewAllOrders); //working
 // router.get("/view-order-details", protectedRoute, isCustomer, ViewOrderDetails); //working
 router.get("/vendor-details", protectedRoute, isCustomer, VendorDetails); //working
 

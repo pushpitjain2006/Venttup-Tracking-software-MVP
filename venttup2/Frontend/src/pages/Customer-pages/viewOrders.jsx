@@ -1,28 +1,9 @@
 import React, { useEffect, useState } from "react";
-import useAxios from "../../utils/useAxios.js";
 import { FaLeaf, FaArrowLeft } from "react-icons/fa";
+import useFetchOrders from "../../../hooks/useFetchOrders.js";
 
 const ViewOrders = () => {
-  const axios = useAxios();
-  const [orders, setOrders] = useState([]);
-
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const res = await axios.get("/customer/view-orders");
-        console.log(res);
-        if (res.status === 200) {
-          setOrders(res.data);
-        } else {
-          console.log(res);
-        }
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-      }
-    };
-    fetchOrders();
-  }, [axios]);
-
+  const {orders,error,loading}=useFetchOrders();
   return (
     <div className="min-h-screen bg-[url('/src/assets/sustainable-bg.jpg')] bg-cover bg-opacity-30 p-8 flex justify-center items-center">
       <div className="max-w-4xl w-full p-6 bg-white bg-opacity-90 rounded-lg shadow-lg">
@@ -39,7 +20,6 @@ const ViewOrders = () => {
           </h1>
         </div>
 
-        {/* Orders List */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {orders && orders.length > 0 ? (
             orders.map((order, index) => (
