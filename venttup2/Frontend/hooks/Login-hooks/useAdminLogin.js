@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "../../context/AuthContext.jsx";
 
 export const useAdminLogin = () => {
+  console.log("Inside useAdminLogin");
   const axios = useAxios();
   const { setAuth } = useAuth();
   const [error, setError] = useState(null);
