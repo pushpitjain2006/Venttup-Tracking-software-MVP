@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom"
 import { Bell } from "lucide-react"; 
 import { DashboardCard } from "../../../components/AdminDashboard/DashboardCard";
 import { useAuth } from "../../../../context/AuthContext";
+import useAxios from "../../../utils/useAxios";
 
 function MasterDashboard() {
+  const axios=useAxios();
   const { setAuth } = useAuth();
   const navigate = useNavigate();
   async function handelLogout() {
     setAuth(null);
+    const res = await axios.get("/admin/logout");
     navigate("/");
   }
   return (
@@ -35,7 +38,7 @@ function MasterDashboard() {
         </div>
         <div className="grid grid-cols-2 gap-6 w-full max-w-4xl p-4">
           <DashboardCard title="Assign Vendors" />
-          <DashboardCard title="View Orders" />
+          <DashboardCard title="View Orders" onclick={()=>navigate("/ViewOrders")}/>
           <DashboardCard title="Edit Customers & Vendors" onclick={()=>navigate("/view-users")}/>
           <DashboardCard title="Upload Order" onclick={()=>navigate("/upload-order")}/>
           <DashboardCard title="Add More Admins" />
