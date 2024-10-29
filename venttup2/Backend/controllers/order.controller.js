@@ -1,5 +1,26 @@
 import Order from "../database/models/order.model.js";
 
+export const deleteOrder = async (req, res) => {
+  try {
+    const { orderId } = req.body;
+    console.log(req.body);
+
+    if (!orderId) {
+      return res.status(400).json({ message: "Order ID is required" });
+    }
+
+    const deletedOrder = await Order.findByIdAndDelete(orderId);
+
+    if (!deletedOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.status(200).json({ message: "Order deleted successfully", orderId });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const ViewAllOrders = async (req, res) => {
   try {
     const { LoggedInUserType } = req.body;
