@@ -10,6 +10,7 @@ const orderStatuses = {
     "Gate 5",
     "Gate 6",
     "Gate 7",
+    "Order completed",
   ],
   contract_manufacturing: [
     "Vendor Selection",
@@ -22,6 +23,7 @@ const orderStatuses = {
     "Dispatch Clearance",
     "Material Receipt",
     "GRN",
+    "Order completed",
   ],
   supply_chain: [
     "Vendor Selection",
@@ -33,6 +35,7 @@ const orderStatuses = {
     "Dispatch Clearance",
     "Material Receipt",
     "GRN",
+    "Order completed",
   ],
 };
 

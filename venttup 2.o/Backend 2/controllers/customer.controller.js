@@ -1,7 +1,6 @@
 import Customer from "../database/models/customer.model.js";
 import Order from "../database/models/order.model.js";
 import Vendor from "../database/models/vendor.model.js";
-import OrderStatus from "../database/models/order_status.model.js";
 import bcrypt from "bcryptjs";
 import generateTokenAndSetCookie from "../utils/GenerateJWT.js";
 
@@ -42,7 +41,8 @@ export const LogoutCustomer = async (req, res) => {
 
 export const SignupCustomer = async (req, res) => {
   try {
-    const { GSTIN, password, ConfirmPassword, address, contactNumber } = req.body;
+    const { GSTIN, password, ConfirmPassword, address, contactNumber } =
+      req.body;
 
     if (!GSTIN || !password || !address || !contactNumber) {
       return res.status(400).json({ message: "Please fill all the fields" });
@@ -76,79 +76,19 @@ export const SignupCustomer = async (req, res) => {
   }
 };
 
-export const PlaceOrders = async (req, res) => {
-  try {
-    const { customerId, orderType, totalAmount } = req.body;
-    console.log(req.body);
-
-    if (!customerId || !orderType || !totalAmount) {
-      return res.status(400).json({ message: "Please fill all the fields" });
-    }
-    const newOrder = new Order({
-      customerId,
-      orderType,
-      totalAmount,
-    });
-    await newOrder.save();
-    res.status(201).json({ message: "Order placed successfully" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-export const PaymentOrder = async (req, res) => {
-  try {
-    const { orderId } = req.body;
-    if (!orderId) {
-      return res.status(400).json({ message: "Please fill all the fields" });
-    }
-    const order = await Order.findById(orderId);
-    if (!order) {
-      return res.status(404).json({ message: "Order not found" });
-    }
-    if (order.currentStatus !== "in-progress") {
-      return res
-        .status(400)
-        .json({ message: "Order not approved or already Paid" });
-    }
-    order.currentStatus = "Paid";
-    await order.save();
-    res.status(200).json({ message: "Payment successful" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
 export const VendorDetails = async (req, res) => {
   try {
-    const { customerId, vendorId } = req.body;
-    if (!vendorId) {
-      return res.status(400).json({ message: "Please fill all the fields" });
+    const { VendorId } = req.body;
+    if (!VendorId) {
+      return res.status(400).json({ message: "Please provide VendorId" });
     }
-    let allowed = false;
-
-    const VendorHistory = await OrderStatus.find({ vendorId });
-    for (let i = 0; i < VendorHistory.length; i++) {
-      const OrderID = VendorHistory[i].orderId;
-      const order = await Order.findById(OrderID);
-      if (order.customerId === customerId) {
-        allowed = true;
-        break;
-      }
-    }
-
-    if (allowed) {
-      return res
-        .status(401)
-        .json({ message: "You are not authorized to view this vendor" });
-    }
-
-    const vendor = await Vendor.findById(vendorId);
+    const vendor = await Vendor.findById(VendorId);
     if (!vendor) {
-      return res.status(404).json({ message: "Vendor not found" });
+      return res.status(400).json({ message: "Vendor not found" });
     }
     res.status(200).json(vendor);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
