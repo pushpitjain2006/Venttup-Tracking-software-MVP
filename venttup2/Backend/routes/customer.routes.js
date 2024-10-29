@@ -8,13 +8,7 @@ import {
   // PaymentOrder,
   VendorDetails,
 } from "../controllers/customer.controller.js";
-import {
-  ViewAllOrders
-  // ViewOrders,
-  // ViewOrderDetails,
-  // TrackOrders,
-  ViewAllOrders
-} from "../controllers/order.controller.js";
+import { ViewAllOrders } from "../controllers/order.controller.js";
 import protectedRoute from "../middlewares/ProtectedRoute.js";
 import isCustomer from "../middlewares/isCustomer.js";
 
