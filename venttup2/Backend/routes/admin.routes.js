@@ -14,6 +14,7 @@ import {
 import {
   deleteOrder,
   OrderDetails,
+  updateOrder,
   ViewAllOrders,
 } from "../controllers/order.controller.js";
 import protectedRoute from "../middlewares/ProtectedRoute.js";
@@ -34,5 +35,6 @@ router.delete("/delete-user", protectedRoute, isAdmin, deleteUsers);
 router.post("/upload-order", protectedRoute, isAdmin, orderUpload);
 router.get("/order/:orderID", protectedRoute, isAdmin, OrderDetails);
 router.delete("/delete-order",protectedRoute,isAdmin,deleteOrder);
+router.put("/modify-order",protectedRoute,isAdmin,updateOrder);
 
 export default router;

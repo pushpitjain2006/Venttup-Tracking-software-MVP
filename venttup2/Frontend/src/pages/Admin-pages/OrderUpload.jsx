@@ -83,9 +83,7 @@ const OrderUploadForm = () => {
               >
                 <option value="">Select Order Type</option>
                 <option value="localization">Localization</option>
-                <option value="contract_manufacturing">
-                  Contract Manufacturing
-                </option>
+                <option value="contract_manufacturing">Contract Manufacturing</option>
                 <option value="supply_chain">Supply Chain</option>
               </select>
             </div>
