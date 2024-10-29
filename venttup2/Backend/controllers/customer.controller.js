@@ -92,3 +92,24 @@ export const VendorDetails = async (req, res) => {
   }
 };
 
+export const PlaceOrders = async (req, res) => {
+  try {
+    const { orderType, totalAmount, customerId, sector, comments } = req.body;
+    if (!orderType || !totalAmount) {
+      return res.status(400).json({ message: "Please fill all the fields" });
+    }
+    const newOrder = new Order({
+      customerId,
+      orderType,
+      totalAmount,
+      customer: req.userId,
+      sector,
+      comments
+    });
+    await newOrder.save();
+    res.status(201).json({ message: "Order requested successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+};

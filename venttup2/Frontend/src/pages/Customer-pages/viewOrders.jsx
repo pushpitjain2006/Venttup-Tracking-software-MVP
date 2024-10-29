@@ -3,7 +3,7 @@ import { FaLeaf, FaArrowLeft, FaSync } from "react-icons/fa";
 import useFetchOrders from "../../../hooks/useFetchOrders.js";
 
 const ViewOrders = () => {
-  const {orders,error,loading}=useFetchOrders();
+  const { orders, error, loading } = useFetchOrders();
   const [count, setcount] = useState(0);
   return (
     <div className="min-h-screen bg-[url('/src/assets/sustainable-bg.jpg')] bg-cover bg-opacity-30 p-8 flex justify-center items-center">
