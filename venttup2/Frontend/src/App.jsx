@@ -9,6 +9,7 @@ import VendorDashboard from "./pages/Dashboard/VendorDashboard/vendorDashboard.j
 import EditUsers from "./components/AdminDashboard/EditUsers.jsx";
 import PlaceOrder from "./pages/Customer-pages/placeOrder.jsx";
 import ViewOrders from "./pages/Customer-pages/viewOrders.jsx";
+import OrderUploadForm from "./pages/Admin-pages/OrderUpload.jsx";
 
 function Redirect({ page }) {
   const { auth, setAuth } = useAuth();
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
   {
     path: "ViewOrders",
     element: <ViewOrders />,
+  },
+  {
+    path: "/upload-order",
+    element: <OrderUploadForm />,
   }
 ]);
 

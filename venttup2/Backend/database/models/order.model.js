@@ -23,7 +23,7 @@ const orderSchema = new mongoose.Schema(
     },
     currentStatus: {
       type: String,
-      enum: orderStatuses[this.orderType],
+      enum: orderStatuses.orderType,
       default: "Vendor Selection",
     },
     vendorId: {

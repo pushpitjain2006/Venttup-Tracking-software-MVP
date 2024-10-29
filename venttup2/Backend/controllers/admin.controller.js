@@ -1,6 +1,5 @@
 import Admin from "../database/models/admin.model.js";
 import Order from "../database/models/order.model.js";
-import OrderStatus from "../database/models/order_status.model.js";
 import Vendor from "../database/models/vendor.model.js";
 import Customer from "../database/models/customer.model.js";
 import generateTokenAndSetCookie from "../utils/GenerateJWT.js";
@@ -220,3 +219,29 @@ export const deleteUsers= async(req, res)=>{
     res.status(500).json({ message: error.message });
   }
 }
+
+export const orderUpload = async(req, res) => {
+  try {
+    const { customerGstin, orderType, amount, sector } = req.body.data;
+    if (!customerGstin || !orderType || !amount || !sector) {
+      return res.status(400).json({ message: "All fields are required." });
+    }
+    const customer = await Customer.findOne({ GSTIN: customerGstin });
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found." });
+    }
+    const newOrder = new Order({
+      customerId: customer._id,
+      orderType,
+      totalAmount: amount,
+      currentStatus: "Vendor Selection",
+      sector,
+    });
+
+    await newOrder.save();
+    res.status(201).json({ message: "Order uploaded successfully", order: newOrder });
+  } catch (error) {
+    console.error("Error uploading order:", error.message);
+    res.status(500).json({ message: "Server error. Please try again later." });
+  }
+} 
