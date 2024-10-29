@@ -37,6 +37,7 @@ function MasterDashboard() {
           <DashboardCard title="Assign Vendors" />
           <DashboardCard title="View Orders" />
           <DashboardCard title="Edit Customers & Vendors" onclick={()=>navigate("/view-users")}/>
+          <DashboardCard title="Upload Order" onclick={()=>navigate("/upload-order")}/>
           <DashboardCard title="Add More Admins" />
         </div>
       </div>
