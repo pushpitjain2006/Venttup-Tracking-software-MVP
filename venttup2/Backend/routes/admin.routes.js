@@ -24,7 +24,7 @@ router.post("/signup", SignupAdmin);
 // router.get("/get-available-vendors",protectedRoute,isAdmin, GetAvailableVendors); //Working
 router.post("/assign-vendors", protectedRoute, isAdmin, AssignVendors); //Working
 router.get("/view-users", protectedRoute, isAdmin, ViewUsers); //Working
-// router.get("/view-orders",protectedRoute,isAdmin, ViewOrders); //Working (jo jo route comment hai unhe dekhna hai backend crash karra hai inhe uncomment karne par..)
+router.get("/view-orders",protectedRoute,isAdmin, ViewAllOrders); //Working (jo jo route comment hai unhe dekhna hai backend crash karra hai inhe uncomment karne par..)
 // router.get("/track-orders",protectedRoute,isAdmin, TrackOrders);  //Working
 router.delete("/delete-user", protectedRoute, isAdmin, deleteUsers);
 router.post("/upload-order", protectedRoute, isAdmin, orderUpload);
