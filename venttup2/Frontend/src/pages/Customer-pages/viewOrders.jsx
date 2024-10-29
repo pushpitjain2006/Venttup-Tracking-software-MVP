@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import useAxios from "../../utils/useAxios.js";
-import { FaLeaf, FaArrowLeft } from "react-icons/fa";
+import { FaLeaf, FaArrowLeft, FaSync } from "react-icons/fa";
 
 const ViewOrders = () => {
   const axios = useAxios();
   const [orders, setOrders] = useState([]);
+  const [count, setcount] = useState(0);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -21,25 +22,31 @@ const ViewOrders = () => {
       }
     };
     fetchOrders();
-  }, [axios]);
+  }, [count]);
 
   return (
     <div className="min-h-screen bg-[url('/src/assets/sustainable-bg.jpg')] bg-cover bg-opacity-30 p-8 flex justify-center items-center">
       <div className="max-w-4xl w-full p-6 bg-white bg-opacity-90 rounded-lg shadow-lg">
-        {/* Navbar */}
         <div className="flex items-center justify-between mb-6">
           <button
-            onClick={() => window.history.back()}
+            onClick={() => {
+              window.location.href = "/";
+            }}
             className="text-green-700 font-semibold flex items-center hover:text-green-800"
           >
-            <FaArrowLeft className="mr-2" /> Home/Back
+            <FaArrowLeft className="mr-2" /> Home
           </button>
           <h1 className="text-2xl font-semibold text-green-700 flex items-center">
             <FaLeaf className="text-3xl mr-2" /> View Orders
           </h1>
+          <button
+            onClick={() => setcount(count + 1)}
+            className="text-green-700 font-semibold flex items-center hover:text-green-800"
+          >
+            <FaSync className="mr-2" /> Reload
+          </button>
         </div>
 
-        {/* Orders List */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {orders && orders.length > 0 ? (
             orders.map((order, index) => (
