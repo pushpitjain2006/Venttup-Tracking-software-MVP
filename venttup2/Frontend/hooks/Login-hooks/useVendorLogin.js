@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export const useVendorLogin = () => {
+  console.log("Inside useVendorLogin");
   const axios = useAxios();
   const navigate = useNavigate();
   const { setAuth } = useAuth();

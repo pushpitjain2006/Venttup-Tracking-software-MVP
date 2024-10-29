@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 export const useAdminSignup = () => {
+  console.log("Inside useAdminSignup");
   const axios=useAxios();
   const navigate=useNavigate();
   const [error, setError] = useState(null);
