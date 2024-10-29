@@ -18,7 +18,7 @@ const useFetchOrders = () => {
           : "/customer/view-orders";
         const response = await axios.get(endpoint);
         setOrders(response.data);
-        toast.success("Orders fetched");
+        // toast.success("Orders fetched");
       } catch (err) {
         toast.error("Something went wrong");
         setError(err.message);

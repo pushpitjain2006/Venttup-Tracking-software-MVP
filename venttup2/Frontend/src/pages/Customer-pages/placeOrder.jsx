@@ -24,19 +24,15 @@ const PlaceOrder = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({
-      selectedRequirement: orderType,
-      selectedSector,
-      message,
-      file,
-      price: totalAmount,
-    });
     if (!orderType || !selectedSector || !totalAmount) {
       return toast.error("Please fill all the fields");
     }
+    console.log("Submitting");
     const res = await axios.post("/customer/place-orders", {
       orderType,
       totalAmount,
+      sector: selectedSector,
+      comments: message,
     });
 
     console.log(res);
@@ -64,16 +60,16 @@ const PlaceOrder = () => {
     <div className="min-h-screen bg-[url('/src/assets/sustainable-bg.jpg')] bg-cover bg-opacity-30 p-8 flex justify-center items-center">
       <div className="max-w-3xl w-full p-6 bg-white bg-opacity-90 rounded-lg shadow-lg">
         <div className="flex items-center justify-between mb-4">
-        <button
-          onClick={() => {
-            window.location.href = "/";
-          }}
-          className="text-green-700 font-semibold flex items-center hover:text-green-800"
-        >
-          <FaArrowLeft className="mr-2" /> Home
-        </button>
+          <button
+            onClick={() => {
+              window.location.href = "/";
+            }}
+            className="text-green-700 font-semibold flex items-center hover:text-green-800"
+          >
+            <FaArrowLeft className="mr-2" /> Home
+          </button>
           <h1 className="text-2xl font-semibold text-green-700 flex items-center">
-            <FaLeaf className="text-3xl mr-2" /> Place Order
+            <FaLeaf className="text-3xl mr-2" /> Get Quote
           </h1>
           <button
             className="text-white bg-green-600 px-4 py-2 rounded hover:bg-green-700"
@@ -86,7 +82,6 @@ const PlaceOrder = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Requirement Selection with Icon */}
           <div>
             <label className="flex items-center text-green-700 font-medium mb-2">
               <FaIndustry className="mr-2" /> Requirement Selection
@@ -97,7 +92,7 @@ const PlaceOrder = () => {
               className="w-full p-3 rounded border-2 border-gray-300 focus:border-emerald-500"
             >
               <option value="">Select Requirement</option>
-              <option value="localization">Localisation / NPD</option>
+              <option value="localization">Localization / NPD</option>
               <option value="contract_manufacturing">
                 Contract Manufacturing
               </option>
@@ -119,7 +114,7 @@ const PlaceOrder = () => {
               <option value="Energy Sector">Energy Sector</option>
               <option value="Manufacturing">Manufacturing</option>
               <option value="EV">EV</option>
-              <option value="Defence / Aerospace">Defence / Aerospace</option>
+              <option value="Defense / Aerospace">Defense / Aerospace</option>
               <option value="Green Building">Green Building</option>
               <option value="Other">Other</option>
             </select>

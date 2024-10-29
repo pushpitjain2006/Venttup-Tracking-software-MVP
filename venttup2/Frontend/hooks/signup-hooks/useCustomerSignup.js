@@ -1,6 +1,7 @@
 import useAxios from "../../src/utils/useAxios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const useCustomerSignup = () => {
   const axios = useAxios();
@@ -29,7 +30,8 @@ export const useCustomerSignup = () => {
       navigate("/login");
     } catch (err) {
       setError(err.response?.data?.message || "Signup failed");
-      toast.error("Signup failed");
+      console.log(err);
+      toast.error(err.response.data.message);
     } finally {
       setLoading(false);
     }
