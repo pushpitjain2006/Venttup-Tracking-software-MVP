@@ -1,9 +1,10 @@
 import Order from "../database/models/order.model.js";
-import OrderStatus from "../database/models/order_status.model.js";
+
 import Vendor from "../database/models/vendor.model.js";
 import Customer from "../database/models/customer.model.js";
 import bcrypt from "bcryptjs";
 import generateTokenAndSetCookie from "../utils/GenerateJWT.js";
+import orderStatuses from "../config/orderStatusConfig.js";
 
 export const LoginVendor = async (req, res) => {
   try {
@@ -83,16 +84,19 @@ export const AcceptOrders = async (req, res) => {
       return res.status(400).json({ message: "Please fill all the fields" });
     }
 
-    const order = await OrderStatus.findOne({ orderId, vendorId });
+    const order = await Order.findById(orderId);
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
-
-    order.vendorId = vendorId;
-    order.status = "in-progress";
-    order.progress = 1;
+    if (order.vendorId !== vendorId) {
+      return res
+        .status(401)
+        .json({ message: "You are not authorized to accept this order" });
+    }
+    order.currentStatus = "Vendor Accepted";
+    order.currentStep = 1;
     await order.save();
-    res.status(200).json({ message: "Order Accepted" });
+    res.status(200).json({ message: "Order Accepted", orderId, vendorId });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -100,7 +104,7 @@ export const AcceptOrders = async (req, res) => {
 
 export const DeclineOrders = async (req, res) => {
   try {
-    const { orderId } = req.body;
+    const { orderId, vendorId } = req.body;
     if (!orderId) {
       return res.status(400).json({ message: "Please fill all the fields" });
     }
@@ -109,9 +113,12 @@ export const DeclineOrders = async (req, res) => {
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
-
+    if (order.vendorId !== vendorId) {
+      return res
+        .status(401)
+        .json({ message: "You are not assigned to this order" });
+    }
     order.vendorId = null;
-    order.status = "pending";
     await order.save();
     res.status(200).json({ message: "Order Declined" });
   } catch (error) {
@@ -127,44 +134,28 @@ export const UpdateProgress = async (req, res) => {
       return res.status(400).json({ message: "Please fill all the fields" });
     }
 
-    const order = await OrderStatus.find({ orderId });
+    const order = await Order.findbyId(orderId);
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
-    let VendorOrder = order[0];
-    let allowed = false;
-    let i = 0;
-    for (; i < order.length; i++) {
-      if (order[i].vendorId == vendorId) {
-        allowed = true;
-        VendorOrder = order[i];
-        break;
-      }
-    }
-    if (!allowed) {
+    if (order.vendorId !== vendorId) {
       return res
         .status(401)
         .json({ message: "You are not authorized to update this order" });
     }
+    order.currentStep += 1;
+    const arr = orderStatuses[order.orderType];
 
-    if (VendorOrder.progress < 5) {
-      VendorOrder.progress = VendorOrder.progress + 1;
+    if (order.currentStep <= arr.length) {
+      order.currentStatus = arr[order.currentStep];
+      order.adminApproval = false;
     } else {
-      VendorOrder.status = "completed";
-      const vendor = await Vendor.findById(vendorId);
-      vendor.available = true;
-      const order_ = await Order.findById(orderId);
-      console.log(order_);
-      order.length >= VendorOrder.totalGates
-        ? (order_.currentStatus = "completed")
-        : (order_.currentStatus = "pending");
-      await vendor.save();
-      await order_.save();
-      return res.status(400).json({ message: "Order already completed" });
+      order.currentStatus = "Order Completed";
     }
-
-    await VendorOrder.save();
-    res.status(200).json({ message: "Progress Updated" });
+    await order.save();
+    res
+      .status(200)
+      .json({ message: "Progress Updated waiting for admin approval" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
