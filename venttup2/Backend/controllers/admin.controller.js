@@ -89,23 +89,27 @@ export const GetAvailableVendors = async (req, res) => {
 
 export const AssignVendors = async (req, res) => {
   try {
-    const { orderId, vendorId } = req.body;
-    if (!orderId || !vendorId) {
+    const { orderId, vendorGSTIN } = req.body;
+
+    if (!orderId || !vendorGSTIN) {
       return res.status(400).json({ message: "Please fill all the fields" });
     }
-
+    
     const order = await Order.findById(orderId);
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
-
-    const vendor = await Vendor.findById(vendorId);
+    
+    const vendor = await Vendor.findOne({ GSTIN: vendorGSTIN });
     if (!vendor) {
       return res.status(404).json({ message: "Vendor not found" });
     }
-
-    order.vendorId = vendorId;
+    
+    order.vendorId = vendor._id;
     order.currentStatus = "Vendor Assigned";
+    order.currentStep = order.currentStep + 1;
+    await order.save();
+
     res.status(200).json({ message: "Vendor Assigned", vendorId: vendor._id });
   } catch (error) {
     res.status(500).json({ message: error.message });
