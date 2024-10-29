@@ -1,10 +1,11 @@
 const isVendor = (req, res, next) => {
   try {
     const LoggedInUserType = req.body.LoggedInUserType;
-    if (LoggedInUserType !== "vendor") {
+    if (LoggedInUserType === "vendor" || LoggedInUserType === "admin") {
+      next();
+    } else {
       return res.status(401).json({ message: "Not authorized as a vendor" });
     }
-    next();
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
