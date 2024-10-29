@@ -80,3 +80,27 @@ export const ViewOrdersWithFilters = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const ConfirmGRN = async (req, res) => {
+  try {
+    const { orderId } = req.body;
+    if (!orderId) {
+      return res.status(400).json({ message: "Please provide orderId" });
+    }
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(400).json({ message: "Order not found" });
+    }
+    if (order.currentStatus !== "GRN" && order.currentStatus !== "Gate 7") {
+      return res
+        .status(400)
+        .json({ message: "Order is not in Goods Received status" });
+    }
+    order.currentStep += 1;
+    order.currentStatus = "Order completed";
+    await order.save();
+    res.status(200).json({ message: "GRN confirmed" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

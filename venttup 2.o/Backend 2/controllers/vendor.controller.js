@@ -1,5 +1,4 @@
 import Order from "../database/models/order.model.js";
-
 import Vendor from "../database/models/vendor.model.js";
 import Customer from "../database/models/customer.model.js";
 import bcrypt from "bcryptjs";
@@ -143,14 +142,21 @@ export const UpdateProgress = async (req, res) => {
         .status(401)
         .json({ message: "You are not authorized to update this order" });
     }
-    order.currentStep += 1;
+    if (order.currentStatus === "GRN") {
+      return res
+        .status(400)
+        .json({ message: "Order waiting for customer approval" });
+    }
+    if (order.currentStatus === "Order completed") {
+      return res.status(400).json({ message: "Order already completed" });
+    }
     const arr = orderStatuses[order.orderType];
-
-    if (order.currentStep <= arr.length) {
+    if (order.currentStep + 1 < arr.length) {
+      order.currentStep += 1;
       order.currentStatus = arr[order.currentStep];
       order.adminApproval = false;
     } else {
-      order.currentStatus = "Order Completed";
+      res.status(400).json({ message: "Invalid request" });
     }
     await order.save();
     res
@@ -184,32 +190,34 @@ export const GetVendorOrders = async (req, res) => {
 
 export const GetCustomerDetails = async (req, res) => {
   try {
-    const { customerId } = req.body;
-    if (!customerId) {
-      return res.status(400).json({ message: "Please fill all the fields" });
-    }
+    const { vendorId, orderId } = req.body;
 
-    const ordersCustomer = await OrderStatus.find({ customerId });
-    let allowed = false;
-    for (let i = 0; i < ordersCustomer.length; i++) {
-      if (ordersCustomer[i].vendorId === req.body.vendorId) {
-        allowed = true;
-        break;
+    if (orderId) {
+      const order = await Order.findById(orderId);
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
       }
+      if (order.vendorId !== vendorId) {
+        return res.status(401).json({
+          message: "You are not authorized to view this order details",
+        });
+      }
+      const customer = await Customer.findById(order.customerId);
+      res.status(200).json(customer);
+    } else {
+      const { customerId } = req.body;
+      const order = await Order.findOne({ customerId });
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+      if (order.vendorId !== vendorId) {
+        return res.status(401).json({
+          message: "You are not authorized to view this order details",
+        });
+      }
+      const customer = await Customer.findById(customerId);
+      res.status(200).json(customer);
     }
-    if (!allowed) {
-      return res
-        .status(401)
-        .json({ message: "You are not authorized to view this customer" });
-    }
-
-    const customer = await Customer.findById(customerId);
-    if (!customer) {
-      return res.status(404).json({ message: "Customer not found" });
-    }
-
-    const { GSTIN, address, contactNumber } = customer;
-    res.status(200).json({ GSTIN, address, contactNumber });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
