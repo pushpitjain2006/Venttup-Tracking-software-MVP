@@ -13,7 +13,7 @@ import OrderUploadForm from "./pages/Admin-pages/OrderUpload.jsx";
 
 function Redirect({ page }) {
   const { auth, setAuth } = useAuth();
-  console.log(auth);
+  // console.log(auth);
   if (auth.token) {
     const userType = auth.userType;
     switch (userType) {
