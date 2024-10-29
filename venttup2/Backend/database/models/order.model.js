@@ -35,6 +35,10 @@ const orderSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    sector: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
