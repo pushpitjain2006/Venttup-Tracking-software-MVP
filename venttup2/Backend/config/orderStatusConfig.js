@@ -1,6 +1,7 @@
 const orderStatuses = {
   localization: [
     "Vendor Selection",
+    "Vendor Assigned",
     "Vendor Accepted",
     "Gate 0",
     "Gate 1",
@@ -14,6 +15,7 @@ const orderStatuses = {
   ],
   contract_manufacturing: [
     "Vendor Selection",
+    "Vendor Assigned",
     "Vendor Accepted",
     "PO Release",
     "Drawing Submission",
@@ -27,6 +29,7 @@ const orderStatuses = {
   ],
   supply_chain: [
     "Vendor Selection",
+    "Vendor Assigned",
     "Vendor Accepted",
     "PO Release",
     "Drawing / Data Sheet Verification",
