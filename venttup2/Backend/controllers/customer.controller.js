@@ -7,6 +7,7 @@ import generateTokenAndSetCookie from "../utils/GenerateJWT.js";
 export const LoginCustomer = async (req, res) => {
   try {
     console.log("Inside LoginCustomer");
+    console.log(req.body);
     const { GSTIN, password } = req.body;
     if (!GSTIN || !password) {
       return res.status(400).json({ message: "Please fill all the fields" });
@@ -26,7 +27,8 @@ export const LoginCustomer = async (req, res) => {
     );
     return res.status(200).json({ token, LoggedInUserType, userID });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.log(error);
+    res.status(500).json({ error });
   }
 };
 
@@ -104,7 +106,7 @@ export const PlaceOrders = async (req, res) => {
       totalAmount,
       customer: req.userId,
       sector,
-      comments
+      comments,
     });
     await newOrder.save();
     res.status(201).json({ message: "Order requested successfully" });
