@@ -10,7 +10,8 @@ import EditUsers from "./components/AdminDashboard/EditUsers.jsx";
 import PlaceOrder from "./pages/Customer-pages/placeOrder.jsx";
 import ViewOrders from "./pages/Customer-pages/viewOrders.jsx";
 import OrderUploadForm from "./pages/Admin-pages/OrderUpload.jsx";
-import OrderDetails from "./pages/Admin-pages/ViewOrders.jsx";
+import OrderDetails from "./pages/Admin-pages/OrderDetails.jsx";
+import AllOrderDetails from "./pages/Admin-pages/ViewOrders.jsx";
 
 function Redirect({ page }) {
   const { auth, setAuth } = useAuth();
@@ -74,7 +75,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin/ViewOrders",
-    element: <OrderDetails />,
+    element: <AllOrderDetails />,
+  },
+  {
+    path: "/order/:orderId",
+    element: <OrderDetails />
   }
 ]);
 

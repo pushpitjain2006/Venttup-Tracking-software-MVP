@@ -11,7 +11,7 @@ import {
   orderUpload,
 } from "../controllers/admin.controller.js";
 // import { ViewOrders, TrackOrders } from "../controllers/order.controller.js";
-import { ViewAllOrders } from "../controllers/order.controller.js";
+import { OrderDetails, ViewAllOrders } from "../controllers/order.controller.js";
 import protectedRoute from "../middlewares/ProtectedRoute.js";
 import isAdmin from "../middlewares/isAdmin.js";
 
@@ -28,5 +28,6 @@ router.get("/view-orders",protectedRoute,isAdmin, ViewAllOrders); //Working (jo 
 // router.get("/track-orders",protectedRoute,isAdmin, TrackOrders);  //Working
 router.delete("/delete-user", protectedRoute, isAdmin, deleteUsers);
 router.post("/upload-order", protectedRoute, isAdmin, orderUpload);
+router.get("/order/:orderID",protectedRoute,isAdmin,OrderDetails);
 
 export default router;
