@@ -25,7 +25,7 @@ router.get("/logout", protectedRoute, isAdmin, LogoutAdmin); //Working
 router.post("/signup", SignupAdmin);
 // router.post("/approve-orders",protectedRoute,isAdmin, ApproveOrders);  //Working
 // router.get("/get-available-vendors",protectedRoute,isAdmin, GetAvailableVendors); //Working
-router.post("/assign-vendors", protectedRoute, isAdmin, AssignVendors); //Working
+router.post("/assign-vendor", protectedRoute, isAdmin, AssignVendors); //Working
 router.get("/view-users", protectedRoute, isAdmin, ViewUsers); //Working
 router.get("/view-orders", protectedRoute, isAdmin, ViewAllOrders); //Working (jo jo route comment hai unhe dekhna hai backend crash karra hai inhe uncomment karne par..)
 // router.get("/track-orders",protectedRoute,isAdmin, TrackOrders);  //Working

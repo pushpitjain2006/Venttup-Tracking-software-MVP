@@ -17,7 +17,7 @@ const AllOrderDetails = () => {
       </div>
       <h1 className="text-3xl font-semibold text-center my-8">Order Details</h1>
       <div className="flex flex-wrap justify-evenly items-end md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-        {orders.map((order) => (
+        {orders.length?orders.map((order) => (
           <div
             key={order._id}
             className="relative group bg-gray-800 rounded-lg shadow-lg p-6 m-3 transition duration-300 hover:shadow-xl"
@@ -55,7 +55,10 @@ const AllOrderDetails = () => {
               </button>
             </div>
           </div>
-        ))}
+        )):
+        (
+          <h1>No orders to show</h1>
+        )}
       </div>
     </div>
   );
