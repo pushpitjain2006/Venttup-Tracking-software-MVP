@@ -46,14 +46,18 @@ export const ViewAllOrders = async (req, res) => {
 export const OrderDetails = async (req, res) => {
   try {
     console.log(req.body);
+    console.log(req.params.orderID);
     const { LoggedInUserType } = req.body;
-    const id = req.body.orderId;
+    const id = req.body.orderId || req.params.orderID;
 
     if (!id) {
       return res.status(400).json({ message: "Please provide orderId" });
     }
     const order = await Order.findById(id);
-    if (order.customerId != req.body.customerId) {
+    if (
+      LoggedInUserType === "customer" &&
+      order.customerId != req.body.customerId
+    ) {
       return res.status(400).json({
         message: "You are not authorized to view this order",
         order,
@@ -64,8 +68,8 @@ export const OrderDetails = async (req, res) => {
       order.vendorId !== req.body.vendorId
     ) {
       return res
-      .status(400)
-      .json({ message: "You are not authorized to view this order" });
+        .status(400)
+        .json({ message: "You are not authorized to view this order" });
     }
     if (!order) {
       return res.status(400).json({ message: "Order not found" });
@@ -122,6 +126,24 @@ export const ConfirmGRN = async (req, res) => {
     order.currentStatus = "Order completed";
     await order.save();
     res.status(200).json({ message: "GRN confirmed" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const updateOrder = async (req, res) => {
+  try {
+    const { orderId, updates } = req.body;
+    if (!orderId) {
+      return res.status(400).json({ message: "Please provide orderId" });
+    }
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(400).json({ message: "Order not found" });
+    }
+    order.set(...updates);
+    await order.save();
+    res.status(200).json({ message: "Order updated successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

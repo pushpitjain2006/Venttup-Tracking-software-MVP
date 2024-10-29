@@ -15,6 +15,7 @@ const OrderDetails = () => {
     const fetchDetails = async () => {
       try {
         const response = await axios.get(`/admin/order/${orderId}`);
+        console.log(response);
         setDetails(response.data);
         toast.success("Fetched successfully");
       } catch (err) {

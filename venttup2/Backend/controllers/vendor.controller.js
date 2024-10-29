@@ -93,7 +93,7 @@ export const AcceptOrders = async (req, res) => {
         .json({ message: "You are not authorized to accept this order" });
     }
     order.currentStatus = "Vendor Accepted";
-    order.currentStep = 1;
+    order.currentStep += 1;
     await order.save();
     res.status(200).json({ message: "Order Accepted", orderId, vendorId });
   } catch (error) {
@@ -104,19 +104,21 @@ export const AcceptOrders = async (req, res) => {
 export const DeclineOrders = async (req, res) => {
   try {
     const { orderId, vendorId } = req.body;
-    if (!orderId) {
+    if (!orderId || !vendorId) {
       return res.status(400).json({ message: "Please fill all the fields" });
     }
 
-    const order = await OrderStatus.findOne({ orderId });
+    const order = await Order.findById(orderId);
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
     if (order.vendorId !== vendorId) {
       return res
         .status(401)
-        .json({ message: "You are not assigned to this order" });
+        .json({ message: "You are not authorized to decline this order" });
     }
+    order.currentStatus = "Vendor Selection";
+    order.currentStep -= 1;
     order.vendorId = null;
     await order.save();
     res.status(200).json({ message: "Order Declined" });
@@ -170,19 +172,8 @@ export const UpdateProgress = async (req, res) => {
 export const GetVendorOrders = async (req, res) => {
   try {
     const { vendorId } = req.body;
-    if (!vendorId) {
-      return res.status(400).json({ message: "Please fill all the fields" });
-    }
-
-    const orders = await OrderStatus.find({ vendorId });
-
-    let Orders = [];
-    for (let i = 0; i < orders.length; i++) {
-      const order = await Order.findById(orders[i].orderId);
-      Orders[i] = order;
-    }
-
-    res.status(200).json(Orders);
+    const orders = await Order.find({ vendorId, currentStep: { $gt: 2 } });
+    res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

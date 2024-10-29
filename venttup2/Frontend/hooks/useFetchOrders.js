@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useAxios from "../src/utils/useAxios";
-import { useAuth } from "../context/AuthContext"; 
+import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
 
 const useFetchOrders = () => {
@@ -14,15 +14,21 @@ const useFetchOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const endpoint = auth.userType === "admin"
-          ? "/admin/view-orders"
-          : "/customer/view-orders";
+        const endpoint =
+          auth.userType === "admin"
+            ? "/admin/view-orders"
+            : auth.userType === "vendor"
+            ? "/vendor/get-vendor-orders"
+            : "/customer/view-orders";
+
         const response = await axios.get(endpoint);
         setOrders(response.data);
+        // console.log(response.data);
         // toast.success("Orders fetched");
       } catch (err) {
         toast.error("Something went wrong");
         setError(err.message);
+        console.error(err);
       } finally {
         setLoading(false);
       }
