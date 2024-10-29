@@ -141,7 +141,8 @@ export const updateOrder = async (req, res) => {
     if (!order) {
       return res.status(400).json({ message: "Order not found" });
     }
-    order.set(...updates);
+
+    Object.assign(order, updates);
     await order.save();
     res.status(200).json({ message: "Order updated successfully" });
   } catch (error) {
