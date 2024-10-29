@@ -11,6 +11,7 @@ import {
   orderUpload,
 } from "../controllers/admin.controller.js";
 // import { ViewOrders, TrackOrders } from "../controllers/order.controller.js";
+import { ViewAllOrders } from "../controllers/order.controller.js";
 import protectedRoute from "../middlewares/ProtectedRoute.js";
 import isAdmin from "../middlewares/isAdmin.js";
 
