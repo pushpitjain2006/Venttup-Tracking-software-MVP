@@ -77,32 +77,6 @@ export const SignupAdmin = async (req, res) => {
   }
 };
 
-export const GetOrdersWithPendingAssignment = async (req, res) => {
-  try {
-    const orders = await Order.find({ currentStatus: "pending" });
-    res.status(200).json(orders);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-export const ApproveOrders = async (req, res) => {
-  try {
-    const { orderID } = req.body;
-    if (!orderID) {
-      return res.status(400).json({ message: "Please fill all the fields" });
-    }
-
-    const order = await Order.findById(orderID);
-    order.currentStatus = "in-progress";
-    await order.save();
-
-    res.status(200).json({ message: "Orders Approved" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
 export const GetAvailableVendors = async (req, res) => {
   try {
     const vendors = await Vendor.find({ available: true });
@@ -115,58 +89,22 @@ export const GetAvailableVendors = async (req, res) => {
 export const AssignVendors = async (req, res) => {
   try {
     const { orderId, vendorId } = req.body;
-    if (!orderId) {
+    if (!orderId || !vendorId) {
       return res.status(400).json({ message: "Please fill all the fields" });
     }
 
     const order = await Order.findById(orderId);
     if (!order) {
-      return res.status(400).json({ message: "Order not found" });
+      return res.status(404).json({ message: "Order not found" });
     }
 
-    const { orderType } = order;
-    const STATUS = await OrderStatus.find({ orderId });
-
-    let totalGates;
-    const gateLimit = {
-      localization: 8,
-      contract_manufacturing: 1,
-      supply_chain: 1,
-    };
-
-    // Check if all gates are already assigned for the order type
-    if (STATUS.length >= gateLimit[orderType]) {
-      return res
-        .status(400)
-        .json({ message: "All gates are already assigned" });
-    }
-    totalGates = gateLimit[orderType];
-
-    // Vendor selection: if vendorId is provided, use it; otherwise, find a free vendor
-    let vendor = await Vendor.findById(vendorId);
+    const vendor = await Vendor.findById(vendorId);
     if (!vendor) {
-      const freeVendors = await Vendor.findOneAndUpdate(
-        { available: true },
-        { available: false }
-      );
-      if (!freeVendors) {
-        return res.status(400).json({ message: "No free vendors available" });
-      }
-      vendor = freeVendors;
-    } else {
-      vendor.available = false;
-      await vendor.save();
+      return res.status(404).json({ message: "Vendor not found" });
     }
 
-    // Create and save the new OrderStatus
-    const orderStatus = new OrderStatus({
-      orderId,
-      gateNumber: STATUS.length + 1, // Ensure this logic works as intended
-      vendorId: vendor._id,
-      totalGates,
-    });
-    await orderStatus.save();
-
+    order.vendorId = vendorId;
+    order.currentStatus = "Vendor Assigned";
     res.status(200).json({ message: "Vendor Assigned", vendorId: vendor._id });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -192,7 +130,7 @@ export const ViewUsers = async (req, res) => {
   }
 };
 
-export const deleteUsers= async(req, res)=>{
+export const deleteUsers = async (req, res) => {
   try {
     const { type, id } = req.body;
     if (!type || !id) {
@@ -201,9 +139,9 @@ export const deleteUsers= async(req, res)=>{
 
     let userModel;
     if (type === "vendor") {
-      userModel = Vendor; 
+      userModel = Vendor;
     } else if (type === "customer") {
-      userModel = Customer; 
+      userModel = Customer;
     } else {
       return res.status(400).json({ message: "Invalid user type" });
     }
@@ -214,13 +152,13 @@ export const deleteUsers= async(req, res)=>{
     }
 
     await userModel.findByIdAndDelete(id);
-    res.status(200).json({ message: "User deleted successfully" });
+    res.status(200).json({ message: "User deleted successfully", user });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
-export const orderUpload = async(req, res) => {
+export const orderUpload = async (req, res) => {
   try {
     const { customerGstin, orderType, amount, sector } = req.body.data;
     if (!customerGstin || !orderType || !amount || !sector) {
@@ -239,9 +177,11 @@ export const orderUpload = async(req, res) => {
     });
 
     await newOrder.save();
-    res.status(201).json({ message: "Order uploaded successfully", order: newOrder });
+    res
+      .status(201)
+      .json({ message: "Order uploaded successfully", order: newOrder });
   } catch (error) {
     console.error("Error uploading order:", error.message);
     res.status(500).json({ message: "Server error. Please try again later." });
   }
-} 
+};
