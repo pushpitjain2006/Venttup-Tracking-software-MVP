@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import axios from "axios";
 
 const useAxios = () => {
+  console.log("Inside useAxios");
   const axiosInstance = useMemo(() => {
     const backendURL =
       import.meta.env.VITE_BackendURL || "http://localhost:3001";
@@ -15,7 +16,6 @@ const useAxios = () => {
     instance.interceptors.request.use(
       (config) => {
         const authItem = localStorage.getItem("auth");
-        console.log(authItem);
         const token = JSON.parse(authItem)?.token;
         if (token) {
           config.headers.authorization = `${

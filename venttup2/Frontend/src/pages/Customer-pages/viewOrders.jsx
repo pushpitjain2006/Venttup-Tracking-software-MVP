@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaLeaf, FaArrowLeft, FaSync } from "react-icons/fa";
 import useFetchOrders from "../../../hooks/useFetchOrders.js";
 
 const ViewOrders = () => {
   const { orders, error, loading } = useFetchOrders();
   const [count, setcount] = useState(0);
+
   return (
     <div className="min-h-screen bg-[url('/src/assets/sustainable-bg.jpg')] bg-cover bg-opacity-30 p-8 flex justify-center items-center">
       <div className="max-w-4xl w-full p-6 bg-white bg-opacity-90 rounded-lg shadow-lg">
@@ -33,7 +34,10 @@ const ViewOrders = () => {
             orders.map((order, index) => (
               <div
                 key={order.id || index}
-                className="p-4 border-2 border-gray-300 rounded-lg shadow hover:shadow-lg hover:border-green-600 transition duration-300"
+                onClick={() => {
+                  window.location.href = `/order-details/${order._id}`;
+                }} // Redirect to OrderDetails page
+                className="p-4 border-2 border-gray-300 rounded-lg shadow hover:shadow-lg hover:border-green-600 transition duration-300 cursor-pointer"
               >
                 <h3 className="text-lg font-semibold text-green-700 mb-2">
                   Order #{index}

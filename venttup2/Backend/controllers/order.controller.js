@@ -24,27 +24,27 @@ export const ViewAllOrders = async (req, res) => {
 
 export const OrderDetails = async (req, res) => {
   try {
+    console.log(req.body);
     const { LoggedInUserType } = req.body;
-    const id=req.body.orderId || req.params.orderID;
+    const id = req.body.orderId;
 
     if (!id) {
       return res.status(400).json({ message: "Please provide orderId" });
     }
     const order = await Order.findById(id);
-    if (
-      LoggedInUserType === "customer" &&
-      order.customerId !== req.body.customerId
-    ) {
-      return res
-        .status(400)
-        .json({ message: "You are not authorized to view this order" });
+    if (order.customerId != req.body.customerId) {
+      return res.status(400).json({
+        message: "You are not authorized to view this order",
+        order,
+        LoggedInUserType,
+      });
     } else if (
       LoggedInUserType === "vendor" &&
       order.vendorId !== req.body.vendorId
     ) {
       return res
-        .status(400)
-        .json({ message: "You are not authorized to view this order" });
+      .status(400)
+      .json({ message: "You are not authorized to view this order" });
     }
     if (!order) {
       return res.status(400).json({ message: "Order not found" });
