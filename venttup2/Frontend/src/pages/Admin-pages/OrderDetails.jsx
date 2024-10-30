@@ -13,12 +13,15 @@ const OrderDetails = () => {
   const [vendorId, setVendorId] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [updates, setUpdates] = useState({});
+  const [showOrderDetails, setShowOrderDetails] = useState(false);
+  const [showOrderProgress, setShowOrderProgress] = useState(false);
 
   useEffect(() => {
     const fetchDetails = async () => {
       try {
         const response = await axios.get(`/admin/order/${orderId}`);
         setDetails(response.data);
+        setUpdates(details);
         toast.success("Fetched successfully");
       } catch (err) {
         toast.error("Cannot fetch details");
@@ -32,7 +35,6 @@ const OrderDetails = () => {
       toast.error("Vendor ID cannot be empty");
       return;
     }
-
     try {
       const response = await axios.post(`/admin/assign-vendor`, {
         orderId,
@@ -86,189 +88,207 @@ const OrderDetails = () => {
   };
 
   return (
-    <>
-      <div className="w-full min-h-screen bg-gray-900 text-gray-100">
-        <div className="w-full h-16 bg-violet-900 flex items-center">
-          <div
-            className="hover:underline hover:text-black hover:bg-white rounded-full px-2 h-8 cursor-pointer mx-2"
-            onClick={() => window.history.back()}
-          >
-            <ChevronLeft className="inline-block" /> View All Orders
-          </div>
+    <div className="w-full min-h-screen bg-gray-900 text-gray-100">
+      <div className="w-full h-16 bg-violet-900 flex items-center">
+        <div
+          className="hover:underline hover:text-black hover:bg-white rounded-full px-2 h-8 cursor-pointer mx-2"
+          onClick={() => window.history.back()}
+        >
+          <ChevronLeft className="inline-block" /> View All Orders
         </div>
-        {details ? (
-          <>
-            <div className="w-full mx-auto bg-slate-600 shadow-lg p-8 text-gray-100">
-              <h2 className="text-2xl font-bold text-center mb-6">
-                Order Details
-              </h2>
+      </div>
 
-              <div className="space-y-4 grid grid-cols-2">
-                <div className="mt-4">
-                  <h3 className="text-lg font-semibold">Order ID</h3>
-                  <p className="text-gray-400">{details._id}</p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold">Customer ID</h3>
-                  <p className="text-gray-400">{details.customerId}</p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold">Order Type</h3>
-                  {isEditing ? (
-                    <select
-                      className="p-2 rounded bg-gray-700 text-white focus:outline-none"
-                      value={updates.orderType || details.orderType}
-                      onChange={(e) => handleChange("orderType", e.target.value)}
-                    >
-                      <option value="localization">Localization</option>
-                      <option value="contract_manufacturing">
-                        Contract Manufacturing
-                      </option>
-                      <option value="supply_chain">Supply Chain</option>
-                    </select>
-                  ) : (
-                    <p className="text-gray-400">{details.orderType}</p>
-                  )}
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold">Total Amount</h3>
-                  {isEditing ? (
-                    <input
-                      type="number"
-                      className="p-2 rounded bg-gray-700 text-white focus:outline-none"
-                      value={updates.totalAmount || details.totalAmount}
-                      onChange={(e) =>
-                        handleChange("totalAmount", e.target.value)
-                      }
-                    />
-                  ) : (
-                    <p className="text-gray-400">₹{details.totalAmount}</p>
-                  )}
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold">Current Status</h3>
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      className="p-2 rounded bg-gray-700 text-white focus:outline-none"
-                      value={updates.currentStatus || details.currentStatus}
-                      onChange={(e) =>
-                        handleChange("currentStatus", e.target.value)
-                      }
-                    />
-                  ) : (
-                    <p className="text-gray-400">{details.currentStatus}</p>
-                  )}
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold">Vendor ID</h3>
-                  <div className="text-gray-400">
-                    {details.vendorId ? (
-                      details.vendorId
-                    ) : showVendorInput ? (
-                      <div className="flex items-center space-x-2">
-                        <input
-                          type="text"
-                          placeholder="Enter Vendor ID"
-                          className="w-1/2 p-2 rounded bg-gray-700 text-white focus:outline-none"
-                          value={vendorId}
-                          onChange={(e) => setVendorId(e.target.value)}
-                        />
-                        <button
-                          className="focus:outline-none text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-4 py-2"
-                          onClick={handleAssignVendor}
-                        >
-                          Assign
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        className="focus:outline-none text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5"
-                        onClick={() => setShowVendorInput(true)}
+      {details ? (
+        <>
+          <div className="w-full p-4 bg-gray-700 rounded-lg my-4 shadow-lg transition-all duration-300 ease-in-out">
+            <button
+              onClick={() => setShowOrderDetails((prev) => !prev)}
+              className="w-full text-left font-bold text-xl bg-gray-800 py-2 px-4 rounded-md text-gray-200 hover:bg-gray-600"
+            >
+              {showOrderDetails ? "▾ Hide Details" : "▸ View Order Details"}
+            </button>
+            {showOrderDetails && (
+              <div className="overflow-hidden transition-all duration-300 ease-in-out mt-4">
+                <div className="space-y-4 grid grid-cols-2">
+                  <div className="mt-4">
+                    <h3 className="text-lg font-semibold">Order ID</h3>
+                    <p className="text-gray-400">{details._id}</p>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold">Customer ID</h3>
+                    <p className="text-gray-400">{details.customerId}</p>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold">Order Type</h3>
+                    {isEditing ? (
+                      <select
+                        className="p-2 rounded bg-gray-700 text-white focus:outline-none"
+                        value={updates.orderType || details.orderType}
+                        onChange={(e) => handleChange("orderType", e.target.value)}
                       >
-                        Assign Vendor
+                        <option value="localization">Localization</option>
+                        <option value="contract_manufacturing">
+                          Contract Manufacturing
+                        </option>
+                        <option value="supply_chain">Supply Chain</option>
+                      </select>
+                    ) : (
+                      <p className="text-gray-400">{details.orderType}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold">Total Amount</h3>
+                    {isEditing ? (
+                      <input
+                        type="number"
+                        className="p-2 rounded bg-gray-700 text-white focus:outline-none"
+                        value={updates.totalAmount || details.totalAmount}
+                        onChange={(e) =>
+                          handleChange("totalAmount", e.target.value)
+                        }
+                      />
+                    ) : (
+                      <p className="text-gray-400">₹{details.totalAmount}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold">Current Status</h3>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        className="p-2 rounded bg-gray-700 text-white focus:outline-none"
+                        value={updates.currentStatus || details.currentStatus}
+                        onChange={(e) =>
+                          handleChange("currentStatus", e.target.value)
+                        }
+                      />
+                    ) : (
+                      <p className="text-gray-400">{details.currentStatus}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold">Vendor ID</h3>
+                    <div className="text-gray-400">
+                      {details.vendorId ? (
+                        details.vendorId
+                      ) : showVendorInput ? (
+                        <div className="flex items-center space-x-2">
+                          <input
+                            type="text"
+                            placeholder="Enter Vendor ID"
+                            className="w-1/2 p-2 rounded bg-gray-700 text-white focus:outline-none"
+                            value={vendorId}
+                            onChange={(e) => setVendorId(e.target.value)}
+                          />
+                          <button
+                            className="focus:outline-none text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-4 py-2"
+                            onClick={handleAssignVendor}
+                          >
+                            Assign
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          className="focus:outline-none text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5"
+                          onClick={() => setShowVendorInput(true)}
+                        >
+                          Assign Vendor
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold">Sector</h3>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        className="p-2 rounded bg-gray-700 text-white focus:outline-none"
+                        value={updates.sector || details.sector}
+                        onChange={(e) => handleChange("sector", e.target.value)}
+                      />
+                    ) : (
+                      <p className="text-gray-400">{details.sector}</p>
+                    )}
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold">Admin Approval</h3>
+                    {isEditing ? (
+                      <button
+                        type="checkbox"
+                        checked={updates.adminApproval}
+                        onClick={(e) =>
+                          handleChange("adminApproval", !e.target.checked)
+                        }
+                        className={`h-10 w-28 rounded-lg font-medium 
+                          ${updates.adminApproval?"bg-red-600":"bg-green-600"}`
+                        }
+                      >
+                        {updates.adminApproval?"Disapprove":"Approve"}
                       </button>
+                    ) : (
+                      <p className="text-gray-400">
+                        {details.adminApproval ? "Approved" : "Pending"}
+                      </p>
                     )}
                   </div>
                 </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold">Sector</h3>
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      className="p-2 rounded bg-gray-700 text-white focus:outline-none"
-                      value={updates.sector || details.sector}
-                      onChange={(e) => handleChange("sector", e.target.value)}
-                    />
-                  ) : (
-                    <p className="text-gray-400">{details.sector}</p>
+                <div className="flex justify-end items-center">
+                  {!details.adminApproval && (
+                    <button
+                      className="m-4 focus:outline-none text-white bg-yellow-600 hover:bg-yellow-700 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5"
+                      onClick={handleApproveUpdate}
+                    >
+                      Approve Update
+                    </button>
                   )}
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold">Admin Approval</h3>
                   {isEditing ? (
-                    <input
-                      type="checkbox"
-                      checked={updates.adminApproval || details.adminApproval}
-                      onChange={(e) =>
-                        handleChange("adminApproval", e.target.checked)
-                      }
-                    />
+                    <button
+                      className="m-4 focus:outline-none text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5"
+                      onClick={handleUpdateOrder}
+                    >
+                      Save Changes
+                    </button>
                   ) : (
-                    <p className="text-gray-400">
-                      {details.adminApproval ? "Approved" : "Pending"}
-                    </p>
+                    <button
+                      className="m-4 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5"
+                      onClick={handleEditDetails}
+                    >
+                      Edit Details
+                    </button>
                   )}
+                  <button
+                    className="m-4 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5"
+                    onClick={handleDeleteOrder}
+                  >
+                    Delete Order
+                  </button>
                 </div>
               </div>
-              <div className="flex justify-end items-center">
-                {!details.adminApproval && (
-                  <button
-                    className="m-4 focus:outline-none text-white bg-yellow-600 hover:bg-yellow-700 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5"
-                    onClick={handleApproveUpdate}
-                  >
-                    Approve Update
-                  </button>
-                )}
-                {isEditing ? (
-                  <button
-                    className="m-4 focus:outline-none text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5"
-                    onClick={handleUpdateOrder}
-                  >
-                    Save Changes
-                  </button>
-                ) : (
-                  <button
-                    className="m-4 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5"
-                    onClick={handleEditDetails}
-                  >
-                    Edit Details
-                  </button>
-                )}
-                <button
-                  className="m-4 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5"
-                  onClick={handleDeleteOrder}
-                >
-                  Delete Order
-                </button>
+              
+            )}
+          </div>
+
+          <div className="w-full p-4 bg-gray-700 rounded-lg my-4 shadow-lg transition-all duration-300 ease-in-out">
+            <button
+              onClick={() => setShowOrderProgress((prev) => !prev)}
+              className="w-full text-left font-bold text-xl bg-gray-800 py-2 px-4 rounded-md text-gray-200 hover:bg-gray-600"
+            >
+              {showOrderProgress ? "▾ Hide Progress" : "▸ View Order Progress"}
+            </button>
+            {showOrderProgress && (
+              <div className="overflow-hidden transition-all duration-300 ease-in-out mt-4">
+                <OrderProgress order={details} />
               </div>
-            </div>
-            <div>
-              <OrderProgress order={details}/>
-            </div>
-          </>
-        ) : (
-          <h1 className="text-red-600">Order not found.</h1>
-        )}
-      </div>
-    </>
+            )}
+          </div>
+        </>
+      ) : (
+        <h1 className="text-red-600">Order not found.</h1>
+      )}
+    </div>
   );
 };
 
