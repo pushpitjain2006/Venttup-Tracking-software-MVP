@@ -15,7 +15,7 @@ Install Dependencies:  
 Navigate to the project directory and install dependencies for both the frontend and backend:
 
 ```bash
-cd Venttup-Tracking-software--Updated-/Backend
+cd Venttup-Tracking-software--Updated-/venttup2/Backend
 npm install
 cd ../Frontend
 npm install
