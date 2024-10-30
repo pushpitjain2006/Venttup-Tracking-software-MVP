@@ -3,9 +3,9 @@ import { FaArrowLeft } from "react-icons/fa";
 import useAxios from "../../utils/useAxios.js";
 import orderStatuses from "../../config/orderStatusConfig.js";
 import { useParams } from "react-router-dom";
-import progressBar from "../../components/progressBar.jsx";
 import { useAuth } from "../../../context/AuthContext.jsx";
 import { toast } from "react-toastify";
+import ProgressBar from "../../components/progressBar.jsx";
 
 const OrderDetailsVC = () => {
   const { auth } = useAuth();
@@ -97,7 +97,7 @@ const OrderDetailsVC = () => {
       </div>
       {/* Status Tracker */}
       <div className="mt-8 w-full max-w-3xl">
-        {order && progressBar(order, setCurrentStep)}
+        {order && <ProgressBar order={order} setCurrentStep={setCurrentStep}/>}
       </div>
 
       {/* Current Step Details */}
