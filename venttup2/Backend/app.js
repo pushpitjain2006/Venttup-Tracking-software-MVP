@@ -9,6 +9,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
+await connectToDatabase(); 
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -25,7 +26,6 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.listen(port, () => {
-  connectToDatabase();
+app.listen(port, async() => {
   console.log(`Server is running on http://localhost:${port}`);
 });

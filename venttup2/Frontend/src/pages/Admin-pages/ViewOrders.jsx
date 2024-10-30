@@ -20,7 +20,7 @@ const AllOrderDetails = () => {
         {orders.length?orders.map((order) => (
           <div
             key={order._id}
-            className="relative group bg-gray-800 rounded-lg shadow-lg p-6 m-3 transition duration-300 hover:shadow-xl"
+            className="relative group min-h-80 bg-gray-800 rounded-lg hover:scale-105 shadow-lg p-6 m-3 transition duration-300 hover:shadow-xl"
           >
             <h2 className="text-xl font-bold mb-4">Order ID: {order._id}</h2>
             <p className="text-gray-400 mb-2">
@@ -28,12 +28,9 @@ const AllOrderDetails = () => {
             </p>
             <p className="text-gray-400 mb-2">
               <span className="font-semibold text-gray-300">Total Amount:</span> ₹{order.totalAmount}
-            </p>
+            </p>            
             <p className="text-gray-400 mb-2">
               <span className="font-semibold text-gray-300">Current Status:</span> {order.currentStatus}
-            </p>
-            <p className="text-gray-400 mb-2">
-              <span className="font-semibold text-gray-300">Current Step:</span> {order.currentStep}
             </p>
             <p className="text-gray-400 mb-2">
               <span className="font-semibold text-gray-300">Vendor ID:</span> {order.vendorId || "Not Assigned"}
@@ -44,11 +41,10 @@ const AllOrderDetails = () => {
             <p className="text-gray-400 mb-2">
               <span className="font-semibold text-gray-300">Admin Approval:</span> {order.adminApproval ? "Approved" : "Pending"}
             </p>
-
-            {/* Overlay button that appears on hover */}
-            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+            
+            <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-opacity-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
               <button
-                className="bg-blue-600 text-white py-2 px-4 rounded-full font-semibold hover:bg-blue-700 shadow-lg"
+                className="bg-blue-600 text-white py-2 px-4 w-full h-12 rounded-b-lg font-semibold hover:bg-blue-700 shadow-lg"
                 onClick={() => navigate(`/order/${order._id}`)}
               >
                 View Order Details

@@ -4,7 +4,6 @@ import { Bell } from "lucide-react";
 import { DashboardCard } from "../../../components/AdminDashboard/DashboardCard";
 import { useAuth } from "../../../../context/AuthContext";
 import useAxios from "../../../utils/useAxios";
-import AdminSignup from "../../../components/Signup-components/AdminSignup.jsx";
 
 function MasterDashboard() {
   const axios = useAxios();
@@ -24,7 +23,7 @@ function MasterDashboard() {
           </div>
           <div className="mx-7">
             <button
-              className="text-white font-medium hover:underline"
+              className="text-white font-medium bg-red-500 px-3 py-2 rounded-lg hover:bg-red-400"
               onClick={() => {
                 handelLogout();
               }}
