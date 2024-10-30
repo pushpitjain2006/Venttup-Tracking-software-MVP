@@ -65,7 +65,7 @@ export const OrderDetails = async (req, res) => {
       });
     } else if (
       LoggedInUserType === "vendor" &&
-      order.vendorId !== req.body.vendorId
+      order.vendorId != req.body.vendorId
     ) {
       return res
         .status(400)
