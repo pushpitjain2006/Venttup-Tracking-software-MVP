@@ -16,16 +16,7 @@ const port = process.env.PORT || 3001;
 app.use(
   cors({
     origin: ["https://frontend-venttup-tracking-software-updated.vercel.app"],
-    methods: [
-      "POST",
-      "GET",
-      "PUT",
-      "DELETE",
-      "OPTIONS",
-      "PATCH",
-      "HEAD",
-      "CONNECT",
-    ],
+    methods: ["POST", "GET", "PUT"],
     credentials: true,
   })
 );
