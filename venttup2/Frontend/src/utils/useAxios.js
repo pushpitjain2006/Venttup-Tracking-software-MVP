@@ -5,7 +5,8 @@ const useAxios = () => {
   console.log("Inside useAxios");
   const axiosInstance = useMemo(() => {
     const backendURL =
-      import.meta.env.VITE_BackendURL || "http://localhost:3001";
+      "REDACTED";
+    console.log("backendURL :", backendURL);
     const instance = axios.create({
       baseURL: backendURL,
       headers: {
