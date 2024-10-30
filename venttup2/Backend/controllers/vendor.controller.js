@@ -94,6 +94,8 @@ export const AcceptOrders = async (req, res) => {
     }
     order.currentStatus = "Vendor Accepted";
     order.currentStep += 1;
+    const vendor = await Vendor.findById(vendorId);
+    vendor.currentOrder = orderId;
     await order.save();
     res.status(200).json({ message: "Order Accepted", orderId, vendorId });
   } catch (error) {
@@ -135,14 +137,17 @@ export const UpdateProgress = async (req, res) => {
       return res.status(400).json({ message: "Please fill all the fields" });
     }
 
-    const order = await Order.findbyId(orderId);
+    const order = await Order.findById(orderId);
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
-    if (order.vendorId !== vendorId) {
+    if (order.vendorId != vendorId) {
       return res
         .status(401)
         .json({ message: "You are not authorized to update this order" });
+    }
+    if (!order.adminApproval) {
+      return res.status(400).json({ message: "Waiting for admin approval" });
     }
     if (order.currentStatus === "GRN") {
       return res
@@ -165,7 +170,8 @@ export const UpdateProgress = async (req, res) => {
       .status(200)
       .json({ message: "Progress Updated waiting for admin approval" });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.log(error);
+    res.status(500).json({ error });
   }
 };
 

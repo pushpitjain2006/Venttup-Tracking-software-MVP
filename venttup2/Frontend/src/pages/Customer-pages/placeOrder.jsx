@@ -6,17 +6,17 @@ import {
   FaFileUpload,
   FaComments,
   FaArrowLeft,
-} from "react-icons/fa"; // Using Font Awesome icons
+} from "react-icons/fa";
 import { toast } from "react-toastify";
 import useAxios from "../../utils/useAxios.js";
 import { useAuth } from "../../../context/AuthContext.jsx";
 
 const PlaceOrder = () => {
-  const [orderType, setSelectedRequirement] = useState("");
+  const [orderType, setOrderType] = useState("");
   const [selectedSector, setSelectedSector] = useState("");
   const [message, setMessage] = useState("");
   const [file, setFile] = useState(null);
-  const [totalAmount, setPrice] = useState("");
+  const [totalAmount, setTotalAmount] = useState("");
   const axios = useAxios();
   const { setAuth } = useAuth();
 
@@ -35,29 +35,26 @@ const PlaceOrder = () => {
       comments: message,
     });
 
-    console.log(res);
     if (res.status === 201) {
       toast.success("Order placed successfully");
-      setSelectedRequirement("");
+      setOrderType("");
       setSelectedSector("");
       setMessage("");
       setFile(null);
-      setPrice("");
+      setTotalAmount("");
     } else {
       toast.error("Order placement failed");
-      console.log(res);
     }
   };
 
-  async function handelLogout() {
+  async function handleLogout() {
     const res = await axios.get("/vendor/logout");
     setAuth(null);
-    console.log(res);
     window.location.href = "/";
   }
 
   return (
-    <div className="min-h-screen bg-[url('/src/assets/sustainable-bg.jpg')] bg-cover bg-opacity-30 p-8 flex justify-center items-center">
+    <div className="min-h-screen bg-gradient-to-br from-green-300 via-gray-100 to-green-100 p-8 flex justify-center items-center">
       <div className="max-w-3xl w-full p-6 bg-white bg-opacity-90 rounded-lg shadow-lg">
         <div className="flex items-center justify-between mb-4">
           <button
@@ -73,9 +70,7 @@ const PlaceOrder = () => {
           </h1>
           <button
             className="text-white bg-green-600 px-4 py-2 rounded hover:bg-green-700"
-            onClick={() => {
-              handelLogout();
-            }}
+            onClick={handleLogout}
           >
             Logout
           </button>
@@ -88,19 +83,16 @@ const PlaceOrder = () => {
             </label>
             <select
               value={orderType}
-              onChange={(e) => setSelectedRequirement(e.target.value)}
-              className="w-full p-3 rounded border-2 border-gray-300 focus:border-emerald-500"
+              onChange={(e) => setOrderType(e.target.value)}
+              className="w-full p-3 rounded border-2 border-gray-300 focus:border-green-500"
             >
               <option value="">Select Requirement</option>
               <option value="localization">Localization / NPD</option>
-              <option value="contract_manufacturing">
-                Contract Manufacturing
-              </option>
+              <option value="contract_manufacturing">Contract Manufacturing</option>
               <option value="supply_chain">Supply Chain Distribution</option>
             </select>
           </div>
 
-          {/* Sector with Icon */}
           <div>
             <label className="flex items-center text-green-700 font-medium mb-2">
               <FaLeaf className="mr-2" /> Sector
@@ -108,7 +100,7 @@ const PlaceOrder = () => {
             <select
               value={selectedSector}
               onChange={(e) => setSelectedSector(e.target.value)}
-              className="w-full p-3 rounded border-2 border-gray-300 focus:border-emerald-500"
+              className="w-full p-3 rounded border-2 border-gray-300 focus:border-green-500"
             >
               <option value="">Select Sector</option>
               <option value="Energy Sector">Energy Sector</option>
@@ -120,7 +112,6 @@ const PlaceOrder = () => {
             </select>
           </div>
 
-          {/* Price Input with Icon */}
           <div>
             <label className="flex items-center text-green-700 font-medium mb-2">
               <FaRupeeSign className="mr-2" /> Proposed Price (INR)
@@ -128,13 +119,12 @@ const PlaceOrder = () => {
             <input
               type="number"
               value={totalAmount}
-              onChange={(e) => setPrice(e.target.value)}
-              className="w-full p-3 rounded border-2 border-gray-300 focus:border-emerald-500"
+              onChange={(e) => setTotalAmount(e.target.value)}
+              className="w-full p-3 rounded border-2 border-gray-300 focus:border-green-500"
               placeholder="Enter your proposed price"
             />
           </div>
 
-          {/* Message or Comments with Icon */}
           <div>
             <label className="flex items-center text-green-700 font-medium mb-2">
               <FaComments className="mr-2" /> Messages or Comments
@@ -143,16 +133,14 @@ const PlaceOrder = () => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               rows="4"
-              className="w-full p-3 rounded border-2 border-gray-300 focus:border-emerald-500"
+              className="w-full p-3 rounded border-2 border-gray-300 focus:border-green-500"
               placeholder="Enter any specific requirements or comments here"
             ></textarea>
           </div>
 
-          {/* File Upload with Icon */}
           <div>
             <label className="flex items-center text-green-700 font-medium mb-2">
-              <FaFileUpload className="mr-2" /> File Uploads (Design or other
-              documents)
+              <FaFileUpload className="mr-2" /> File Uploads (Design or other documents)
             </label>
             <input
               type="file"
@@ -161,10 +149,9 @@ const PlaceOrder = () => {
             />
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-3 bg-emerald-600 text-white font-semibold rounded hover:bg-emerald-700 transition duration-300"
+            className="w-full py-3 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition duration-300"
           >
             Get Quote
           </button>

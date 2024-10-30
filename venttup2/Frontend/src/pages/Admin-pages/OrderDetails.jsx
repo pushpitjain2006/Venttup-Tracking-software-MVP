@@ -3,7 +3,6 @@ import useAxios from "../../utils/useAxios";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { ChevronLeft } from "lucide-react";
-import DetailCard from "../../components/AdminDashboard/DetailCard";
 
 const OrderDetails = () => {
   const axios = useAxios();
@@ -34,7 +33,10 @@ const OrderDetails = () => {
     }
 
     try {
-      const response = await axios.post(`/admin/assign-vendor`, { orderId, vendorGSTIN: vendorId });
+      const response = await axios.post(`/admin/assign-vendor`, {
+        orderId,
+        vendorGSTIN: vendorId,
+      });
       setDetails((prev) => ({ ...prev, vendorId: response.data.vendorId }));
       setShowVendorInput(false);
       toast.success("Vendor assigned successfully");
@@ -72,6 +74,16 @@ const OrderDetails = () => {
     setUpdates((prev) => ({ ...prev, [field]: value }));
   };
 
+  const handleApproveUpdate = async () => {
+    try {
+      await axios.post(`/admin/approve-update`, { orderId });
+      setDetails((prev) => ({ ...prev, adminApproval: true }));
+      toast.success("Order approved successfully");
+    } catch (err) {
+      toast.error("Failed to approve order");
+    }
+  };
+
   return (
     <>
       <div className="w-full min-h-screen bg-gray-900 text-gray-100">
@@ -85,14 +97,144 @@ const OrderDetails = () => {
         </div>
         {details ? (
           <div className="w-full mx-auto bg-slate-600 shadow-lg p-8 text-gray-100">
-            <h2 className="text-2xl font-bold text-center mb-6">Order Details</h2>
+            <h2 className="text-2xl font-bold text-center mb-6">
+              Order Details
+            </h2>
 
-            <DetailCard 
-              isEditing={isEditing} 
-              details={details} 
-              updates={updates}
-            />
+            <div className="space-y-4 grid grid-cols-2">
+              <div>
+                <h3 className="text-lg font-semibold">Order ID</h3>
+                <p className="text-gray-400">{details._id}</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-semibold">Customer ID</h3>
+                <p className="text-gray-400">{details.customerId}</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-semibold">Order Type</h3>
+                {isEditing ? (
+                  <select
+                    className="p-2 rounded bg-gray-700 text-white focus:outline-none"
+                    value={updates.orderType || details.orderType}
+                    onChange={(e) => handleChange("orderType", e.target.value)}
+                  >
+                    <option value="localization">Localization</option>
+                    <option value="contract_manufacturing">
+                      Contract Manufacturing
+                    </option>
+                    <option value="supply_chain">Supply Chain</option>
+                  </select>
+                ) : (
+                  <p className="text-gray-400">{details.orderType}</p>
+                )}
+              </div>
+
+              <div>
+                <h3 className="text-lg font-semibold">Total Amount</h3>
+                {isEditing ? (
+                  <input
+                    type="number"
+                    className="p-2 rounded bg-gray-700 text-white focus:outline-none"
+                    value={updates.totalAmount || details.totalAmount}
+                    onChange={(e) =>
+                      handleChange("totalAmount", e.target.value)
+                    }
+                  />
+                ) : (
+                  <p className="text-gray-400">₹{details.totalAmount}</p>
+                )}
+              </div>
+
+              <div>
+                <h3 className="text-lg font-semibold">Current Status</h3>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    className="p-2 rounded bg-gray-700 text-white focus:outline-none"
+                    value={updates.currentStatus || details.currentStatus}
+                    onChange={(e) =>
+                      handleChange("currentStatus", e.target.value)
+                    }
+                  />
+                ) : (
+                  <p className="text-gray-400">{details.currentStatus}</p>
+                )}
+              </div>
+
+              <div>
+                <h3 className="text-lg font-semibold">Vendor ID</h3>
+                <div className="text-gray-400">
+                  {details.vendorId ? (
+                    details.vendorId
+                  ) : showVendorInput ? (
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="text"
+                        placeholder="Enter Vendor ID"
+                        className="w-1/2 p-2 rounded bg-gray-700 text-white focus:outline-none"
+                        value={vendorId}
+                        onChange={(e) => setVendorId(e.target.value)}
+                      />
+                      <button
+                        className="focus:outline-none text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-4 py-2"
+                        onClick={handleAssignVendor}
+                      >
+                        Assign
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      className="focus:outline-none text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5"
+                      onClick={() => setShowVendorInput(true)}
+                    >
+                      Assign Vendor
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-semibold">Sector</h3>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    className="p-2 rounded bg-gray-700 text-white focus:outline-none"
+                    value={updates.sector || details.sector}
+                    onChange={(e) => handleChange("sector", e.target.value)}
+                  />
+                ) : (
+                  <p className="text-gray-400">{details.sector}</p>
+                )}
+              </div>
+
+              <div>
+                <h3 className="text-lg font-semibold">Admin Approval</h3>
+                {isEditing ? (
+                  <input
+                    type="checkbox"
+                    checked={updates.adminApproval || details.adminApproval}
+                    onChange={(e) =>
+                      handleChange("adminApproval", e.target.checked)
+                    }
+                  />
+                ) : (
+                  <p className="text-gray-400">
+                    {details.adminApproval ? "Approved" : "Pending"}
+                  </p>
+                )}
+              </div>
+            </div>
             <div className="flex justify-end items-center">
+              {!details.adminApproval && (
+                <button
+                  className="m-4 focus:outline-none text-white bg-yellow-600 hover:bg-yellow-700 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5"
+                  onClick={handleApproveUpdate}
+                >
+                  Approve Update
+                </button>
+              )}
               {isEditing ? (
                 <button
                   className="m-4 focus:outline-none text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5"

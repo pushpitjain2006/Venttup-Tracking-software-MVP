@@ -2,34 +2,36 @@ import React from "react";
 import { useAuth } from "../../../../context/AuthContext.jsx";
 import useAxios from "../../../utils/useAxios.js";
 import { Link } from "react-router-dom";
+import { GiRecycle, GiFactory } from "react-icons/gi";
 
 const CustomerDashboard = () => {
   const axios = useAxios();
   const { setAuth } = useAuth();
-  async function handelLogout() {
+  
+  async function handleLogout() {
     setAuth(null);
     const res = await axios.get("/vendor/logout");
     console.log(res);
     window.location.href = "/";
   }
+
   return (
-    <div className="min-h-screen bg-green-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-green-200 via-gray-100 to-green-100 p-6">
       <div className="flex items-center justify-between bg-green-600 shadow-md p-4 mb-6 rounded-lg">
         <div className="flex gap-4 items-center">
-          <h1 className="text-2xl font-semibold text-white">
-            Customer Dashboard
-          </h1>
-          <img
+          <GiFactory className="text-white w-8 h-8" />
+          {/* <img
             src="https://img.icons8.com/ios-filled/50/000000/plant-under-sun.png"
             alt="Place Order"
             className="mx-auto mt-4"
-          />
+          /> */}
+          <h1 className="text-3xl font-semibold text-white">
+            Customer Dashboard
+          </h1>
         </div>
         <button
           className="text-white font-medium hover:underline cursor-pointer"
-          onClick={() => {
-            handelLogout();
-          }}
+          onClick={handleLogout}
         >
           Logout
         </button>
@@ -41,18 +43,26 @@ const CustomerDashboard = () => {
           onClick={() => {
             window.location.href = "/PlaceOrder";
           }}
-          className="flex-1 bg-white shadow-lg rounded-lg p-[6rem] text-center transform transition duration-200 hover:scale-105 hover:shadow-2xl cursor-pointer"
+          className="flex-1 bg-white shadow-lg rounded-lg p-16 text-center transform transition duration-200 hover:scale-105 hover:shadow-2xl cursor-pointer"
         >
-          <h2 className="text-xl font-semibold text-green-800">Get Quote</h2>
+          <GiRecycle className="text-green-600 w-12 h-12 mb-4 mx-auto" />
+          <h2 className="text-xl font-semibold text-green-800">Get a Quote</h2>
+          <p className="text-gray-600 mt-2">
+            Request a sustainable quote tailored to eco-friendly materials and processes.
+          </p>
         </div>
 
         <div
-          className="flex-1 bg-white shadow-lg rounded-lg p-[6rem] text-center transform transition duration-200 hover:scale-105 hover:shadow-2xl cursor-pointer"
+          className="flex-1 bg-white shadow-lg rounded-lg p-16 text-center transform transition duration-200 hover:scale-105 hover:shadow-2xl cursor-pointer"
           onClick={() => {
             window.location.href = "/ViewOrders";
           }}
         >
+          <GiFactory className="text-green-600 w-12 h-12 mb-4 mx-auto" />
           <h2 className="text-xl font-semibold text-green-800">View Orders</h2>
+          <p className="text-gray-600 mt-2">
+            View current orders and track the progress.
+          </p>
         </div>
       </div>
     </div>

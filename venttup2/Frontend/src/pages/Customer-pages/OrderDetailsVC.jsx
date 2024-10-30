@@ -5,6 +5,7 @@ import orderStatuses from "../../config/orderStatusConfig.js";
 import { useParams } from "react-router-dom";
 import progressBar from "../../components/progressBar.jsx";
 import { useAuth } from "../../../context/AuthContext.jsx";
+import { toast } from "react-toastify";
 
 const OrderDetailsVC = () => {
   const { auth } = useAuth();
@@ -28,6 +29,25 @@ const OrderDetailsVC = () => {
     };
     fetchData();
   }, [orderId]);
+
+  const handleUpdate = async () => {
+    if (userType !== "vendor") {
+      return; // Prevent non-vendor users from updating
+    }
+    try {
+      const res = await Axios.post("/vendor/update-progress", {
+        orderId,
+      });
+      if (res.status === 200) {
+        toast.success("Progress updated successfully");
+        window.location.reload();
+      }
+
+      console.log(res);
+    } catch (error) {
+      console.error("Error updating progress:", error);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-green-100 p-6 flex flex-col items-center">
@@ -63,6 +83,15 @@ const OrderDetailsVC = () => {
               <span className="font-semibold">Comments:</span>{" "}
               {order.comments || "No additional comments"}
             </p>
+
+            {userType === "vendor" && (
+              <button
+                onClick={handleUpdate}
+                className="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300"
+              >
+                Update Progress
+              </button>
+            )}
           </div>
         )}
       </div>
