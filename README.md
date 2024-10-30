@@ -1,8 +1,49 @@
-# React + Vite
+# VENTTUP
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a MVP, which demonstrates a backend API built with Express.js and a frontend built with Vite and React.
 
-Currently, two official plugins are available:
+## Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Clone the Repository:
+
+```bash
+  git clone https://github.com/pushpitjain2006/Venttup-Tracking-software--Updated-.git
+```
+
+Install Dependencies:   
+
+Navigate to the project directory and install dependencies for both the frontend and backend:
+
+```bash
+cd Venttup-Tracking-software--Updated-/Backend
+npm install
+cd ../Frontend
+npm install
+```
+
+
+### Run the Backend:
+
+
+First of all setup the .env file 
+- Go to /Backend
+- Make a new file .env
+- Copy contents from .env.example and make changes according to you.
+
+Start the Express.js server with:
+```bash
+node ./app.js
+```
+
+This will typically run the server on port 3000 (default for Express.js). You can access the API at http://localhost:3000 (or adjust the port if configured differently).
+
+Run the Frontend:
+
+Start the Vite development server with:
+
+```bash
+npm run dev
+```
+
+This will launch the React application in development mode, usually accessible at http://localhost:5173 (default for Vite). You can find the exact URL in your terminal output.
+
