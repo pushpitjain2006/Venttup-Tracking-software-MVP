@@ -25,7 +25,7 @@ const router = express.Router();
 
 router.post("/login", LoginAdmin); //Working
 router.get("/logout", LogoutAdmin); //Working
-router.post("/signup", SignupAdmin);
+router.post("/signup", protectedRoute, isAdmin, SignupAdmin);
 // router.post("/approve-orders",protectedRoute,isAdmin, ApproveOrders);  //Working
 // router.get("/get-available-vendors",protectedRoute,isAdmin, GetAvailableVendors); //Working
 router.post("/assign-vendor", protectedRoute, isAdmin, AssignVendors); //Working
