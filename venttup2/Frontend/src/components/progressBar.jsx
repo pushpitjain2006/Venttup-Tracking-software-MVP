@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import orderStatuses from "../config/orderStatusConfig.js";
 
-const progressBar = (order, setCurrentStep) => {
+const ProgressBar = ({
+  order,
+  setCurrentStep
+}) => {
   const stages = order ? orderStatuses[order.orderType] || [] : [];
   const isGateStage = (stage) => {
     const parts = stage.split(" ");
@@ -41,4 +44,4 @@ const progressBar = (order, setCurrentStep) => {
   );
 };
 
-export default progressBar;
+export default ProgressBar;
