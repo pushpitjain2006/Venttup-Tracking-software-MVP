@@ -11,16 +11,17 @@ const OrderDetailsVC = () => {
   const orderId = useParams().orderId;
   const userType = auth.userType;
   const [order, setOrder] = useState(null);
-  const [currentStep, setCurrentStep] = useState(order?.currentStep || 0);
+  const [currentStep, setCurrentStep] = useState(order?.currentStep);
   const Axios = useAxios();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await Axios.post(`/${userType}/view-order-details`, {
-          orderId: orderId,
+          orderId,
         });
         setOrder(res.data);
+        setCurrentStep(res.data.currentStep);
       } catch (error) {
         console.error("Error fetching order data:", error);
       }

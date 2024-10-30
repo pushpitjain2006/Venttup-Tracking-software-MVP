@@ -87,7 +87,7 @@ export const AcceptOrders = async (req, res) => {
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
-    if (order.vendorId !== vendorId) {
+    if (order.vendorId != vendorId) {
       return res
         .status(401)
         .json({ message: "You are not authorized to accept this order" });
@@ -112,7 +112,7 @@ export const DeclineOrders = async (req, res) => {
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
-    if (order.vendorId !== vendorId) {
+    if (order.vendorId != vendorId) {
       return res
         .status(401)
         .json({ message: "You are not authorized to decline this order" });
@@ -171,8 +171,13 @@ export const UpdateProgress = async (req, res) => {
 
 export const GetVendorOrders = async (req, res) => {
   try {
-    const { vendorId } = req.body;
-    const orders = await Order.find({ vendorId, currentStep: { $gt: 2 } });
+    const { vendorId, filter } = req.body;
+    console.log(vendorId);
+    if (!vendorId) {
+      return res.status(400).json({ message: "Please fill all the fields" });
+    }
+    const orders = await Order.find({ vendorId: vendorId, ...filter });
+    console.log(orders);
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -181,7 +186,7 @@ export const GetVendorOrders = async (req, res) => {
 
 export const GetCustomerDetails = async (req, res) => {
   try {
-    const { vendorId, orderId } = req.body;
+    const { vendorId, orderId } = req.params;
 
     if (orderId) {
       const order = await Order.findById(orderId);

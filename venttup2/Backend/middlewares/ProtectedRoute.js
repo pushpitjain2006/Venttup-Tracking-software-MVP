@@ -28,7 +28,7 @@ const protectedRoute = async (req, res, next) => {
       };
     } else if (LoggedInUserType == "vendor") {
       const vendorId = decoded.userID;
-
+      console.log(vendorId);
       const vendor = await Vendor.findById(vendorId);
       if (!vendor) {
         return res.status(404).json({ message: "Vendor not found" });
