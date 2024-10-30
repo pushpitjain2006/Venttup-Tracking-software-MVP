@@ -4,8 +4,8 @@ import axios from "axios";
 const useAxios = () => {
   console.log("Inside useAxios");
   const axiosInstance = useMemo(() => {
-    const backendURL =
-      "https://backend-venttup-tracking-software-updated-wf9h.vercel.app/";
+    // const backendURL ="https://backend-venttup-tracking-software-updated-wf9h.vercel.app/";
+    const backendURL=import.meta.env.VITE_BackendURL;
     const instance = axios.create({
       baseURL: backendURL,
       headers: {
