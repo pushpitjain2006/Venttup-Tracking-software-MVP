@@ -13,7 +13,22 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://frontend-venttup-tracking-software-updated.vercel.app/"],
+    methods: [
+      "POST",
+      "GET",
+      "PUT",
+      "DELETE",
+      "OPTIONS",
+      "PATCH",
+      "HEAD",
+      "CONNECT",
+    ],
+    credentials: true,
+  })
+);
 app.use(bodyParser.json());
 app.use(cookieParser());
 
