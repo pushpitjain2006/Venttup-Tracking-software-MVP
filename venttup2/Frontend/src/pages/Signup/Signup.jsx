@@ -13,15 +13,15 @@ const Signup = () => {
   };
 
   return (
-    <>
-      <div className="flex flex-col items-center p-8 space-y-2">
-        <div className="relative w-80">
-          <div className="flex justify-around bg-sky-700 border-2 border-sky-800 rounded-full shadow-lg">
+    <div className="h-lvh w-lvw flex items-center justify-center bg-gradient-to-r from-stone-600 to-slate-700 overflow-hidden">
+      <div className="flex flex-col items-center p-8">
+        <div className="relative w-96">
+          <div className="flex justify-around bg-white backdrop-blur-sm border-2 z-0 border-sky-800 rounded-full shadow-lg">
             {["Admin", "Vendor", "Customer"].map((option) => (
               <div
                 key={option}
                 className={`py-3 px-4 flex-1 text-center cursor-pointer transition-all duration-300 ${
-                  selected === option ? "text-black font-bold z-10" : "text-slate-100"
+                  selected === option ? "text-black font-bold z-20 bg-slate-300 rounded-full" : "text-slate-900"
                 }`}
                 onClick={() => handleSelect(option)}
               >
@@ -29,26 +29,20 @@ const Signup = () => {
               </div>
             ))}
           </div>
-          <div
-            className="absolute top-0 left-0 h-full w-1/3 bg-blue-200 rounded-full transition-all duration-300"
-            style={{
-              transform: `translateX(${["Admin", "Vendor", "Customer"].indexOf(selected) * 100}%)`,
-            }}
-          />
         </div>
 
-        <div className="w-full max-w-sm p-6 bg-slate-700 rounded-3xl shadow-md border border-gray-200 min-h-[400px]">
+        <div className="w-full max-w-sm p-6 mt-4 mb-2 bg-white/30 rounded-3xl drop-shadow-2xl min-h-[400px]">
           {selected === "Admin" && <AdminSignup />}
           {selected === "Vendor" && <VendorSignup />}
           {selected === "Customer" && <CustomerSignup />}
         </div>
         <div>
-          <p>
-            Already have an account? <span className="text-blue-600 underline cursor-pointer" onClick={()=>navigate("/login")}>Login</span>
+          <p className="text-white">
+            Already have an account? <span className="hover:text-blue-600 hover:underline cursor-pointer" onClick={()=>navigate("/login")}>Login</span>
           </p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

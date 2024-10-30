@@ -20,8 +20,8 @@ const VendorLogin = () => {
       <h2 className="text-3xl font-bold text-center text-white mb-6">
         Vendor Login
       </h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-2">
+      <form onSubmit={handleSubmit} className="space-y-4 flex flex-col justify-center items-center">
+        <div className="space-y-2 w-full">
           <label
             htmlFor="GSTIN"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -38,7 +38,7 @@ const VendorLogin = () => {
             required
           />
         </div>
-        <div className="space-y-2">
+        <div className="space-y-2 w-full">
           <label
             htmlFor="password"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -57,7 +57,7 @@ const VendorLogin = () => {
         </div>
         <button
           type="submit"
-          className="mx-[130px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           disabled={loading}
         >
           Login
