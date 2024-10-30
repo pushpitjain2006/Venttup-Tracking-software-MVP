@@ -102,7 +102,7 @@ const OrderDetails = () => {
             </h2>
 
             <div className="space-y-4 grid grid-cols-2">
-              <div>
+              <div className="mt-4">
                 <h3 className="text-lg font-semibold">Order ID</h3>
                 <p className="text-gray-400">{details._id}</p>
               </div>
