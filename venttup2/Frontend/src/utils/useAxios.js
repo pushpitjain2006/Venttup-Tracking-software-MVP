@@ -5,8 +5,7 @@ const useAxios = () => {
   console.log("Inside useAxios");
   const axiosInstance = useMemo(() => {
     const backendURL =
-      "REDACTED";
-    console.log("backendURL :", backendURL);
+      "https://backend-venttup-tracking-software-updated-wf9h.vercel.app/";
     const instance = axios.create({
       baseURL: backendURL,
       headers: {
