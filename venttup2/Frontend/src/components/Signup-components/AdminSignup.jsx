@@ -1,18 +1,28 @@
 import React, { useState } from "react";
 import { useAdminSignup } from "../../../hooks/signup-hooks/useAdminSignUp.js";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/AuthContext.jsx";
 
 const AdminSignup = () => {
   const { adminSignup, error, loading } = useAdminSignup();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const auth = useAuth();
 
   const handleSubmit = (e) => {
     console.log("handleSubmit");
     e.preventDefault();
     if (!username || !password || !confirmPassword) {
       toast("Please fill all the fields");
+      return;
+    }
+    if (password !== confirmPassword) {
+      toast("Passwords do not match");
+      return;
+    }
+    if(auth.userType!=="admin"){
+      toast.error("You are not authorized to signup a new admin");
       return;
     }
     adminSignup(username, password, confirmPassword);
