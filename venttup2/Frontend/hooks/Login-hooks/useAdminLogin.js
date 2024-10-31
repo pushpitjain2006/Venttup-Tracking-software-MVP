@@ -2,9 +2,11 @@ import useAxios from "../../src/utils/useAxios.js";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 export const useAdminLogin = () => {
   console.log("Inside useAdminLogin");
+  const navigate=useNavigate();
   const axios = useAxios();
   const { setAuth } = useAuth();
   const [error, setError] = useState(null);
@@ -24,7 +26,7 @@ export const useAdminLogin = () => {
       });
       setError(null);
       toast.success("Login successful");
-      window.location.href = "/";
+      navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
       toast.error(err.response?.data?.message || "Login failed");

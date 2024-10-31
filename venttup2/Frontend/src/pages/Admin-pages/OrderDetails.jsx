@@ -13,7 +13,7 @@ const OrderDetails = () => {
   const [vendorId, setVendorId] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [updates, setUpdates] = useState({});
-  const [showOrderDetails, setShowOrderDetails] = useState(false);
+  const [showOrderDetails, setShowOrderDetails] = useState(true);
   const [showOrderProgress, setShowOrderProgress] = useState(false);
 
   useEffect(() => {
