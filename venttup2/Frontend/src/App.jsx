@@ -96,6 +96,10 @@ const router = createBrowserRouter([
     path: "/UpdateOrder",
     element: <CurrentOrder />,
   },
+  {
+    path: "/Admin-signup",
+    element: <Signup />,
+  },
 ]);
 
 function App() {

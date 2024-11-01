@@ -6,7 +6,7 @@ import { useAuth } from "../../context/AuthContext.jsx";
 
 export const useAdminSignup = () => {
   console.log("Inside useAdminSignup");
-  const auth = useAuth();
+  const { auth } = useAuth();
   const axios = useAxios();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
