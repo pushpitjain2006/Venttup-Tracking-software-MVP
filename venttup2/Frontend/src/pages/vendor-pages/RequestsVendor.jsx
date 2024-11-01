@@ -54,6 +54,12 @@ const OrderRequestPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-200 via-gray-100 to-green-100 p-8">
+      <button 
+        className="h-12 w-24 bg-red-400 rounded-lg"
+        onClick={() => navigate("/")}  
+      >
+        &#8592; Go Back
+      </button>
       <div className="flex items-center space-x-2 mb-6">
         <GiFactory className="text-green-600 w-8 h-8" />
         <h1 className="text-3xl font-bold text-green-900">Order Requests</h1>
