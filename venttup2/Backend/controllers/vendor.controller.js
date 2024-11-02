@@ -131,8 +131,8 @@ export const DeclineOrders = async (req, res) => {
 
 export const UpdateProgress = async (req, res) => {
   try {
-    const { orderId, vendorId } = req.body;
-    if (!orderId) {
+    const { orderId, vendorId, action } = req.body;
+    if (!orderId || !vendorId) {
       return res.status(400).json({ message: "Please fill all the fields" });
     }
 
@@ -141,21 +141,31 @@ export const UpdateProgress = async (req, res) => {
       return res.status(404).json({ message: "Order not found" });
     }
     if (order.vendorId != vendorId) {
-      return res
-        .status(401)
-        .json({ message: "You are not authorized to update this order" });
+      return res.status(401).json({ message: "You are not authorized to update this order" });
     }
+
+    if (action === "withdraw") {
+      if (order.adminApproval === false) {
+        order.currentStep -= 1;
+        order.currentStatus = orderStatuses[order.orderType][order.currentStep];
+        order.adminApproval=true;
+        await order.save();
+        return res.status(200).json({ message: "Submission withdrawn successfully" });
+      } else {
+        return res.status(400).json({ message: "Cannot withdraw after admin approval" });
+      }
+    }
+
     if (!order.adminApproval) {
-      return res.status(400).json({ message: "Waiting for admin approval" });
+      return res.status(200).json({ message: "Waiting for admin approval" });
     }
     if (order.currentStatus === "GRN") {
-      return res
-        .status(400)
-        .json({ message: "Order waiting for customer approval" });
+      return res.status(400).json({ message: "Order waiting for customer approval" });
     }
     if (order.currentStatus === "Order completed") {
       return res.status(400).json({ message: "Order already completed" });
     }
+
     const arr = orderStatuses[order.orderType];
     if (order.currentStep + 1 < arr.length) {
       order.currentStep += 1;
@@ -165,9 +175,7 @@ export const UpdateProgress = async (req, res) => {
       res.status(400).json({ message: "Invalid request" });
     }
     await order.save();
-    res
-      .status(200)
-      .json({ message: "Progress Updated waiting for admin approval" });
+    return res.status(200).json({ message: "Progress Updated, waiting for admin approval" });
   } catch (error) {
     res.status(500).json({ error });
   }
