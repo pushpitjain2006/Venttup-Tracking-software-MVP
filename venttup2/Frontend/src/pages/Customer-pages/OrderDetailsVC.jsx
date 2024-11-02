@@ -32,7 +32,7 @@ const OrderDetailsVC = () => {
 
   const handleUpdate = async () => {
     if (userType !== "vendor") {
-      return; // Prevent non-vendor users from updating
+      return; 
     }
     try {
       const res = await Axios.post("/vendor/update-progress", {
@@ -42,8 +42,6 @@ const OrderDetailsVC = () => {
         toast.success("Progress updated successfully");
         window.location.reload();
       }
-
-      console.log(res);
     } catch (error) {
       console.error("Error updating progress:", error);
     }

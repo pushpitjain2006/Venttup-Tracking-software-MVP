@@ -52,7 +52,7 @@ function MasterDashboard() {
               onclick={() => navigate("/upload-order")}
             />
             <DashboardCard
-              title="Add More Admins"
+              title="Add More Users"
               onclick={() => navigate("/Admin-signup")}
             />
           </div>

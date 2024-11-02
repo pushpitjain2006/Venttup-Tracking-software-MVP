@@ -8,10 +8,9 @@ const AdminSignup = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const auth = useAuth();
+  const { auth } = useAuth();
 
   const handleSubmit = (e) => {
-    console.log("handleSubmit");
     e.preventDefault();
     if (!username || !password || !confirmPassword) {
       toast("Please fill all the fields");
@@ -21,7 +20,7 @@ const AdminSignup = () => {
       toast("Passwords do not match");
       return;
     }
-    if(auth.userType!=="admin"){
+    if (auth.userType !== "admin") {
       toast.error("You are not authorized to signup a new admin");
       return;
     }
@@ -30,13 +29,17 @@ const AdminSignup = () => {
 
   return (
     <>
-      <h2 className="text-3xl font-bold text-center text-white mb-6">Admin Signup</h2>
+      <h2 className="text-3xl font-bold text-center text-white mb-6">
+        Admin Signup
+      </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <label 
+          <label
             htmlFor="username"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" 
-          >Username</label>
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Username
+          </label>
           <input
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="username"
@@ -48,10 +51,12 @@ const AdminSignup = () => {
           />
         </div>
         <div className="space-y-2">
-          <label 
+          <label
             htmlFor="password"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >Password</label>
+          >
+            Password
+          </label>
           <input
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="password"
@@ -63,10 +68,12 @@ const AdminSignup = () => {
           />
         </div>
         <div className="space-y-2">
-          <label 
+          <label
             htmlFor="confirmpassword"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >Confirm Password</label>
+          >
+            Confirm Password
+          </label>
           <input
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="confirmpassword"
@@ -77,9 +84,9 @@ const AdminSignup = () => {
             required
           />
         </div>
-        <button 
-          type="submit" 
-          className="mx-[130px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" 
+        <button
+          type="submit"
+          className="mx-[130px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           disabled={loading}
         >
           Signup

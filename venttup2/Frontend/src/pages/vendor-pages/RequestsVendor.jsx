@@ -35,7 +35,8 @@ const OrderRequestPage = () => {
   };
 
   const handleDecline = async (id) => {
-    const res = axios.post("/vendor/decline-order", { orderId: id });
+    const res = await axios.post("/vendor/decline-order", { orderId: id });
+    console.log(res);
     if (res.status === 200) {
       toast.success("Order declined successfully");
     } else {
@@ -54,9 +55,9 @@ const OrderRequestPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-200 via-gray-100 to-green-100 p-8">
-      <button 
+      <button
         className="h-12 w-24 bg-red-400 rounded-lg"
-        onClick={() => navigate("/")}  
+        onClick={() => navigate("/")}
       >
         &#8592; Go Back
       </button>
@@ -109,7 +110,7 @@ const OrderRequestPage = () => {
                   <strong>Sector:</strong> {order.sector}
                 </p>
                 <p>
-                  <strong>Total Amount:</strong> ${order.totalAmount}
+                  <strong>Total Amount:</strong> ₹{order.totalAmount}
                 </p>
                 <p>
                   <strong>Current Step:</strong> {order.currentStep}

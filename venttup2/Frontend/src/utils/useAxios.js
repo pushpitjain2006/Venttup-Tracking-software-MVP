@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import axios from "axios";
 
 const useAxios = () => {
-  console.log("Inside useAxios");
   const axiosInstance = useMemo(() => {
     // const backendURL ="https://backend-venttup-tracking-software-updated-wf9h.vercel.app/";
     const backendURL = import.meta.env.VITE_BackendURL || "http://localhost:3001";
@@ -16,11 +15,10 @@ const useAxios = () => {
     instance.interceptors.request.use(
       (config) => {
         const authItem = localStorage.getItem("auth");
-        const token = JSON.parse(authItem)?.token;
+        const authData = authItem ? JSON.parse(authItem) : null;
+        const token = authData?.token;
         if (token) {
-          config.headers.authorization = `${
-            JSON.parse(authItem)?.userType
-          } ${token}`;
+          config.headers.authorization = `${authData?.userType} ${token}`;
         }
         return config;
       },
