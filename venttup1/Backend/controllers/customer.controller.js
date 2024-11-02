@@ -7,7 +7,6 @@ import generateTokenAndSetCookie from "../utils/GenerateJWT.js";
 
 export const LoginCustomer = async (req, res) => {
   try {
-    console.log("Inside LoginCustomer");
     const { GSTIN, password } = req.body;
     if (!GSTIN || !password) {
       return res.status(400).json({ message: "Please fill all the fields" });
@@ -66,7 +65,6 @@ export const SignupCustomer = async (req, res) => {
       address,
       contactNumber,
     });
-    // console.log("HEHEHE");
 
     await newCustomer.save();
     generateTokenAndSetCookie(newCustomer._id, "customer", res);
@@ -79,8 +77,6 @@ export const SignupCustomer = async (req, res) => {
 export const PlaceOrders = async (req, res) => {
   try {
     const { customerId, orderType, totalAmount } = req.body;
-    console.log(req.body);
-
     if (!customerId || !orderType || !totalAmount) {
       return res.status(400).json({ message: "Please fill all the fields" });
     }

@@ -11,7 +11,6 @@ const CustomerDashboard = () => {
   async function handleLogout() {
     setAuth(null);
     const res = await axios.get("/vendor/logout");
-    console.log(res);
     window.location.href = "/";
   }
 

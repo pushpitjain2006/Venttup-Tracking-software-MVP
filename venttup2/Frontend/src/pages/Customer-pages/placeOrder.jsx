@@ -27,7 +27,6 @@ const PlaceOrder = () => {
     if (!orderType || !selectedSector || !totalAmount) {
       return toast.error("Please fill all the fields");
     }
-    console.log("Submitting");
     const res = await axios.post("/customer/place-orders", {
       orderType,
       totalAmount,

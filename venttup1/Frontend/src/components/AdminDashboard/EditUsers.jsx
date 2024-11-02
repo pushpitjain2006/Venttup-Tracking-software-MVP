@@ -7,10 +7,8 @@ const EditUsers = () => {
   const axios = useAxios();
   const [userType, setUserType] = useState("vendor");
   const { users, setUsers, loading, error } = useFetchUsers(userType);
-  console.log(users);
   const handleDelete = async (userType, userId) => {
     try {
-      console.log(userType, userId);
       const res = await axios.delete(`/admin/delete-user`, {
         data: {
           type: userType,

@@ -6,8 +6,6 @@ import generateTokenAndSetCookie from "../utils/GenerateJWT.js";
 
 export const LoginCustomer = async (req, res) => {
   try {
-    console.log("Inside LoginCustomer");
-    console.log(req.body);
     const { GSTIN, password } = req.body;
     if (!GSTIN || !password) {
       return res.status(400).json({ message: "Please fill all the fields" });
@@ -27,7 +25,6 @@ export const LoginCustomer = async (req, res) => {
     );
     return res.status(200).json({ token, LoggedInUserType, userID });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error });
   }
 };
@@ -68,7 +65,6 @@ export const SignupCustomer = async (req, res) => {
       address,
       contactNumber,
     });
-    // console.log("HEHEHE");
 
     await newCustomer.save();
     generateTokenAndSetCookie(newCustomer._id, "customer", res);
@@ -111,7 +107,6 @@ export const PlaceOrders = async (req, res) => {
     await newOrder.save();
     res.status(201).json({ message: "Order requested successfully" });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };

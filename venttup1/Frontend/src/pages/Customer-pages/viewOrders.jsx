@@ -10,11 +10,10 @@ const ViewOrders = () => {
     const fetchOrders = async () => {
       try {
         const res = await axios.get("/customer/view-orders");
-        console.log(res);
         if (res.status === 200) {
           setOrders(res.data);
         } else {
-          console.log(res);
+          console.error(res);
         }
       } catch (error) {
         console.error("Error fetching orders:", error);

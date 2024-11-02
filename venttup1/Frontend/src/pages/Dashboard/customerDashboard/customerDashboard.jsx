@@ -9,7 +9,6 @@ const CustomerDashboard = () => {
   async function handelLogout() {
     setAuth(null);
     const res = await axios.get("/vendor/logout");
-    console.log(res);
     window.location.href = "/";
   }
   return (

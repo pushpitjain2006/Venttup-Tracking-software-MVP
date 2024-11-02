@@ -57,13 +57,11 @@ export const ViewOrders = async (req, res) => {
       const orders = await Order.find({ ...filters });
       res.status(200).json(orders);
     } else if (LoggedInUserType === "customer") {
-      console.log("Inside customer orders");
       const { customerId } = req.body;
       if (!customerId) {
         return res.status(400).json({ message: "Please fill all the fields" });
       }
       const orders = await Order.find({ customerId });
-      console.log(orders);
       res.status(200).json(orders);
     } else if (LoggedInUserType === "vendor") {
       const { vendorId } = req.body;
@@ -89,7 +87,6 @@ export const ViewOrders = async (req, res) => {
 
 export const ViewOrderDetails = async (req, res) => {
   try {
-    // console.log(req.body);
     const { LoggedInUserType, orderId } = req.body;
     if (!orderId) {
       return res.status(400).json({ message: "Please provide orderId" });

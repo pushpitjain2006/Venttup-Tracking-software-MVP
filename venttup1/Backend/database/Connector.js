@@ -10,7 +10,7 @@ export const connectToDatabase = async () => {
     await mongoose.connect(mongoUrl);
     console.log("Connected to MongoDB");
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 export const disconnectFromDatabase = async () => {
@@ -18,7 +18,7 @@ export const disconnectFromDatabase = async () => {
     await mongoose.disconnect();
     console.log("Disconnected from MongoDB");
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 

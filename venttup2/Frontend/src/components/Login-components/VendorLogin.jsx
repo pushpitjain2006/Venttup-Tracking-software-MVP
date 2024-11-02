@@ -7,7 +7,6 @@ const VendorLogin = () => {
   const [GSTIN, setGSTIN] = useState("");
   const { vendorLogin, error, loading } = useVendorLogin();
   function handleSubmit(e) {
-    console.log("Inside handleSubmit");
     e.preventDefault();
     if (!GSTIN || !password) {
       toast("Please fill all the fields");

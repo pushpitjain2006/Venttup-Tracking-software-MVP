@@ -15,7 +15,6 @@ const useAxios = () => {
     instance.interceptors.request.use(
       (config) => {
         const authItem = localStorage.getItem("auth");
-        console.log(authItem);
         const token = JSON.parse(authItem)?.token;
         if (token) {
           config.headers.authorization = `${

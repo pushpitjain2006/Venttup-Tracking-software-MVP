@@ -8,7 +8,6 @@ const Adminlogin = () => {
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
-    console.log("handleSubmit");
     e.preventDefault();
     if (!username || !password) {
       toast("Please fill all the fields");

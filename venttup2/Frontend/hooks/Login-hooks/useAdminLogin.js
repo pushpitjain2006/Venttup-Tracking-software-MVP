@@ -5,7 +5,6 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 
 export const useAdminLogin = () => {
-  console.log("Inside useAdminLogin");
   const navigate=useNavigate();
   const axios = useAxios();
   const { setAuth } = useAuth();

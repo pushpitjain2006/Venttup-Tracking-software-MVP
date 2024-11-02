@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export const useCustomerSignup = () => {
-  console.log("Inside useCustomerSignup");
   const axios = useAxios();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -31,7 +30,7 @@ export const useCustomerSignup = () => {
       navigate("/login");
     } catch (err) {
       setError(err.response?.data?.message || "Signup failed");
-      console.log(err);
+      console.error(err);
       toast.error(err.response.data.message);
     } finally {
       setLoading(false);

@@ -23,13 +23,6 @@ const PlaceOrder = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({
-      selectedRequirement: orderType,
-      selectedSector,
-      message,
-      file,
-      price: totalAmount,
-    });
     if (!orderType || !selectedSector || !totalAmount) {
       return toast.error("Please fill all the fields");
     }
@@ -37,8 +30,6 @@ const PlaceOrder = () => {
       orderType,
       totalAmount,
     });
-
-    console.log(res);
     if (res.status === 201) {
       toast.success("Order placed successfully");
       setSelectedRequirement("");
@@ -48,14 +39,12 @@ const PlaceOrder = () => {
       setPrice("");
     } else {
       toast.error("Order placement failed");
-      console.log(res);
     }
   };
 
   async function handelLogout() {
     const res = await axios.get("/vendor/logout");
     setAuth(null);
-    console.log(res);
     window.location.href = "/";
   }
 

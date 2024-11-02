@@ -7,7 +7,6 @@ import bcrypt from "bcryptjs";
 import orderStatuses from "../config/orderStatusConfig.js";
 
 export const LoginAdmin = async (req, res) => {
-  console.log("Trying to login admin");
   try {
     const { username, password } = req.body;
     if (!username || !password) {

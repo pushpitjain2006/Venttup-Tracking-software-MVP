@@ -10,7 +10,6 @@ const VendorDashboard = () => {
   async function handleCurrentOrder() {
     const res = await axios.post("/vendor/get-vendor-orders");
     const ongoingOrders = res.data[0];
-    console.log(res);
     if (res.data.length === 0) {
       alert("No ongoing orders");
     } else {
@@ -21,7 +20,6 @@ const VendorDashboard = () => {
   async function handleLogout() {
     setAuth(null);
     const res = await axios.get("/vendor/logout");
-    console.log(res);
     window.location.href = "/";
   }
 

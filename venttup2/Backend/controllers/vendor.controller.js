@@ -131,7 +131,6 @@ export const DeclineOrders = async (req, res) => {
 
 export const UpdateProgress = async (req, res) => {
   try {
-    console.log(req.body);
     const { orderId, vendorId } = req.body;
     if (!orderId) {
       return res.status(400).json({ message: "Please fill all the fields" });
@@ -170,7 +169,6 @@ export const UpdateProgress = async (req, res) => {
       .status(200)
       .json({ message: "Progress Updated waiting for admin approval" });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error });
   }
 };
@@ -178,12 +176,10 @@ export const UpdateProgress = async (req, res) => {
 export const GetVendorOrders = async (req, res) => {
   try {
     const { vendorId, filter } = req.body;
-    console.log(vendorId);
     if (!vendorId) {
       return res.status(400).json({ message: "Please fill all the fields" });
     }
     const orders = await Order.find({ vendorId: vendorId, ...filter });
-    console.log(orders);
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });

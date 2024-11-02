@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import useAxios from "../src/utils/useAxios";
 
 const useFetchUsers = (userType) => {
-  console.log("Inside useFetchUsers");
   const axios = useAxios();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);

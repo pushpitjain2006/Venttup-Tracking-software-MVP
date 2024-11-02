@@ -18,7 +18,6 @@ import CurrentOrder from "./pages/vendor-pages/currentOrder.jsx";
 
 function Redirect({ page }) {
   const { auth, setAuth } = useAuth();
-  // console.log(auth);
   if (auth.token) {
     const userType = auth.userType;
     switch (userType) {
@@ -29,11 +28,8 @@ function Redirect({ page }) {
       case "vendor":
         return <VendorDashboard />;
       default:
-        console.log(auth);
         setAuth(null);
         localStorage.removeItem("auth");
-        console.log(auth);
-        console.log("Invalid user type");
         if (page === "signup") {
           return <Signup />;
         }

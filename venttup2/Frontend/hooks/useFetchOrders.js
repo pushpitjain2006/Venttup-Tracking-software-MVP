@@ -4,7 +4,6 @@ import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
 
 const useFetchOrders = () => {
-  console.log("Inside useFetchOrders");
   const { auth } = useAuth();
   const axios = useAxios();
   const [orders, setOrders] = useState([]);
@@ -23,8 +22,6 @@ const useFetchOrders = () => {
 
         const response = await axios.get(endpoint);
         setOrders(response.data);
-        // console.log(response.data);
-        // toast.success("Orders fetched");
       } catch (err) {
         toast.error("Something went wrong");
         setError(err.message);

@@ -9,7 +9,6 @@ const CustomerLogin = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("Inside handleSubmit");
     if (!GSTIN || !password) {
       toast("Please fill all the fields");
       return;

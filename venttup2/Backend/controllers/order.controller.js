@@ -3,7 +3,6 @@ import Order from "../database/models/order.model.js";
 export const deleteOrder = async (req, res) => {
   try {
     const { orderId } = req.body;
-    console.log(req.body);
 
     if (!orderId) {
       return res.status(400).json({ message: "Order ID is required" });
@@ -45,8 +44,6 @@ export const ViewAllOrders = async (req, res) => {
 
 export const OrderDetails = async (req, res) => {
   try {
-    console.log(req.body);
-    console.log(req.params.orderID);
     const { LoggedInUserType } = req.body;
     const id = req.body.orderId || req.params.orderID;
 

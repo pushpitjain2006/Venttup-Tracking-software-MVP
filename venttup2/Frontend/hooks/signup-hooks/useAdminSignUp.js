@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
 
 export const useAdminSignup = () => {
-  console.log("Inside useAdminSignup");
   const { auth } = useAuth();
   const axios = useAxios();
   const navigate = useNavigate();
@@ -28,7 +27,7 @@ export const useAdminSignup = () => {
       toast.success("Signup successful");
       navigate("/login");
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setError(err.response?.data?.message || "Signup failed");
       toast.error("Signup failed");
     } finally {

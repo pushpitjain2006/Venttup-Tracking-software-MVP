@@ -21,7 +21,6 @@ export const useAdminSignup = () => {
       toast.success("Signup successful");
       navigate("/login");
     } catch (err) {
-      console.log(err);
       setError(err.response?.data?.message || "Signup failed");
       toast.error("Signup failed");
     } finally {

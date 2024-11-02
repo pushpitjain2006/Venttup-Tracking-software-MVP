@@ -9,7 +9,6 @@ const AdminSignup = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = (e) => {
-    console.log("handleSubmit");
     e.preventDefault();
     if (!username || !password || !confirmPassword) {
       toast("Please fill all the fields");

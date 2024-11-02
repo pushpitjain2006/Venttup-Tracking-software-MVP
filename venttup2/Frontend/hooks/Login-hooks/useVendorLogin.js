@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export const useVendorLogin = () => {
-  console.log("Inside useVendorLogin");
   const axios = useAxios();
   const navigate = useNavigate();
   const { setAuth } = useAuth();
@@ -14,7 +13,6 @@ export const useVendorLogin = () => {
 
   const vendorLogin = async (GSTIN, password) => {
     setLoading(true);
-    console.log("Inside vendorLogin");
     try {
       const res = await axios.post(`/vendor/login`, {
         GSTIN,

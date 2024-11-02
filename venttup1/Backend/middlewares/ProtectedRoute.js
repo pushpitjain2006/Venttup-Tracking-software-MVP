@@ -4,7 +4,6 @@ import Vendor from "../database/models/vendor.model.js";
 import jwt from "jsonwebtoken";
 
 const protectedRoute = async (req, res, next) => {
-  console.log("Inside Protected Route");
   const auth = req.headers.authorization;
   if (!auth) {
     return res.status(401).json({ message: "No token, authorization denied" });

@@ -13,12 +13,10 @@ const OrderRequestPage = () => {
   const axios = useAxios();
 
   useEffect(() => {
-    console.log("Fetching orders...");
     const fetchData = async () => {
       const res = await axios.post("/vendor/get-vendor-orders", {
         filter: { currentStatus: "Vendor Assigned" },
       });
-      console.log(res.data);
       setOrders(res.data);
     };
     fetchData();
@@ -36,7 +34,6 @@ const OrderRequestPage = () => {
 
   const handleDecline = async (id) => {
     const res = await axios.post("/vendor/decline-order", { orderId: id });
-    console.log(res);
     if (res.status === 200) {
       toast.success("Order declined successfully");
     } else {

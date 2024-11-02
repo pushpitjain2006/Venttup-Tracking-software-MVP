@@ -7,19 +7,21 @@ const EditUsers = () => {
   const axios = useAxios();
   const [userType, setUserType] = useState("vendor");
   const { users, setUsers, loading, error } = useFetchUsers(userType);
-  console.log(users);
   const handleDelete = async (userType, userId) => {
     try {
-      console.log(userType, userId);
       const res = await axios.delete(`/admin/delete-user`, {
         data: {
           type: userType,
           id: userId,
         },
       });
-      // Update users state after deletion
-      setUsers(users.filter((user) => user._id !== userId));
-      toast("User deleted successfully!");
+      if (res.status === 200) {
+        setUsers(users.filter((user) => user._id !== userId));
+        toast("User deleted successfully!");
+      } else {
+        toast("Failed to delete user.");
+        console.error("Failed to delete user:", res.data.message);
+      }
     } catch (err) {
       console.error("Failed to delete user:", err);
       toast("Failed to delete user.");

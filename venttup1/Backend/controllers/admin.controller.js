@@ -7,7 +7,6 @@ import generateTokenAndSetCookie from "../utils/GenerateJWT.js";
 import bcrypt from "bcryptjs";
 
 export const LoginAdmin = async (req, res) => {
-  console.log("Trying to login admin");
   try {
     const { username, password } = req.body;
     if (!username || !password) {
@@ -134,16 +133,12 @@ export const AssignVendors = async (req, res) => {
       contract_manufacturing: 1,
       supply_chain: 1,
     };
-
-    // Check if all gates are already assigned for the order type
     if (STATUS.length >= gateLimit[orderType]) {
       return res
         .status(400)
         .json({ message: "All gates are already assigned" });
     }
     totalGates = gateLimit[orderType];
-
-    // Vendor selection: if vendorId is provided, use it; otherwise, find a free vendor
     let vendor = await Vendor.findById(vendorId);
     if (!vendor) {
       const freeVendors = await Vendor.findOneAndUpdate(
@@ -158,11 +153,9 @@ export const AssignVendors = async (req, res) => {
       vendor.available = false;
       await vendor.save();
     }
-
-    // Create and save the new OrderStatus
     const orderStatus = new OrderStatus({
       orderId,
-      gateNumber: STATUS.length + 1, // Ensure this logic works as intended
+      gateNumber: STATUS.length + 1,
       vendorId: vendor._id,
       totalGates,
     });
@@ -193,7 +186,7 @@ export const ViewUsers = async (req, res) => {
   }
 };
 
-export const deleteUsers= async(req, res)=>{
+export const deleteUsers = async (req, res) => {
   try {
     const { type, id } = req.body;
     if (!type || !id) {
@@ -202,9 +195,9 @@ export const deleteUsers= async(req, res)=>{
 
     let userModel;
     if (type === "vendor") {
-      userModel = Vendor; 
+      userModel = Vendor;
     } else if (type === "customer") {
-      userModel = Customer; 
+      userModel = Customer;
     } else {
       return res.status(400).json({ message: "Invalid user type" });
     }
@@ -219,4 +212,4 @@ export const deleteUsers= async(req, res)=>{
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};

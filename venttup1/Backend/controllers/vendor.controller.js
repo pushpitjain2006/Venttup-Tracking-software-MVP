@@ -121,7 +121,6 @@ export const DeclineOrders = async (req, res) => {
 
 export const UpdateProgress = async (req, res) => {
   try {
-    console.log(req.body);
     const { orderId, vendorId } = req.body;
     if (!orderId) {
       return res.status(400).json({ message: "Please fill all the fields" });
@@ -154,7 +153,6 @@ export const UpdateProgress = async (req, res) => {
       const vendor = await Vendor.findById(vendorId);
       vendor.available = true;
       const order_ = await Order.findById(orderId);
-      console.log(order_);
       order.length >= VendorOrder.totalGates
         ? (order_.currentStatus = "completed")
         : (order_.currentStatus = "pending");
