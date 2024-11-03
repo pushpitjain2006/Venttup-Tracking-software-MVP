@@ -3,14 +3,14 @@ import mongoose from "mongoose";
 const orderSchema = new mongoose.Schema(
   {
     customerId: {
-      type: mongoose.Schema.Types.ObjectId, 
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Customer",
       required: true,
     },
     orderType: {
       type: String,
       required: true,
-      enum: ['localization', 'contract_manufacturing', 'supply_chain'],
+      enum: ["localization", "contract_manufacturing", "supply_chain"],
     },
     totalAmount: {
       type: Number,
@@ -18,8 +18,12 @@ const orderSchema = new mongoose.Schema(
     },
     currentStatus: {
       type: String,
-      enum: ["pending", "in-progress","Paid","completed", "cancelled"],
+      enum: ["pending", "in-progress", "Paid", "completed", "cancelled"],
       default: "pending",
+    },
+    GatesEntries: {
+      type: Array,
+      default: [],
     },
   },
   {

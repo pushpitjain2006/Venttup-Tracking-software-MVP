@@ -32,15 +32,23 @@ const OrderDetailsVC = () => {
 
   const handleUpdate = async () => {
     if (userType !== "vendor") {
-      return; 
+      return;
     }
     try {
+      console.log("Updating progress for order:", orderId);
       const res = await Axios.post("/vendor/update-progress", {
         orderId,
       });
+      console.log(res);
+
       if (res.status === 200) {
+        if (res.data.message === "Waiting for admin approval") {
+          return toast.info("Waiting for admin approval");
+        }
         toast.success("Progress updated successfully");
         window.location.reload();
+      } else {
+        toast.error("Failed to update progress");
       }
     } catch (error) {
       console.error("Error updating progress:", error);
@@ -95,7 +103,7 @@ const OrderDetailsVC = () => {
       </div>
       {/* Status Tracker */}
       <div className="mt-8 w-full max-w-3xl">
-        {order && <ProgressBar order={order} setCurrentStep={setCurrentStep}/>}
+        {order && <ProgressBar order={order} setCurrentStep={setCurrentStep} />}
       </div>
 
       {/* Current Step Details */}

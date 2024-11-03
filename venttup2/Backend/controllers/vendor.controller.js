@@ -146,7 +146,7 @@ export const UpdateProgress = async (req, res) => {
         .json({ message: "You are not authorized to update this order" });
     }
     if (!order.adminApproval) {
-      return res.status(400).json({ message: "Waiting for admin approval" });
+      return res.status(200).json({ message: "Waiting for admin approval" });
     }
     if (order.currentStatus === "GRN") {
       return res

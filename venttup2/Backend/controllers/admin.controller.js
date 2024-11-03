@@ -93,17 +93,27 @@ export const AssignVendors = async (req, res) => {
     if (!orderId || !vendorGSTIN) {
       return res.status(400).json({ message: "Please fill all the fields" });
     }
-    
+
     const order = await Order.findById(orderId);
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
-    
+    if (order.currentStatus !== "Vendor Selection") {
+      return res
+        .status(400)
+        .json({ message: "Order is not in vendor selection stage" });
+    }
+
     const vendor = await Vendor.findOne({ GSTIN: vendorGSTIN });
     if (!vendor) {
       return res.status(404).json({ message: "Vendor not found" });
     }
-    
+    if (!vendor.available) {
+      return res
+        .status(400)
+        .json({ message: "Vendor is currently not available" });
+    }
+
     order.vendorId = vendor._id;
     order.currentStatus = "Vendor Assigned";
     order.currentStep = order.currentStep + 1;
@@ -208,4 +218,3 @@ export const ApproveUpdate = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-

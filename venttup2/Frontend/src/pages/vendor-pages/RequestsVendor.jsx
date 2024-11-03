@@ -4,7 +4,8 @@ import { FiUser } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../../utils/useAxios.js";
 import { toast } from "react-toastify";
-import { GiRecycle, GiFactory } from "react-icons/gi";
+import { GiFactory } from "react-icons/gi";
+import { FaArrowLeft } from "react-icons/fa";
 
 const OrderRequestPage = () => {
   const navigate = useNavigate();
@@ -53,10 +54,10 @@ const OrderRequestPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-200 via-gray-100 to-green-100 p-8">
       <button
-        className="h-12 w-24 bg-red-400 rounded-lg"
-        onClick={() => navigate("/")}
+        onClick={() => (window.location.href = "/")}
+        className="flex items-center text-green-700 font-semibold hover:text-green-900 transition duration-300"
       >
-        &#8592; Go Back
+        <FaArrowLeft className="mr-2" /> Back
       </button>
       <div className="flex items-center space-x-2 mb-6">
         <GiFactory className="text-green-600 w-8 h-8" />
@@ -93,9 +94,10 @@ const OrderRequestPage = () => {
                   </button>
                   <button
                     onClick={() => handleViewDetails(order._id)}
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200"
+                    className="flex items-center space-x-1 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200"
                   >
-                    View Details
+                    <AiOutlineCheck />
+                    <span>View Details</span>
                   </button>
                 </div>
               </div>

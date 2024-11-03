@@ -29,6 +29,10 @@ const vendorSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    currentOrderCapacity: {
+      type: Number,
+      default: 1,
+    },
   },
   {
     timestamps: true,

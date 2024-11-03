@@ -138,7 +138,23 @@ export const updateOrder = async (req, res) => {
     if (!order) {
       return res.status(400).json({ message: "Order not found" });
     }
-
+    if (order.vendorId != updates.vendorId) {
+      const oldVendor = await Vendor.findById(order.vendorId);
+      const newVendor = await Vendor.findById(updates.vendorId);
+      if (!newVendor.available) {
+        return res.status(400).json({ message: "Vendor is not available" });
+      }
+      oldVendor.currentOrderCapacity += 1;
+      if (!oldVendor.available && oldVendor.currentOrderCapacity === 1) {
+        oldVendor.available = true;
+      }
+      newVendor.currentOrderCapacity -= 1;
+      if (newVendor.currentOrderCapacity === 0) {
+        newVendor.available = false;
+      }
+      await oldVendor.save();
+      await newVendor.save();
+    }
     Object.assign(order, updates);
     await order.save();
     res.status(200).json({ message: "Order updated successfully" });

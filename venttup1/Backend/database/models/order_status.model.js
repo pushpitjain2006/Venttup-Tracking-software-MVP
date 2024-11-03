@@ -41,3 +41,7 @@ const orderStatusSchema = new mongoose.Schema(
 );
 
 export default mongoose.model("OrderStatus", orderStatusSchema);
+
+// order_status.findOne({ orderId: orderId, gateNumber: gateNumber }
+// vs
+// order_status.findbyID(array[0])
