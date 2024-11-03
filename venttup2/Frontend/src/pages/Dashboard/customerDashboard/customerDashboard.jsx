@@ -1,17 +1,18 @@
 import React from "react";
 import { useAuth } from "../../../../context/AuthContext.jsx";
 import useAxios from "../../../utils/useAxios.js";
-import { Link } from "react-router-dom";
 import { GiRecycle, GiFactory } from "react-icons/gi";
+import { useNavigate } from "react-router-dom";
 
 const CustomerDashboard = () => {
+  const navigate = useNavigate();
   const axios = useAxios();
   const { setAuth } = useAuth();
-  
+
   async function handleLogout() {
     setAuth(null);
     const res = await axios.get("/vendor/logout");
-    window.location.href = "/";
+    navigate("/");
   }
 
   return (
@@ -40,21 +41,22 @@ const CustomerDashboard = () => {
       <div className="flex flex-col sm:flex-row gap-6">
         <div
           onClick={() => {
-            window.location.href = "/PlaceOrder";
+            navigate("/PlaceOrder");
           }}
           className="flex-1 bg-white shadow-lg rounded-lg p-16 text-center transform transition duration-200 hover:scale-105 hover:shadow-2xl cursor-pointer"
         >
           <GiRecycle className="text-green-600 w-12 h-12 mb-4 mx-auto" />
           <h2 className="text-xl font-semibold text-green-800">Get a Quote</h2>
           <p className="text-gray-600 mt-2">
-            Request a sustainable quote tailored to eco-friendly materials and processes.
+            Request a sustainable quote tailored to eco-friendly materials and
+            processes.
           </p>
         </div>
 
         <div
           className="flex-1 bg-white shadow-lg rounded-lg p-16 text-center transform transition duration-200 hover:scale-105 hover:shadow-2xl cursor-pointer"
           onClick={() => {
-            window.location.href = "/ViewOrders";
+            navigate("/ViewOrders");
           }}
         >
           <GiFactory className="text-green-600 w-12 h-12 mb-4 mx-auto" />

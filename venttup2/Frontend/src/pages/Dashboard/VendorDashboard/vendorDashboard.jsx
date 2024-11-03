@@ -2,25 +2,21 @@ import React from "react";
 import { useAuth } from "../../../../context/AuthContext.jsx";
 import useAxios from "../../../utils/useAxios.js";
 import { FaIndustry, FaLeaf } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const VendorDashboard = () => {
+  const navigate = useNavigate();
   const { setAuth } = useAuth();
   const axios = useAxios();
 
-  async function handleCurrentOrder() {
-    const res = await axios.post("/vendor/get-vendor-orders");
-    const ongoingOrders = res.data[0];
-    if (res.data.length === 0) {
-      alert("No ongoing orders");
-    } else {
-      window.location.href = "/order-details/" + ongoingOrders._id;
-    }
+  async function handleCurrentOrders() {
+    navigate("/ViewVendorOrders");
   }
 
   async function handleLogout() {
     setAuth(null);
     const res = await axios.get("/vendor/logout");
-    window.location.href = "/";
+    navigate("/");
   }
 
   return (
@@ -45,7 +41,7 @@ const VendorDashboard = () => {
         <div
           className="flex-1 bg-white shadow-md rounded-xl p-[5rem] text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg cursor-pointer border-l-8 border-green-600 transform hover:rotate-1"
           onClick={() => {
-            window.location.href = "/ViewRequests";
+            navigate("/ViewRequests");
           }}
         >
           <h2 className="text-2xl font-bold text-green-700 flex items-center justify-center gap-3">
@@ -60,14 +56,14 @@ const VendorDashboard = () => {
         <div
           className="flex-1 bg-white shadow-md rounded-xl p-[5rem] text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg cursor-pointer border-l-8 border-green-600 transform hover:-rotate-1"
           onClick={() => {
-            handleCurrentOrder();
+            handleCurrentOrders();
           }}
         >
           <h2 className="text-2xl font-bold text-green-700 flex items-center justify-center gap-3">
-            <FaLeaf className="text-green-600 text-3xl" /> Update Current Order
+            <FaLeaf className="text-green-600 text-3xl" /> Current Orders
           </h2>
           <p className="mt-3 text-gray-500 text-sm">
-            Track and modify ongoing orders to stay on top.
+            View, Track and modify ongoing orders to stay on top.
           </p>
         </div>
       </div>

@@ -68,7 +68,8 @@ const OrderDetails = () => {
 
   const handleUpdateOrder = async () => {
     try {
-      await axios.put(`/admin/modify-order`, { orderId, updates });
+      const res = await axios.put(`/admin/modify-order`, { orderId, updates });
+      console.log(res);
       setIsEditing(false);
       setDetails((prev) => ({ ...prev, ...updates }));
       toast.success("Order updated successfully");

@@ -7,6 +7,7 @@ import {
   PlaceOrders,
   // PaymentOrder,
   VendorDetails,
+  ApproveGRN,
 } from "../controllers/customer.controller.js";
 import { OrderDetails, ViewAllOrders } from "../controllers/order.controller.js";
 import protectedRoute from "../middlewares/ProtectedRoute.js";
@@ -26,5 +27,6 @@ router.post("/place-orders",protectedRoute, isCustomer, PlaceOrders);
 router.get("/view-orders",protectedRoute, isCustomer, ViewAllOrders); //working
 router.post("/view-order-details", protectedRoute, isCustomer, OrderDetails); //working
 router.get("/vendor-details",protectedRoute, isCustomer, VendorDetails); //working
+router.post("/approve-grn",protectedRoute, isCustomer, ApproveGRN); 
 
 export default router;

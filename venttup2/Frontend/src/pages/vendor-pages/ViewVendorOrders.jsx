@@ -1,22 +1,37 @@
 import React, { useState } from "react";
 import { FaLeaf, FaArrowLeft, FaSync } from "react-icons/fa";
-import useFetchOrders from "../../../hooks/useFetchOrders.js";
+import useFetchVendorOrders from "../../../hooks/useFetchVendorOrders.js";
 import { useNavigate } from "react-router-dom";
 
-const ViewOrders = () => {
-  const { orders, error, loading } = useFetchOrders();
-  const [count, setCount] = useState(0);
+const ViewVendorOrders = () => {
   const navigate = useNavigate();
+  const {
+    vendorOrders,
+    error,
+    loading,
+    reload: fetchVendorOrders,
+  } = useFetchVendorOrders();
+  const [count, setCount] = useState(0);
+  const getStatusColorClass = (status) => {
+    switch (status) {
+      case "Completed":
+        return "border-green-500 bg-green-100";
+      case "Vendor Assigned":
+        return "border-yellow-500 bg-yellow-100";
+      default:
+        return "border-gray-300";
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-300 via-gray-100 to-green-100 p-8 flex justify-center items-center">
       <div className="max-w-4xl w-full p-6 bg-white bg-opacity-90 rounded-lg shadow-lg">
         <div className="flex items-center justify-between mb-6">
           <button
-            onClick={() => window.history.back()}
+            onClick={() => navigate("/")}
             className="text-green-700 font-semibold flex items-center hover:text-green-800"
           >
-            <FaArrowLeft className="mr-2" /> Back
+            <FaArrowLeft className="mr-2" /> Home
           </button>
           <h1 className="text-2xl font-semibold text-green-700 flex items-center">
             <FaLeaf className="text-3xl mr-2" /> View Orders
@@ -38,12 +53,14 @@ const ViewOrders = () => {
             <p className="text-center text-red-600 font-medium">
               Error fetching orders.
             </p>
-          ) : orders && orders.length > 0 ? (
-            orders.map((order, index) => (
+          ) : vendorOrders && vendorOrders.length > 0 ? (
+            vendorOrders.map((order, index) => (
               <div
                 key={order.id || index}
                 onClick={() => navigate(`/order-details/${order._id}`)}
-                className="p-4 border-2 border-gray-300 rounded-lg shadow hover:shadow-lg hover:border-green-600 transition duration-300 cursor-pointer"
+                className={`p-4 rounded-lg shadow hover:shadow-lg transition duration-300 cursor-pointer ${getStatusColorClass(
+                  order.currentStatus
+                )}`}
               >
                 <h3 className="text-lg font-semibold text-green-700 mb-2">
                   Order #{index + 1}
@@ -84,4 +101,4 @@ const ViewOrders = () => {
   );
 };
 
-export default ViewOrders;
+export default ViewVendorOrders;

@@ -49,7 +49,7 @@ const PlaceOrder = () => {
   async function handleLogout() {
     const res = await axios.get("/vendor/logout");
     setAuth(null);
-    window.location.href = "/";
+    navigate("/");
   }
 
   return (
@@ -58,11 +58,11 @@ const PlaceOrder = () => {
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={() => {
-              window.location.href = "/";
+              window.history.back();
             }}
             className="text-green-700 font-semibold flex items-center hover:text-green-800"
           >
-            <FaArrowLeft className="mr-2" /> Home
+            <FaArrowLeft className="mr-2" /> Back
           </button>
           <h1 className="text-2xl font-semibold text-green-700 flex items-center">
             <FaLeaf className="text-3xl mr-2" /> Get Quote
@@ -87,7 +87,9 @@ const PlaceOrder = () => {
             >
               <option value="">Select Requirement</option>
               <option value="localization">Localization / NPD</option>
-              <option value="contract_manufacturing">Contract Manufacturing</option>
+              <option value="contract_manufacturing">
+                Contract Manufacturing
+              </option>
               <option value="supply_chain">Supply Chain Distribution</option>
             </select>
           </div>
@@ -139,7 +141,8 @@ const PlaceOrder = () => {
 
           <div>
             <label className="flex items-center text-green-700 font-medium mb-2">
-              <FaFileUpload className="mr-2" /> File Uploads (Design or other documents)
+              <FaFileUpload className="mr-2" /> File Uploads (Design or other
+              documents)
             </label>
             <input
               type="file"

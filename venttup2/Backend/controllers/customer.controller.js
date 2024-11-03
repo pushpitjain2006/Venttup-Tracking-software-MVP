@@ -110,3 +110,26 @@ export const PlaceOrders = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const ApproveGRN = async (req, res) => {
+  try {
+    const { orderId } = req.body;
+    if (!orderId) {
+      return res.status(400).json({ message: "Please provide orderId" });
+    }
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(400).json({ message: "Order not found" });
+    }
+    if(order.currentStatus !== "GRN"){
+      return res.status(400).json({ message: "GRN not yet submitted" });
+    }
+    order.currentStatus = "GRN Approved";
+    order.currentStep += 1;
+    order.adminApproval = false;
+    await order.save();
+    res.status(200).json({ message: "GRN Approved" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

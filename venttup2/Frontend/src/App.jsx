@@ -14,7 +14,7 @@ import OrderDetails from "./pages/Admin-pages/OrderDetails.jsx";
 import AllOrderDetails from "./pages/Admin-pages/ViewOrders.jsx";
 import OrderDetailsVC from "./pages/Customer-pages/OrderDetailsVC.jsx";
 import RequestsVendor from "./pages/vendor-pages/RequestsVendor.jsx";
-import CurrentOrder from "./pages/vendor-pages/currentOrder.jsx";
+import ViewVendorOrders from "./pages/vendor-pages/ViewVendorOrders.jsx";
 
 function Redirect({ page }) {
   const { auth, setAuth } = useAuth();
@@ -89,8 +89,8 @@ const router = createBrowserRouter([
     element: <RequestsVendor />,
   },
   {
-    path: "/UpdateOrder",
-    element: <CurrentOrder />,
+    path: "/ViewVendorOrders",
+    element: <ViewVendorOrders />,
   },
   {
     path: "/Admin-signup",

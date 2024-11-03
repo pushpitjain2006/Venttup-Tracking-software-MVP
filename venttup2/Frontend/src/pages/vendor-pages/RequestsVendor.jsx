@@ -54,7 +54,7 @@ const OrderRequestPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-200 via-gray-100 to-green-100 p-8">
       <button
-        onClick={() => (window.location.href = "/")}
+        onClick={() => navigate("/")}
         className="flex items-center text-green-700 font-semibold hover:text-green-900 transition duration-300"
       >
         <FaArrowLeft className="mr-2" /> Back
