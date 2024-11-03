@@ -76,7 +76,7 @@ export const SignupCustomer = async (req, res) => {
 
 export const VendorDetails = async (req, res) => {
   try {
-    const { VendorId } = req.body;
+    const { VendorId } = req.params;
     if (!VendorId) {
       return res.status(400).json({ message: "Please provide VendorId" });
     }

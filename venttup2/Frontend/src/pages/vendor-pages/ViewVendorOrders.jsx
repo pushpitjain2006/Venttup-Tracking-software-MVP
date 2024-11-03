@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaLeaf, FaArrowLeft, FaSync } from "react-icons/fa";
 import useFetchVendorOrders from "../../../hooks/useFetchVendorOrders.js";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ViewVendorOrders = () => {
   const navigate = useNavigate();
@@ -56,7 +57,13 @@ const ViewVendorOrders = () => {
             vendorOrders.map((order, index) => (
               <div
                 key={order.id || index}
-                onClick={() => navigate(`/order-details/${order._id}`)}
+                onClick={() => {
+                  if (order.currentStatus == "Vendor Assigned") {
+                    toast.info("Vendor has not yet accepted the order.");
+                  }else{
+                    navigate(`/order-details/${order._id}`);
+                  }
+                }}
                 className={`p-4 rounded-lg shadow hover:shadow-lg transition duration-300 cursor-pointer ${getStatusColorClass(
                   order.currentStatus
                 )}`}
