@@ -10,6 +10,7 @@ import {
 import { toast } from "react-toastify";
 import useAxios from "../../utils/useAxios.js";
 import { useAuth } from "../../../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 const PlaceOrder = () => {
   const [orderType, setOrderType] = useState("");
@@ -19,6 +20,7 @@ const PlaceOrder = () => {
   const [totalAmount, setTotalAmount] = useState("");
   const axios = useAxios();
   const { setAuth } = useAuth();
+  const navigate = useNavigate();
 
   const handleFileUpload = (e) => setFile(e.target.files[0]);
 

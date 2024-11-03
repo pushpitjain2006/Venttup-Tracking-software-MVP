@@ -9,7 +9,7 @@ const ViewOrders = () => {
   const navigate = useNavigate();
   const getStatusColorClass = (status) => {
     switch (status) {
-      case "Order Completed":
+      case "Order completed":
         return "border-green-500 bg-green-100";
       case "Vendor Assigned":
         return "border-yellow-500 bg-yellow-100";
@@ -52,7 +52,11 @@ const ViewOrders = () => {
             orders.map((order, index) => (
               <div
                 key={order.id || index}
-                onClick={() => navigate(`/order-details/${order._id}`)}
+                onClick={() => {
+                  if (order.currentStatus != "Vendor Assigned") {
+                    navigate(`/order-details/${order._id}`);
+                  }
+                }}
                 className={`p-4 border-2 border-gray-300 rounded-lg shadow hover:shadow-lg hover:border-green-600 transition duration-300 cursor-pointer ${getStatusColorClass(
                   order.currentStatus
                 )}`}

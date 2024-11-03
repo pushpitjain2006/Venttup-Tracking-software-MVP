@@ -14,7 +14,7 @@ const ViewVendorOrders = () => {
   } = useFetchVendorOrders();
   const getStatusColorClass = (status) => {
     switch (status) {
-      case "Order Completed":
+      case "Order completed":
         return "border-green-500 bg-green-100";
       case "Vendor Assigned":
         return "border-yellow-500 bg-yellow-100";

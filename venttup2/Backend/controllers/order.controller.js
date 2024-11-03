@@ -138,7 +138,10 @@ export const updateOrder = async (req, res) => {
     if (!order) {
       return res.status(400).json({ message: "Order not found" });
     }
-    if (order.vendorId != updates.vendorId) {
+    if (!updates) {
+      return res.status(200).json({ message: "No updates provided" });
+    }
+    if (updates.vendorId && order.vendorId != updates.vendorId) {
       const oldVendor = await Vendor.findById(order.vendorId);
       const newVendor = await Vendor.findById(updates.vendorId);
       if (!newVendor.available) {
