@@ -14,7 +14,7 @@ const ViewVendorOrders = () => {
   const [count, setCount] = useState(0);
   const getStatusColorClass = (status) => {
     switch (status) {
-      case "Completed":
+      case "Order Completed":
         return "border-green-500 bg-green-100";
       case "Vendor Assigned":
         return "border-yellow-500 bg-yellow-100";

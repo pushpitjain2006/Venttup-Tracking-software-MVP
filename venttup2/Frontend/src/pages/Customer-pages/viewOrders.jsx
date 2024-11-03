@@ -7,6 +7,16 @@ const ViewOrders = () => {
   const { orders, error, loading } = useFetchOrders();
   const [count, setCount] = useState(0);
   const navigate = useNavigate();
+  const getStatusColorClass = (status) => {
+    switch (status) {
+      case "Order Completed":
+        return "border-green-500 bg-green-100";
+      case "Vendor Assigned":
+        return "border-yellow-500 bg-yellow-100";
+      default:
+        return "border-gray-300";
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-300 via-gray-100 to-green-100 p-8 flex justify-center items-center">
@@ -43,7 +53,9 @@ const ViewOrders = () => {
               <div
                 key={order.id || index}
                 onClick={() => navigate(`/order-details/${order._id}`)}
-                className="p-4 border-2 border-gray-300 rounded-lg shadow hover:shadow-lg hover:border-green-600 transition duration-300 cursor-pointer"
+                className={`p-4 border-2 border-gray-300 rounded-lg shadow hover:shadow-lg hover:border-green-600 transition duration-300 cursor-pointer ${getStatusColorClass(
+                  order.currentStatus
+                )}`}
               >
                 <h3 className="text-lg font-semibold text-green-700 mb-2">
                   Order #{index + 1}
