@@ -15,16 +15,20 @@ const OrderDetails = () => {
   const [updates, setUpdates] = useState({});
   const [showOrderDetails, setShowOrderDetails] = useState(true);
   const [showOrderProgress, setShowOrderProgress] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchDetails = async () => {
+      setLoading(true);
+
       try {
         const response = await axios.get(`/admin/order/${orderId}`);
         setDetails(response.data);
         setUpdates(details);
-        toast.success("Fetched successfully");
       } catch (err) {
         toast.error("Cannot fetch details");
+      } finally {
+        setLoading(false);
       }
     };
     fetchDetails();
@@ -289,6 +293,8 @@ const OrderDetails = () => {
             )}
           </div>
         </>
+      ) : loading ? (
+        <h1 className="text-green-600">Loading...</h1>
       ) : (
         <h1 className="text-red-600">Order not found.</h1>
       )}

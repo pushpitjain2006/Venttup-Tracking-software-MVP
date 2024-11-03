@@ -4,7 +4,6 @@ import useAxios from "../../utils/useAxios.js";
 import orderStatuses from "../../config/orderStatusConfig.js";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext.jsx";
-import { toast } from "react-toastify";
 import ProgressBar from "../../components/progressBar.jsx";
 
 const OrderDetailsVC = () => {
@@ -16,38 +15,37 @@ const OrderDetailsVC = () => {
   const [isSubmissionPending, setIsSubmissionPending] = useState(false);
   const Axios = useAxios();
 
+  const fetchData = async () => {
+    try {
+      const res = await Axios.post(`/${userType}/view-order-details`, {
+        orderId,
+      });
+      setOrder(res.data);
+      setIsSubmissionPending(
+        !res.data.adminApproval && res.data.currentStep > 0
+      );
+      setCurrentStep(res.data.currentStep);
+    } catch (error) {
+      console.error("Error fetching order data:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await Axios.post(`/${userType}/view-order-details`, {
-          orderId,
-        });
-        setOrder(res.data);
-        setIsSubmissionPending(!res.data.adminApproval && res.data.currentStep > 0);
-        setCurrentStep(res.data.currentStep);
-      } catch (error) {
-        console.error("Error fetching order data:", error);
-      }
-    };
     fetchData();
   }, [orderId]);
 
   const handleUpdate = async () => {
     if (userType !== "vendor") {
       return;
-      return;
     }
     try {
-      console.log("Updating progress for order:", orderId);
       const res = await Axios.post("/vendor/update-progress", {
         orderId,
         action: isSubmissionPending ? "withdraw" : "update",
       });
-      console.log(res);
-
       if (res.status === 200) {
-        toast.success(res.data.message);
         setIsSubmissionPending(!isSubmissionPending);
+        fetchData();
       }
     } catch (error) {
       console.error("Error updating progress:", error);
@@ -98,7 +96,9 @@ const OrderDetailsVC = () => {
                     : "bg-green-600 hover:bg-green-700"
                 }`}
               >
-                {isSubmissionPending ? "Withdraw Submission" : "Update Progress"}
+                {isSubmissionPending
+                  ? "Withdraw Submission"
+                  : "Update Progress"}
               </button>
             )}
           </div>
@@ -106,7 +106,13 @@ const OrderDetailsVC = () => {
       </div>
       {/* Status Tracker */}
       <div className="mt-8 w-full max-w-3xl">
-        {order && <ProgressBar order={order} setCurrentStep={setCurrentStep} />}
+        {order && (
+          <ProgressBar
+            order={order}
+            setCurrentStep={setCurrentStep}
+            isSubmissionPending={isSubmissionPending}
+          />
+        )}
       </div>
 
       {/* Current Step Details */}
@@ -125,15 +131,19 @@ const OrderDetailsVC = () => {
         {/* Vendor Details */}
         {order && order.vendorId && (
           <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-green-800">Vendor Details</h2>
+            <h2 className="text-2xl font-bold text-green-800">
+              Vendor Details
+            </h2>
             <p className="text-gray-600">
               <span className="font-semibold">Vendor ID:</span> {order.vendorId}
             </p>
             <p className="text-gray-600">
-              <span className="font-semibold">Vendor Name:</span> {order.vendorName}
+              <span className="font-semibold">Vendor Name:</span>{" "}
+              {order.vendorName}
             </p>
             <p className="text-gray-600">
-              <span className="font-semibold">Vendor Phone:</span> {order.vendorPhone}
+              <span className="font-semibold">Vendor Phone:</span>{" "}
+              {order.vendorPhone}
             </p>
           </div>
         )}

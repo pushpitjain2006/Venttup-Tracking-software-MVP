@@ -1,10 +1,7 @@
 import React from "react";
 import orderStatuses from "../config/orderStatusConfig.js";
 
-const ProgressBar = ({
-  order,
-  setCurrentStep
-}) => {
+const ProgressBar = ({ order, setCurrentStep, isSubmissionPending }) => {
   const stages = order ? orderStatuses[order.orderType] || [] : [];
   const isGateStage = (stage) => {
     const parts = stage.split(" ");
@@ -19,10 +16,18 @@ const ProgressBar = ({
             <div key={index} className="flex-1 flex items-center">
               <div
                 className={`flex items-center justify-center ${
-                  index <= order?.currentStep ? "bg-green-500" : "bg-gray-300"
+                  index < order?.currentStep
+                    ? "bg-green-500"
+                    : index === order?.currentStep
+                    ? isSubmissionPending
+                      ? "bg-yellow-300"
+                      : "bg-green-500"
+                    : "bg-gray-300"
                 } ${
                   order.orderType === "localization"
-                    ? isGateStage(stage)? "rounded-full w-12 h-12": "rounded w-9 h-9"
+                    ? isGateStage(stage)
+                      ? "rounded-full w-12 h-12"
+                      : "rounded w-9 h-9"
                     : "rounded w-12 h-12"
                 } text-white font-bold transition duration-300 ease-in-out cursor-pointer`}
                 onClick={() => setCurrentStep(index)}
