@@ -10,6 +10,7 @@ import {
   deleteUsers,
   orderUpload,
   ApproveUpdate,
+  fileUpload,
 } from "../controllers/admin.controller.js";
 // import { ViewOrders, TrackOrders } from "../controllers/order.controller.js";
 import {
@@ -38,5 +39,6 @@ router.get("/order/:orderID", protectedRoute, isAdmin, OrderDetails);
 router.delete("/delete-order", protectedRoute, isAdmin, deleteOrder);
 router.put("/modify-order", protectedRoute, isAdmin, updateOrder);
 router.post("/approve-update", protectedRoute, isAdmin, ApproveUpdate);
+router.post("/upload",protectedRoute,isAdmin,fileUpload);
 
 export default router;
