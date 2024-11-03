@@ -11,7 +11,6 @@ const ViewVendorOrders = () => {
     loading,
     reload: fetchVendorOrders,
   } = useFetchVendorOrders();
-  const [count, setCount] = useState(0);
   const getStatusColorClass = (status) => {
     switch (status) {
       case "Order Completed":
@@ -37,7 +36,7 @@ const ViewVendorOrders = () => {
             <FaLeaf className="text-3xl mr-2" /> View Orders
           </h1>
           <button
-            onClick={() => setCount(count + 1)}
+            onClick={() => fetchVendorOrders()}
             className="text-green-700 font-semibold flex items-center hover:text-green-800"
           >
             <FaSync className="mr-2" /> Reload

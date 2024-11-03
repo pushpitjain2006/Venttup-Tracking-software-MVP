@@ -10,7 +10,6 @@ const useFetchVendorOrders = () => {
   const fetchVendorOrders = async () => {
     try {
       const res = await axios.post("/vendor/get-vendor-orders");
-      console.log(res.data);
       setVendorOrders(res.data);
       setError(null);
     } catch (err) {
