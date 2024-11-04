@@ -19,17 +19,17 @@ const ViewOrders = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-300 via-gray-100 to-green-100 p-8 flex justify-center items-center">
-      <div className="max-w-4xl w-full p-6 bg-white bg-opacity-90 rounded-lg shadow-lg">
-        <div className="flex items-center justify-between mb-6">
+    <div className="min-h-screen bg-gradient-to-br from-green-300 via-gray-100 to-green-100 p-4 md:p-8 flex justify-center items-center">
+      <div className="max-w-4xl w-full p-4 md:p-6 bg-white bg-opacity-90 rounded-lg shadow-lg">
+        <div className="flex flex-col md:flex-row items-center justify-between mb-6">
           <button
             onClick={() => window.history.back()}
-            className="text-green-700 font-semibold flex items-center hover:text-green-800"
+            className="text-green-700 font-semibold flex items-center hover:text-green-800 mb-2 md:mb-0"
           >
             <FaArrowLeft className="mr-2" /> Back
           </button>
-          <h1 className="text-2xl font-semibold text-green-700 flex items-center">
-            <FaLeaf className="text-3xl mr-2" /> View Orders
+          <h1 className="text-xl md:text-2xl font-semibold text-green-700 flex items-center mb-2 md:mb-0">
+            <FaLeaf className="text-2xl md:text-3xl mr-2" /> View Orders
           </h1>
           <button
             onClick={() => setCount(count + 1)}

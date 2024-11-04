@@ -24,28 +24,34 @@ const PlaceOrder = () => {
 
   const handleFileUpload = (e) => setFile(e.target.files[0]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!orderType || !selectedSector || !totalAmount) {
       return toast.error("Please fill all the fields");
     }
-    const res = await axios.post("/customer/place-orders", {
-      orderType,
-      totalAmount,
-      sector: selectedSector,
-      comments: message,
-    });
-
-    if (res.status === 201) {
-      toast.success("Order placed successfully");
-      setOrderType("");
-      setSelectedSector("");
-      setMessage("");
-      setFile(null);
-      setTotalAmount("");
-    } else {
-      toast.error("Order placement failed");
-    }
+      axios
+        .post("/customer/place-orders", {
+          orderType,
+          totalAmount,
+          sector: selectedSector,
+          comments: message,
+        })
+        .then((res) => {
+          if (res.status === 201) {
+            toast.success("Order placed successfully");
+            setOrderType("");
+            setSelectedSector("");
+            setMessage("");
+            setFile(null);
+            setTotalAmount("");
+          } else {
+            toast.error("Order placement failed");
+          }
+        })
+        .catch((error) => {
+          toast.error("An error occurred while placing the order");
+          console.error(error);
+        });
   };
 
   async function handleLogout() {

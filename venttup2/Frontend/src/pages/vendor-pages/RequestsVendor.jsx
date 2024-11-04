@@ -43,32 +43,33 @@ const OrderRequestPage = () => {
     setCount(count + 1);
   };
 
-  const handleClickOnName = (id) => {
+  const handleClickOnName = () => {
     setCount(count + 1);
   };
+
   const handleViewDetails = (orderId) => {
     navigate(`/order-details/${orderId}`);
     setCount(count + 1);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-200 via-gray-100 to-green-100 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-green-200 via-gray-100 to-green-100 p-4 sm:p-8 max-w-screen-lg mx-auto">
       <button
         onClick={() => navigate("/")}
-        className="flex items-center text-green-700 font-semibold hover:text-green-900 transition duration-300"
+        className="flex items-center text-green-700 font-semibold hover:text-green-900 transition duration-300 mb-4"
       >
         <FaArrowLeft className="mr-2" /> Back
       </button>
       <div className="flex items-center space-x-2 mb-6">
-        <GiFactory className="text-green-600 w-8 h-8" />
-        <h1 className="text-3xl font-bold text-green-900">Order Requests</h1>
+        <GiFactory className="text-green-600 w-6 h-6 sm:w-8 sm:h-8" />
+        <h1 className="text-2xl sm:text-3xl font-bold text-green-900">Order Requests</h1>
       </div>
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         {orders.length ? (
           orders.map((order) => (
-            <div key={order.id} className="bg-white p-6 rounded-lg shadow-lg">
-              <div className="flex justify-between items-center mb-4">
-                <div className="flex items-center space-x-3">
+            <div key={order.id} className="bg-white p-4 sm:p-6 rounded-lg shadow-lg">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+                <div className="flex items-center space-x-2 sm:space-x-3 mb-2 sm:mb-0">
                   <FiUser className="text-green-600" />
                   <h2
                     onClick={() => handleClickOnName(order._id)}
@@ -80,59 +81,41 @@ const OrderRequestPage = () => {
                 <div className="flex space-x-2">
                   <button
                     onClick={() => handleAccept(order._id)}
-                    className="flex items-center space-x-1 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-200"
+                    className="flex items-center space-x-1 px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-200 text-sm"
                   >
                     <AiOutlineCheck />
                     <span>Accept</span>
                   </button>
                   <button
                     onClick={() => handleDecline(order._id)}
-                    className="flex items-center space-x-1 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition duration-200"
+                    className="flex items-center space-x-1 px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition duration-200 text-sm"
                   >
                     <AiOutlineClose />
                     <span>Decline</span>
                   </button>
                   <button
                     onClick={() => handleViewDetails(order._id)}
-                    className="flex items-center space-x-1 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200"
+                    className="flex items-center space-x-1 px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200 text-sm"
                   >
                     <AiOutlineCheck />
                     <span>View Details</span>
                   </button>
                 </div>
               </div>
-              <div className="text-gray-700">
-                <p>
-                  <strong>Order Type:</strong> {order.orderType}
-                </p>
-                <p>
-                  <strong>Sector:</strong> {order.sector}
-                </p>
-                <p>
-                  <strong>Total Amount:</strong> ₹{order.totalAmount}
-                </p>
-                <p>
-                  <strong>Current Step:</strong> {order.currentStep}
-                </p>
-                <p>
-                  <strong>Status:</strong> {order.currentStatus}
-                </p>
-                <p>
-                  <strong>Admin Approval:</strong>{" "}
-                  {order.adminApproval ? "Approved" : "Pending"}
-                </p>
-                <p>
-                  <strong>Vendor ID:</strong>{" "}
-                  {order.vendorId || "No vendor assigned"}
-                </p>
-                <p>
-                  <strong>Comments:</strong> {order.comments || "No comments"}
-                </p>
+              <div className="text-gray-700 text-sm sm:text-base">
+                <p><strong>Order Type:</strong> {order.orderType}</p>
+                <p><strong>Sector:</strong> {order.sector}</p>
+                <p><strong>Total Amount:</strong> ₹{order.totalAmount}</p>
+                <p><strong>Current Step:</strong> {order.currentStep}</p>
+                <p><strong>Status:</strong> {order.currentStatus}</p>
+                <p><strong>Admin Approval:</strong> {order.adminApproval ? "Approved" : "Pending"}</p>
+                <p><strong>Vendor ID:</strong> {order.vendorId || "No vendor assigned"}</p>
+                <p><strong>Comments:</strong> {order.comments || "No comments"}</p>
               </div>
             </div>
           ))
         ) : (
-          <p className="text-gray-600">No orders requested</p>
+          <p className="text-gray-600 text-center">No orders requested</p>
         )}
       </div>
     </div>

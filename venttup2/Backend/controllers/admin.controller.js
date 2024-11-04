@@ -5,7 +5,9 @@ import Customer from "../database/models/customer.model.js";
 import generateTokenAndSetCookie from "../utils/GenerateJWT.js";
 import bcrypt from "bcryptjs";
 import orderStatuses from "../config/orderStatusConfig.js";
-import multer from "multer"
+import multer from "multer";
+import uploadToCloudinary from "../utils/cloudinary.js";
+import fs from "fs";
 
 export const LoginAdmin = async (req, res) => {
   try {
@@ -222,11 +224,11 @@ export const ApproveUpdate = async (req, res) => {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); 
+    cb(null, "../public/uploads");
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + "-" + file.originalname); 
+    cb(null, uniqueSuffix + "-" + file.originalname);
   },
 });
 
@@ -234,10 +236,21 @@ const upload = multer({ storage });
 
 export const fileUpload = (req, res) => {
   upload.single("file")(req, res, (err) => {
+    console.log("------------------ File Upload ------------------");
+    console.log(req.body);
+    console.log(req.file);
     if (err) {
-      console.error(err);
-      return res.status(500).json({ message: "File upload failed", error: err });
+      console.log("HERE :: Error uploading file:", err);
+      return res
+        .status(500)
+        .json({ message: "File upload failed", error: err });
     }
-    return res.status(200).json({ message: "File uploaded successfully", file: req.file });
+    //handling the server upload part
+    console.log("here");
+    // uploadToCloudinary(req.file.path);
+    // fs.unlinkSync(req.file.path);
+    return res
+      .status(200)
+      .json({ message: "File uploaded successfully", file: req.file });
   });
 };

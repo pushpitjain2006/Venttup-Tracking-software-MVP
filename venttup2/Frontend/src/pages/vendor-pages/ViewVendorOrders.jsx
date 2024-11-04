@@ -24,27 +24,27 @@ const ViewVendorOrders = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-300 via-gray-100 to-green-100 p-8 flex justify-center items-center">
-      <div className="max-w-4xl w-full p-6 bg-white bg-opacity-90 rounded-lg shadow-lg">
-        <div className="flex items-center justify-between mb-6">
+    <div className="min-h-screen bg-gradient-to-br from-green-300 via-gray-100 to-green-100 p-4 md:p-8 flex justify-center items-center">
+      <div className="max-w-4xl w-full p-4 md:p-6 bg-white bg-opacity-90 rounded-lg shadow-lg">
+        <div className="flex flex-col md:flex-row items-center justify-between mb-4 md:mb-6">
           <button
             onClick={() => navigate("/")}
-            className="text-green-700 font-semibold flex items-center hover:text-green-800"
+            className="text-green-700 font-semibold flex items-center hover:text-green-800 mb-2 md:mb-0"
           >
             <FaArrowLeft className="mr-2" /> Home
           </button>
-          <h1 className="text-2xl font-semibold text-green-700 flex items-center">
-            <FaLeaf className="text-3xl mr-2" /> View Orders
+          <h1 className="text-xl md:text-2xl font-semibold text-green-700 flex items-center">
+            <FaLeaf className="text-2xl md:text-3xl mr-2" /> View Orders
           </h1>
           <button
             onClick={() => fetchVendorOrders()}
-            className="text-green-700 font-semibold flex items-center hover:text-green-800"
+            className="text-green-700 font-semibold flex items-center hover:text-green-800 mt-2 md:mt-0"
           >
             <FaSync className="mr-2" /> Reload
           </button>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2">
           {loading ? (
             <p className="text-center text-gray-600 font-medium">
               Loading orders...
@@ -58,9 +58,9 @@ const ViewVendorOrders = () => {
               <div
                 key={order.id || index}
                 onClick={() => {
-                  if (order.currentStatus == "Vendor Assigned") {
+                  if (order.currentStatus === "Vendor Assigned") {
                     toast.info("Vendor has not yet accepted the order.");
-                  }else{
+                  } else {
                     navigate(`/order-details/${order._id}`);
                   }
                 }}
@@ -68,7 +68,7 @@ const ViewVendorOrders = () => {
                   order.currentStatus
                 )}`}
               >
-                <h3 className="text-lg font-semibold text-green-700 mb-2">
+                <h3 className="text-base md:text-lg font-semibold text-green-700 mb-2">
                   Order #{index + 1}
                 </h3>
                 <p>

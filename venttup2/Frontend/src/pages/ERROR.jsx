@@ -1,15 +1,22 @@
 import React from "react";
 
-const ERROR = ({ error }) => {
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-red-100">
-      <div className="text-center p-6 bg-white rounded-lg shadow-lg transform transition duration-500 hover:scale-105">
-        <h1 className="text-2xl font-bold text-red-600 animate-bounce">
-          AN ERROR OCCURRED: {error}
-        </h1>
-      </div>
-    </div>
-  );
-};
+class ErrorBoundary extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { hasError: false };
+    }
 
-export default ERROR;
+    static getDerivedStateFromError() {
+        return { hasError: true };
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return <h2>Something went wrong. Please try again later.</h2>;
+        }
+
+        return this.props.children;
+    }
+}
+
+export default ErrorBoundary;

@@ -4,7 +4,7 @@ import StepIndicator from "../StepIndicator";
 import useAxios from "../../utils/useAxios";
 
 const OrderProgress = ({ order }) => {
-  const axios=useAxios();
+  const axios = useAxios();
   const [file, setFile] = useState(null);
   const stages = order ? orderStatuses[order.orderType] || [] : [];
   const [focusStep, setFocusStep] = useState(order.currentStep);
@@ -13,15 +13,15 @@ const OrderProgress = ({ order }) => {
     setFile(event.target.files[0]);
   };
 
-  const handleUpload = async() => {
+  const handleUpload = async () => {
     if (!file) {
       setMessage("Please select a file first.");
       return;
     }
 
     const formData = new FormData();
-    formData.append("file", file); 
-
+    formData.append("file", file);
+    console.log(formData);
     try {
       const response = await axios.post("/admin/upload", formData, {
         headers: {
@@ -38,7 +38,11 @@ const OrderProgress = ({ order }) => {
   return (
     <>
       <div className="w-full flex flex-col items-center">
-        <StepIndicator order={order} currentStep={order.currentStep} setFocusStep={setFocusStep}/>
+        <StepIndicator
+          order={order}
+          currentStep={order.currentStep}
+          setFocusStep={setFocusStep}
+        />
 
         {focusStep !== null && (
           <div className="w-full bg-gray-800 text-white p-4 mt-4 rounded-lg">
@@ -48,7 +52,7 @@ const OrderProgress = ({ order }) => {
             <p className="text-sm mt-2">
               Description and details for {stages[focusStep]}.
             </p>
-            {(order?.currentStep===3)&&(
+            {order?.currentStep === 3 && (
               <>
                 <input
                   type="file"
@@ -58,12 +62,11 @@ const OrderProgress = ({ order }) => {
                 <button
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   onClick={handleUpload}
-                > 
+                >
                   Upload PO
                 </button>
               </>
             )}
-
           </div>
         )}
       </div>
