@@ -8,6 +8,7 @@ import orderStatuses from "../config/orderStatusConfig.js";
 import multer from "multer";
 import uploadToCloudinary from "../utils/cloudinary.js";
 import fs from "fs";
+import path from "path";
 
 export const LoginAdmin = async (req, res) => {
   try {
@@ -224,7 +225,7 @@ export const ApproveUpdate = async (req, res) => {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "../public/uploads");
+    cb(null, path.resolve("public/uploads"));
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -235,22 +236,39 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 export const fileUpload = (req, res) => {
-  upload.single("file")(req, res, (err) => {
-    console.log("------------------ File Upload ------------------");
-    console.log(req.body);
-    console.log(req.file);
+  console.log("------------------ File Upload ------------------");
+  upload.single("file")(req, res, async (err) => {
     if (err) {
-      console.log("HERE :: Error uploading file:", err);
+      console.error("Line 242 : Error uploading file:", err);
       return res
         .status(500)
         .json({ message: "File upload failed", error: err });
     }
-    //handling the server upload part
-    console.log("here");
-    // uploadToCloudinary(req.file.path);
-    // fs.unlinkSync(req.file.path);
-    return res
-      .status(200)
-      .json({ message: "File uploaded successfully", file: req.file });
+    if (!req.file) {
+      console.error("File not found in the request");
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+    const order = await Order.findById(req.body.orderId);
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+    try {
+      const result = await uploadToCloudinary(req.file.path);
+      fs.unlinkSync(req.file.path);
+      order.documents.push({
+        name: "PO",
+        url: result.secure_url,
+      });
+      await order.save();
+      return res.status(200).json({
+        message: "File uploaded successfully",
+        file: req.file,
+        cloudinaryUrl: result.secure_url,
+      });
+    } catch (cloudinaryError) {
+      return res
+        .status(500)
+        .json({ message: "Cloudinary upload failed", error: cloudinaryError });
+    }
   });
 };

@@ -6,11 +6,18 @@ import useAxios from "../../utils/useAxios";
 const OrderProgress = ({ order }) => {
   const axios = useAxios();
   const [file, setFile] = useState(null);
+  const [message, setMessage] = useState("");
   const stages = order ? orderStatuses[order.orderType] || [] : [];
   const [focusStep, setFocusStep] = useState(order.currentStep);
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      console.log("Selected file:", selectedFile);
+    } else {
+      setMessage("No file selected");
+    }
   };
 
   const handleUpload = async () => {
@@ -21,17 +28,17 @@ const OrderProgress = ({ order }) => {
 
     const formData = new FormData();
     formData.append("file", file);
-    console.log(formData);
+    formData.append("orderId", order._id);
     try {
       const response = await axios.post("/admin/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      setMessage(response.data.message);
+      setMessage(response.data.message || "File uploaded successfully!");
     } catch (error) {
       setMessage("Failed to upload file.");
-      console.error("Upload error:", error);
+      console.error("Upload error:", error.response || error.message || error);
     }
   };
 
@@ -65,6 +72,7 @@ const OrderProgress = ({ order }) => {
                 >
                   Upload PO
                 </button>
+                <p className="mt-2 text-red-500">{message}</p>
               </>
             )}
           </div>

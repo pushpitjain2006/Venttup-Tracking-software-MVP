@@ -44,6 +44,18 @@ const orderSchema = new mongoose.Schema(
       default: "",
       required: false,
     },
+    documents: [
+      {
+        name: {
+          type: String,
+          required: true,
+        },
+        url: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
