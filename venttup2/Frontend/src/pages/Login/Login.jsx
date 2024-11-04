@@ -1,9 +1,9 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import AdminLogin from "../../components/Login-components/Adminlogin.jsx";
 import VendorLogin from "../../components/Login-components/VendorLogin.jsx";
 import CustomerLogin from "../../components/Login-components/CustomerLogin.jsx";
 import { useNavigate } from "react-router-dom";
+import { FaLeaf, FaUserShield, FaUsers } from "react-icons/fa";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,35 +14,60 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-r from-stone-600 to-slate-700">
-      <div className="flex flex-col items-center p-4 sm:p-8">
-        <div className="relative w-full sm:w-96">
-          <div className="flex justify-around bg-white backdrop-blur-sm border-2 z-0 border-sky-800 rounded-full shadow-lg">
-            {["Admin", "Vendor", "Customer"].map((option) => (
-              <div
-                key={option}
-                className={`py-2 sm:py-3 px-2 sm:px-4 flex-1 text-center cursor-pointer transition-all duration-300 ${
-                  selected === option ? "text-black font-bold z-20 bg-slate-300 rounded-full" : "text-slate-900"
-                }`}
-                onClick={() => handleSelect(option)}
-              >
-                {option}
+    <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-green-700 relative overflow-hidden">
+      
+      {/* Background Animation */}
+      <div className="absolute top-0 left-0 w-full h-full bg-cover bg-center opacity-20" style={{backgroundImage: "url('/images/eco-background.jpg')"}}></div>
+      
+      {/* Main container with eco-themed styles */}
+      <div className="flex flex-col items-center p-4 sm:p-8 w-full max-w-md relative z-10">
+        
+        {/* Header Tabs with Icons */}
+        <div className="flex justify-around w-full bg-white bg-opacity-70 border-2 border-green-600 rounded-full shadow-lg mb-4 transition duration-500 ease-in-out hover:shadow-2xl">
+          {[
+            { name: "Admin", icon: <FaUserShield /> },
+            { name: "Vendor", icon: <FaLeaf /> },
+            { name: "Customer", icon: <FaUsers /> },
+          ].map(({ name, icon }) => (
+            <div
+              key={name}
+              className={`py-2 sm:py-3 px-4 flex-1 text-center cursor-pointer transition-all duration-300 ${
+                selected === name ? "bg-green-500 text-white font-bold rounded-full shadow-md" : "text-slate-900"
+              }`}
+              onClick={() => handleSelect(name)}
+            >
+              <div className="flex justify-center items-center space-x-1">
+                {icon}
+                <span>{name}</span>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
 
-        <div className="w-full max-w-md p-4 sm:p-6 bg-white/30 mt-4 sm:mt-6 mb-2 rounded-3xl drop-shadow-2xl h-80 sm:h-96">
+        {/* Login Form Card */}
+        <div className="w-full max-w-md p-6 bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl h-80 sm:h-96 transition duration-500 hover:scale-105 hover:shadow-2xl">
           {selected === "Admin" && <AdminLogin />}
           {selected === "Vendor" && <VendorLogin />}
           {selected === "Customer" && <CustomerLogin />}
         </div>
-        <div>
+
+        {/* Signup Link */}
+        <div className="mt-6">
           <p className="text-white text-sm sm:text-base">
-            Don't have an account? <span className="hover:text-blue-600 hover:underline cursor-pointer" onClick={() => navigate("/signup")}>Signup</span>
+            Don’t have an account?{" "}
+            <span
+              className="text-green-200 hover:text-blue-400 cursor-pointer underline"
+              onClick={() => navigate("/signup")}
+            >
+              Signup
+            </span>
           </p>
         </div>
       </div>
+
+      {/* Floating Leaf Animation */}
+      <div className="absolute -bottom-12 -left-16 w-36 h-36 bg-green-300 rounded-full filter blur-lg animate-pulse opacity-60"></div>
+      <div className="absolute -top-16 -right-16 w-32 h-32 bg-blue-400 rounded-full filter blur-lg animate-bounce opacity-70"></div>
     </div>
   );
 };

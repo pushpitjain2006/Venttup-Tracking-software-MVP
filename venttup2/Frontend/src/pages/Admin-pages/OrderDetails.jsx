@@ -57,6 +57,7 @@ const OrderDetails = () => {
       await axios.delete(`/admin/delete-order`, { data: { orderId } });
       setDetails(null);
       toast.success("Order deleted successfully.");
+      window.history.back();
     } catch (err) {
       toast.error("Failed to delete order.");
     }
