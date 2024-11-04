@@ -79,7 +79,7 @@ const OrderDetails = () => {
   };
 
   const handleChange = (field, value) => {
-    setUpdates((prev) => ({ ...prev, [field]: value }));
+    setUpdates((prev) => ({ ...prev, [field]: value || "" }));
   };
 
   const handleApproveUpdate = async () => {
@@ -128,7 +128,11 @@ const OrderDetails = () => {
                     {isEditing ? (
                       <select
                         className="p-2 rounded bg-gray-700 text-white focus:outline-none"
-                        value={updates?.orderType || details.orderType}
+                        value={
+                          updates?.orderType !== undefined
+                            ? updates.orderType
+                            : details.orderType
+                        }
                         onChange={(e) =>
                           handleChange("orderType", e.target.value)
                         }
@@ -150,7 +154,11 @@ const OrderDetails = () => {
                       <input
                         type="number"
                         className="p-2 rounded bg-gray-700 text-white focus:outline-none"
-                        value={updates?.totalAmount || details.totalAmount}
+                        value={
+                          updates?.totalAmount !== undefined
+                            ? updates.totalAmount
+                            : details.totalAmount
+                        }
                         onChange={(e) =>
                           handleChange("totalAmount", e.target.value)
                         }
@@ -166,7 +174,11 @@ const OrderDetails = () => {
                       <input
                         type="text"
                         className="p-2 rounded bg-gray-700 text-white focus:outline-none"
-                        value={updates?.currentStatus || details.currentStatus}
+                        value={
+                          updates?.currentStatus !== undefined
+                            ? updates.currentStatus
+                            : details.currentStatus
+                        }
                         onChange={(e) =>
                           handleChange("currentStatus", e.target.value)
                         }
@@ -213,7 +225,11 @@ const OrderDetails = () => {
                       <input
                         type="text"
                         className="p-2 rounded bg-gray-700 text-white focus:outline-none"
-                        value={updates?.sector || details.sector}
+                        value={
+                          updates?.sector !== undefined
+                            ? updates.sector
+                            : details.sector
+                        }
                         onChange={(e) => handleChange("sector", e.target.value)}
                       />
                     ) : (
@@ -225,18 +241,32 @@ const OrderDetails = () => {
                     {isEditing ? (
                       <button
                         type="checkbox"
-                        checked={updates?.adminApproval}
+                        checked={
+                          updates?.adminApproval !== undefined
+                            ? updates.adminApproval
+                            : details.adminApproval
+                        }
                         onClick={(e) =>
                           handleChange("adminApproval", !e.target.checked)
                         }
                         className={`h-10 w-28 rounded-lg font-medium 
                           ${
-                            updates?.adminApproval
+                            (
+                              updates?.adminApproval !== undefined
+                                ? updates.adminApproval
+                                : details.adminApproval
+                            )
                               ? "bg-red-600"
                               : "bg-green-600"
                           }`}
                       >
-                        {updates?.adminApproval ? "Disapprove" : "Approve"}
+                        {(
+                          updates?.adminApproval !== undefined
+                            ? updates.adminApproval
+                            : details.adminApproval
+                        )
+                          ? "Disapprove"
+                          : "Approve"}
                       </button>
                     ) : (
                       <p className="text-gray-400">

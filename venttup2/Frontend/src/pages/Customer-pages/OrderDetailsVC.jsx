@@ -90,20 +90,21 @@ const OrderDetailsVC = () => {
               {order.comments || "No additional comments"}
             </p>
 
-            {userType === "vendor" && (
-              <button
-                onClick={handleUpdate}
-                className={`mt-4 px-4 py-2 rounded-lg text-white transition duration-300 text-sm sm:text-base ${
-                  isSubmissionPending
-                    ? "bg-red-600 hover:bg-red-700"
-                    : "bg-green-600 hover:bg-green-700"
-                }`}
-              >
-                {isSubmissionPending
-                  ? "Withdraw Submission"
-                  : "Update Progress"}
-              </button>
-            )}
+            {userType === "vendor" &&
+              order.currentStatus != "Order completed" && (
+                <button
+                  onClick={handleUpdate}
+                  className={`mt-4 px-4 py-2 rounded-lg text-white transition duration-300 text-sm sm:text-base ${
+                    isSubmissionPending
+                      ? "bg-red-600 hover:bg-red-700"
+                      : "bg-green-600 hover:bg-green-700"
+                  }`}
+                >
+                  {isSubmissionPending
+                    ? "Withdraw Submission"
+                    : "Update Progress"}
+                </button>
+              )}
             {userType === "customer" && order.currentStatus === "GRN" && (
               <button
                 onClick={async () => {
