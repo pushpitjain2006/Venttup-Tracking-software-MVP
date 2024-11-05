@@ -21,11 +21,14 @@ const CustomerLogin = () => {
       <h2 className="text-3xl font-bold text-center text-green-800 mb-6">
         Customer Login
       </h2>
-      <form onSubmit={handleSubmit} className="space-y-4 flex flex-col justify-center items-center">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 flex flex-col justify-center items-center"
+      >
         <div className="space-y-2 w-full">
           <label
             htmlFor="GSTIN"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-lg font-medium text-gray-900"
           >
             GSTIN
           </label>
@@ -42,7 +45,7 @@ const CustomerLogin = () => {
         <div className="space-y-2 w-full">
           <label
             htmlFor="password"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-lg font-medium text-gray-900"
           >
             Password
           </label>

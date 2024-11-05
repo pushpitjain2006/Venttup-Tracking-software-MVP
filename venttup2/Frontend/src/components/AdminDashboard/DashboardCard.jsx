@@ -1,12 +1,18 @@
 import React from "react";
+import { motion } from "framer-motion";
 
-export function DashboardCard({ title, onclick }) {
+export function DashboardCard({ title, icon, onclick }) {
   return (
-    <div 
-      className="flex items-center justify-center hover:scale-105 transition duration-500 bg-[#5c6378] p-8 rounded-lg shadow-lg hover:bg-[#8d8d9e] cursor-pointer"
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      className="flex items-center justify-center hover:scale-105 transition duration-500 bg-[#4caf50] p-8 rounded-lg shadow-lg hover:bg-[#66bb6a] cursor-pointer"
       onClick={onclick}
     >
-      <p className="text-lg font-semibold text-white text-center">{title}</p>
-    </div>
+      <div className="flex items-center">
+        {icon} {/* Display the icon */}
+        <p className="text-lg font-semibold text-white text-center">{title}</p>
+      </div>
+    </motion.div>
   );
 }

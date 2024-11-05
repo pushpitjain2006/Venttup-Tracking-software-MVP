@@ -25,7 +25,7 @@ const AdminLogin = () => {
         <div className="space-y-2 w-full">
           <label
             htmlFor="username"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-lg font-medium text-gray-900 "
           >
             Username
           </label>
@@ -42,7 +42,7 @@ const AdminLogin = () => {
         <div className="space-y-2 w-full">
           <label
             htmlFor="password"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-lg font-medium text-gray-900 "
           >
             Password
           </label>

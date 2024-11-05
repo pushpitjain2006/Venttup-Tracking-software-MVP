@@ -146,10 +146,7 @@ const OrderDetailsVC = () => {
           </h2>
         )}
 
-        {/* Vendor Details */}
-        {/* {order &&
-          userType === "customer" &&
-          GateDetails(order, currentStep)} */}
+        
       </div>
     </div>
   );

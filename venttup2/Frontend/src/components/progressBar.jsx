@@ -11,7 +11,7 @@ const ProgressBar = ({ order, setCurrentStep, isSubmissionPending }) => {
   return (
     <div>
       <div className="mt-8 w-full">
-        <div className="flex flex-wrap items-center justify-between mb-4 gap">
+        <div className="flex items-center mb-4">
           {stages.map((stage, index) => (
             <div key={index} className="flex-1 flex items-center">
               <div

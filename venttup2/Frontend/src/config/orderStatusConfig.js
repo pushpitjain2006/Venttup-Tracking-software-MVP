@@ -23,10 +23,12 @@ const orderStatuses = {
     "Drawing Submission",
     "Drawing Approval",
     "Manufacturing clearance",
-    "Inspection",
+    "Inspection Call",
+    "Inspection Report",
     "Dispatch Clearance",
     "Material Receipt",
     "GRN",
+    "GRN Approved",
     "Order completed",
   ],
   supply_chain: [
@@ -41,6 +43,7 @@ const orderStatuses = {
     "Dispatch Clearance",
     "Material Receipt",
     "GRN",
+    "GRN Approved",
     "Order completed",
   ],
 };

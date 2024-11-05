@@ -45,7 +45,7 @@ const Login = () => {
         </div>
 
         {/* Login Form Card */}
-        <div className="w-full max-w-md p-6 bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl h-80 sm:h-96 transition duration-500 hover:scale-105 hover:shadow-2xl">
+        <div className="w-full max-w-md p-6 bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl transition duration-500 hover:scale-105 hover:shadow-2xl">
           {selected === "Admin" && <AdminLogin />}
           {selected === "Vendor" && <VendorLogin />}
           {selected === "Customer" && <CustomerLogin />}
@@ -54,7 +54,7 @@ const Login = () => {
         {/* Signup Link */}
         <div className="mt-6">
           <p className="text-white text-sm sm:text-base">
-            Don’t have an account?{" "}
+            Don't have an account?{" "}
             <span
               className="text-green-200 hover:text-blue-400 cursor-pointer underline"
               onClick={() => navigate("/signup")}
