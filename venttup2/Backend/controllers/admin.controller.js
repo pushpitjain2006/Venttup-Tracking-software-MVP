@@ -147,6 +147,38 @@ export const ViewUsers = async (req, res) => {
   }
 };
 
+export const UpdateUsers = async (req, res) => {
+  try {
+    const { type, id, data } = req.body;
+    if (!type || !id || !data) {
+      return res.status(400).json({ message: "Please fill all the fields" });
+    }
+
+    let userModel;
+    if (type === "vendor") {
+      userModel = Vendor;
+    } else if (type === "customer") {
+      userModel = Customer;
+    } else {
+      return res.status(400).json({ message: "Invalid user type" });
+    }
+
+    const user = await userModel.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    for (const key in data) {
+      user[key] = data[key];
+    }
+
+    await user.save();
+    res.status(200).json({ message: "User updated successfully", user });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const deleteUsers = async (req, res) => {
   try {
     const { type, id } = req.body;

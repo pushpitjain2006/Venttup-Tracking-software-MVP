@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import AdminLogin from "../../components/Login-components/Adminlogin.jsx";
 import VendorLogin from "../../components/Login-components/VendorLogin.jsx";
 import CustomerLogin from "../../components/Login-components/CustomerLogin.jsx";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { FaLeaf, FaUserShield, FaUsers } from "react-icons/fa";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [selected, setSelected] = useState("Customer");
+  const [selected, setSelected] = useState("Admin");
 
   const handleSelect = (option) => {
     setSelected(option);
@@ -15,13 +15,14 @@ const Login = () => {
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-green-700 relative overflow-hidden">
-      
       {/* Background Animation */}
-      <div className="absolute top-0 left-0 w-full h-full bg-cover bg-center opacity-20" style={{backgroundImage: "url('/images/eco-background.jpg')"}}></div>
-      
+      <div
+        className="absolute top-0 left-0 w-full h-full bg-cover bg-center opacity-20"
+        style={{ backgroundImage: "url('/images/eco-background.jpg')" }}
+      ></div>
+
       {/* Main container with eco-themed styles */}
       <div className="flex flex-col items-center p-4 sm:p-8 w-full max-w-md relative z-10">
-        
         {/* Header Tabs with Icons */}
         <div className="flex justify-around w-full bg-white bg-opacity-70 border-2 border-green-600 rounded-full shadow-lg mb-4 transition duration-500 ease-in-out hover:shadow-2xl">
           {[
@@ -32,7 +33,9 @@ const Login = () => {
             <div
               key={name}
               className={`py-2 sm:py-3 px-4 flex-1 text-center cursor-pointer transition-all duration-300 ${
-                selected === name ? "bg-green-500 text-white font-bold rounded-full shadow-md" : "text-slate-900"
+                selected === name
+                  ? "bg-green-500 text-white font-bold rounded-full shadow-md"
+                  : "text-slate-900"
               }`}
               onClick={() => handleSelect(name)}
             >

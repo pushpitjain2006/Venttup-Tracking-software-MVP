@@ -1,82 +1,108 @@
 import React from "react";
+import { useAuth } from "../../../../context/AuthContext.jsx";
+import useAxios from "../../../utils/useAxios.js";
+import { FaUserShield, FaClipboardList, FaUserPlus, FaUpload } from "react-icons/fa"; // Additional icons for admin functionalities
 import { useNavigate } from "react-router-dom";
-import { Bell, ShoppingCart, Users, UploadCloud, UserPlus } from "lucide-react"; // Import icons
-import { motion } from "framer-motion"; // Import Framer Motion for animations
-import { DashboardCard } from "../../../components/AdminDashboard/DashboardCard";
-import { useAuth } from "../../../../context/AuthContext";
-import useAxios from "../../../utils/useAxios";
 
-function MasterDashboard() {
-  const axios = useAxios();
-  const { setAuth } = useAuth();
+const AdminDashboard = () => {
   const navigate = useNavigate();
+  const { setAuth } = useAuth();
+  const axios = useAxios();
 
-  async function handelLogout() {
+  async function handleUserManagement() {
+    navigate("/view-users"); // Navigating to user management page
+  }
+
+  async function handleOrderManagement() {
+    navigate("/admin/ViewOrders"); // Navigating to order management page
+  }
+
+  async function handleAddUser() {
+    navigate("/Admin-signup"); // Navigating to add user page
+  }
+
+  async function handleUploadOrder() {
+    navigate("/upload-order"); // Navigating to upload order page
+  }
+
+  async function handleLogout() {
     setAuth(null);
-    const res = await axios.get("/admin/logout");
+    await axios.get("/admin/logout");
     navigate("/");
   }
 
   return (
-    <>
-      <div className="h-screen w-full bg-[#e0f7f0] overflow-hidden">
-        {/* Top Navbar */}
-        <motion.div
-          className="fixed h-24 w-full bg-[#00796b] flex items-center justify-between shadow-md"
-          initial={{ y: -100 }}
-          animate={{ y: 0 }}
-          transition={{ type: "spring", stiffness: 100 }}
+    <div className="min-h-screen bg-gradient-to-br from-blue-400 via-white to-blue-200 p-8">
+      {/* Navbar */}
+      <header className="flex items-center justify-between bg-blue-700 shadow-lg p-5 rounded-xl mb-8 text-white">
+        <div className="flex items-center gap-4">
+          <h1 className="text-3xl font-bold tracking-wide">Admin Dashboard</h1>
+          <FaUserShield className="text-4xl" />
+        </div>
+        <button
+          onClick={handleLogout}
+          className="text-sm font-semibold tracking-wide px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-md transition-all"
         >
-          <div className="w-12 h-12 bg-[#80cbc4] flex items-center justify-center rounded-full mx-7">
-            <Bell className="h-6 w-6 text-white cursor-pointer hover:text-gray-300" />
-          </div>
-          <div className="mx-7">
-            <button
-              className="text-white font-medium bg-[#d32f2f] px-3 py-2 rounded-lg hover:bg-[#c62828] transition duration-200"
-              onClick={() => handelLogout()}
-            >
-              Logout
-            </button>
-          </div>
-        </motion.div>
+          Logout
+        </button>
+      </header>
 
-        {/* Main Dashboard Content */}
-        <div className="h-full flex flex-col items-center justify-center bg-[#e0f7f0] pt-32">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h1 className="font-bold text-4xl mb-10 text-[#004d40]">
-              Admin Dashboard
-            </h1>
-          </motion.div>
-          <div className="grid grid-cols-2 gap-6 w-full max-w-4xl p-4">
-            <DashboardCard
-              title="View Orders"
-              icon={<ShoppingCart className="w-6 h-6 text-white mr-2" />}
-              onclick={() => navigate("/admin/ViewOrders")}
-            />
-            <DashboardCard
-              title="Edit Users"
-              icon={<Users className="w-6 h-6 text-white mr-2" />}
-              onclick={() => navigate("/view-users")}
-            />
-            <DashboardCard
-              title="Upload Order"
-              icon={<UploadCloud className="w-6 h-6 text-white mr-2" />}
-              onclick={() => navigate("/upload-order")}
-            />
-            <DashboardCard
-              title="Add More Users"
-              icon={<UserPlus className="w-6 h-6 text-white mr-2" />}
-              onclick={() => navigate("/Admin-signup")}
-            />
-          </div>
+      {/* Main Content */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+        {/* Manage Users */}
+        <div
+          className="flex-1 bg-white shadow-md rounded-xl p-[5rem] text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg cursor-pointer border-l-8 border-blue-600 transform hover:rotate-1"
+          onClick={handleUserManagement}
+        >
+          <h2 className="text-2xl font-bold text-blue-700 flex items-center justify-center gap-3">
+            <FaClipboardList className="text-blue-600 text-3xl" /> Manage Users
+          </h2>
+          <p className="mt-3 text-gray-500 text-sm">
+            Review, edit, and manage user accounts.
+          </p>
+        </div>
+
+        {/* Manage Orders */}
+        <div
+          className="flex-1 bg-white shadow-md rounded-xl p-[5rem] text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg cursor-pointer border-l-8 border-blue-600 transform hover:-rotate-1"
+          onClick={handleOrderManagement}
+        >
+          <h2 className="text-2xl font-bold text-blue-700 flex items-center justify-center gap-3">
+            <FaClipboardList className="text-blue-600 text-3xl" /> Manage Orders
+          </h2>
+          <p className="mt-3 text-gray-500 text-sm">
+            Track and oversee all ongoing and completed orders.
+          </p>
+        </div>
+
+        {/* Add User */}
+        <div
+          className="flex-1 bg-white shadow-md rounded-xl p-[5rem] text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg cursor-pointer border-l-8 border-blue-600 transform hover:rotate-1"
+          onClick={handleAddUser}
+        >
+          <h2 className="text-2xl font-bold text-blue-700 flex items-center justify-center gap-3">
+            <FaUserPlus className="text-blue-600 text-3xl" /> Add User
+          </h2>
+          <p className="mt-3 text-gray-500 text-sm">
+            Create new user accounts with specific roles.
+          </p>
+        </div>
+
+        {/* Upload Order */}
+        <div
+          className="flex-1 bg-white shadow-md rounded-xl p-[5rem] text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg cursor-pointer border-l-8 border-blue-600 transform hover:-rotate-1"
+          onClick={handleUploadOrder}
+        >
+          <h2 className="text-2xl font-bold text-blue-700 flex items-center justify-center gap-3">
+            <FaUpload className="text-blue-600 text-3xl" /> Upload Order
+          </h2>
+          <p className="mt-3 text-gray-500 text-sm">
+            Upload and manage new orders for the system.
+          </p>
         </div>
       </div>
-    </>
+    </div>
   );
-}
+};
 
-export default MasterDashboard;
+export default AdminDashboard;

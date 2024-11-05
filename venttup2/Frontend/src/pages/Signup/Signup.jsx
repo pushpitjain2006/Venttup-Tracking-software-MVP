@@ -7,7 +7,7 @@ import { FaLeaf, FaUserShield, FaUsers } from "react-icons/fa";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [selected, setSelected] = useState("Customer");
+  const [selected, setSelected] = useState("Admin");
 
   const handleSelect = (option) => {
     setSelected(option);

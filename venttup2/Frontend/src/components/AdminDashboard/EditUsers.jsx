@@ -2,6 +2,16 @@ import React, { useState } from "react";
 import useFetchUsers from "../../../hooks/useFetchUsers";
 import useAxios from "../../utils/useAxios.js";
 import { toast } from "react-toastify";
+import {
+  FaTrash,
+  FaEdit,
+  FaArrowLeft,
+  FaIndustry,
+  FaCheckCircle,
+  FaTimesCircle,
+} from "react-icons/fa";
+import { MdLocationOn, MdPhone, MdVerifiedUser, MdTimer } from "react-icons/md";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const EditUsers = () => {
   const axios = useAxios();
@@ -13,10 +23,7 @@ const EditUsers = () => {
   const handleDelete = async (userType, userId) => {
     try {
       const res = await axios.delete(`/admin/delete-user`, {
-        data: {
-          type: userType,
-          id: userId,
-        },
+        data: { type: userType, id: userId },
       });
       if (res.status === 200) {
         setUsers(users.filter((user) => user._id !== userId));
@@ -37,22 +44,24 @@ const EditUsers = () => {
   };
 
   const handleSaveEdit = () => {
-    console.log("Edited user data:", editedUserData);
+    // Placeholder save logic for edit
     toast.success("User details updated successfully!");
     setEditUserId(null);
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-100 text-gray-900 p-8">
       {/* Back Button */}
       <button
         onClick={() => window.history.back()}
-        className="mb-6 text-blue-500 underline transition hover:text-blue-400"
+        className="mb-6 text-blue-600 flex items-center gap-2 hover:text-blue-500 transition"
       >
+        <FaArrowLeft />
         Back
       </button>
 
-      <h1 className="text-4xl font-bold mb-6 text-center text-blue-300">
+      <h1 className="text-4xl font-bold mb-8 text-center text-blue-700 flex items-center justify-center gap-2">
+        <FaIndustry />
         Edit Users
       </h1>
 
@@ -63,7 +72,7 @@ const EditUsers = () => {
           className={`px-5 py-2 rounded-lg font-semibold transition-all duration-200 ${
             userType === "vendor"
               ? "bg-blue-600 text-white shadow-lg"
-              : "bg-gray-700 text-gray-300 hover:bg-blue-600 hover:text-white"
+              : "bg-blue-200 text-blue-600 hover:bg-blue-600 hover:text-white"
           }`}
         >
           View Vendors
@@ -73,22 +82,29 @@ const EditUsers = () => {
           className={`px-5 py-2 rounded-lg font-semibold transition-all duration-200 ${
             userType === "customer"
               ? "bg-blue-600 text-white shadow-lg"
-              : "bg-gray-700 text-gray-300 hover:bg-blue-600 hover:text-white"
+              : "bg-blue-200 text-blue-600 hover:bg-blue-600 hover:text-white"
           }`}
         >
           View Customers
         </button>
       </div>
 
-      {loading && <p className="text-center text-gray-400">Loading...</p>}
-      {error && <p className="text-center text-red-500">{error}</p>}
+      {loading && (
+        <div className="flex justify-center items-center text-blue-700">
+          <AiOutlineLoading3Quarters className="animate-spin text-4xl" />
+          <p className="ml-3 text-lg">Loading...</p>
+        </div>
+      )}
+      {error && (
+        <p className="text-center text-red-500 font-semibold">{error}</p>
+      )}
 
       {/* Users Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {users.map((user) => (
           <div
             key={user._id}
-            className="relative bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:scale-105"
+            className="relative bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:scale-105 border-l-4 border-blue-500"
           >
             {editUserId === user._id ? (
               <div className="flex flex-col gap-3">
@@ -101,7 +117,7 @@ const EditUsers = () => {
                       GSTIN: e.target.value,
                     })
                   }
-                  className="w-full p-3 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  className="w-full p-3 rounded-lg bg-blue-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                   placeholder="GSTIN"
                 />
                 <input
@@ -113,7 +129,7 @@ const EditUsers = () => {
                       address: e.target.value,
                     })
                   }
-                  className="w-full p-3 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  className="w-full p-3 rounded-lg bg-blue-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                   placeholder="Address"
                 />
                 <input
@@ -125,40 +141,97 @@ const EditUsers = () => {
                       contactNumber: e.target.value,
                     })
                   }
-                  className="w-full p-3 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  className="w-full p-3 rounded-lg bg-blue-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                   placeholder="Contact Number"
                 />
+                {userType === "vendor" && (
+                  <>
+                    <label className="flex items-center gap-2 text-gray-600">
+                      <input
+                        type="checkbox"
+                        checked={editedUserData.available}
+                        onChange={(e) =>
+                          setEditedUserData({
+                            ...editedUserData,
+                            available: e.target.checked,
+                          })
+                        }
+                      />
+                      Available
+                    </label>
+                    <input
+                      type="number"
+                      value={editedUserData.currentOrderCapacity}
+                      onChange={(e) =>
+                        setEditedUserData({
+                          ...editedUserData,
+                          currentOrderCapacity: e.target.value,
+                        })
+                      }
+                      className="w-full p-3 rounded-lg bg-blue-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                      placeholder="Current Order Capacity"
+                    />
+                  </>
+                )}
                 <button
                   onClick={handleSaveEdit}
-                  className="mt-2 w-full py-2 text-green-600 bg-green-200 rounded-lg hover:bg-green-300 transition-all"
+                  className="mt-2 w-full py-2 text-blue-600 bg-blue-200 rounded-lg hover:bg-blue-300 transition-all"
                 >
                   Save
                 </button>
               </div>
             ) : (
-              <div className="text-gray-300">
-                <p className="font-semibold text-lg text-blue-400 mb-1">
-                  GSTIN: {user.GSTIN}
+              <div className="text-gray-700">
+                <p className="font-semibold text-lg text-blue-700 flex items-center gap-2 mb-1">
+                  <MdVerifiedUser className="text-blue-500" /> GSTIN:{" "}
+                  {user.GSTIN}
                 </p>
-                <p className="mb-1">Address: {user.address}</p>
-                <p className="mb-4">Contact: {user.contactNumber}</p>
-
+                <p className="mb-1 flex items-center gap-2">
+                  <MdLocationOn className="text-blue-500" /> Address:{" "}
+                  {user.address}
+                </p>
+                <p className="mb-4 flex items-center gap-2">
+                  <MdPhone className="text-blue-500" /> Contact:{" "}
+                  {user.contactNumber}
+                </p>
+                {userType === "vendor" && (
+                  <>
+                    <p className="mb-1 flex items-center gap-2">
+                      {user.available ? (
+                        <FaCheckCircle className="text-blue-500" />
+                      ) : (
+                        <FaTimesCircle className="text-red-500" />
+                      )}
+                      Status: {user.available ? "Available" : "Unavailable"}
+                    </p>
+                    <p className="mb-4 flex items-center gap-2">
+                      <MdTimer className="text-blue-500" /> Capacity:{" "}
+                      {user.currentOrderCapacity}
+                    </p>
+                  </>
+                )}
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleEditClick(user)}
-                    className="flex-1 py-2 text-blue-500 bg-blue-200 rounded-lg hover:bg-blue-300 transition-all"
+                    className="flex-1 py-2 text-blue-500 bg-blue-100 rounded-lg hover:bg-blue-200 transition-all flex items-center gap-2 justify-center"
                   >
-                    Edit
+                    <FaEdit /> Edit
                   </button>
                   <button
                     onClick={() => handleDelete(userType, user._id)}
-                    className="flex-1 py-2 text-red-500 bg-red-200 rounded-lg hover:bg-red-300 transition-all"
+                    className="flex-1 py-2 text-red-500 bg-red-100 rounded-lg hover:bg-red-200 transition-all flex items-center gap-2 justify-center"
                   >
-                    Delete
+                    <FaTrash /> Delete
                   </button>
                 </div>
               </div>
             )}
+            <p className="text-xs text-gray-500 mt-4">
+              Created at: {new Date(user.createdAt).toLocaleString()}
+            </p>
+            <p className="text-xs text-gray-500">
+              Last Updated at: {new Date(user.updatedAt).toLocaleString()}
+            </p>
           </div>
         ))}
       </div>

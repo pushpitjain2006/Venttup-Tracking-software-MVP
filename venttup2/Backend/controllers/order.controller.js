@@ -128,7 +128,7 @@ export const ConfirmGRN = async (req, res) => {
   }
 };
 
-export const updateOrder = async (req, res) => {
+export const editOrder = async (req, res) => {
   try {
     const { orderId, updates } = req.body;
     if (!orderId) {
