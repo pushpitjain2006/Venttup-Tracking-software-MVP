@@ -9,6 +9,25 @@ const OrderProgress = ({ order }) => {
   const [message, setMessage] = useState("");
   const stages = order ? orderStatuses[order.orderType] || [] : [];
   const [focusStep, setFocusStep] = useState(order.currentStep);
+  const [POfile, setPOfile] = useState(null);
+
+  const POfileURL = order.documents.find((file) => file.name === "PO")?.url;
+
+  const POfetch = async () => {
+    try {
+      const response = await fetch(POfileURL);
+      console.log("PO file response:", response);
+      setPOfile(response);
+    } catch (error) {
+      console.error(
+        "Failed to fetch PO file:",
+        error.response || error.message || error
+      );
+    }
+  };
+  POfetch();
+
+  console.log("PO file:");
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -73,6 +92,12 @@ const OrderProgress = ({ order }) => {
                   Upload PO
                 </button>
                 <p className="mt-2 text-red-500">{message}</p>
+                {POfile && (
+                  <div className="mt-4">
+                    <h4 className="text-md font-semibold">Preview:</h4>
+                    <iframe src={POfile} title="PO File Preview"></iframe>
+                  </div>
+                )}
               </>
             )}
           </div>
