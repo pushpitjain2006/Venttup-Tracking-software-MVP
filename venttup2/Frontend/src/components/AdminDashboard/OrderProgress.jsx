@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import orderStatuses from "../../config/orderStatusConfig";
 import StepIndicator from "../StepIndicator";
 import useAxios from "../../utils/useAxios";
@@ -16,7 +16,6 @@ const OrderProgress = ({ order }) => {
   const POfetch = async () => {
     try {
       const response = await fetch(POfileURL);
-      console.log("PO file response:", response);
       setPOfile(response);
     } catch (error) {
       console.error(
@@ -25,7 +24,12 @@ const OrderProgress = ({ order }) => {
       );
     }
   };
-  POfetch();
+  useEffect(() => {
+    POfetch();
+  }, [POfileURL]);
+  useEffect(() => {
+    setFocusStep(order.currentStep);
+  }, [order]);
 
   console.log("PO file:");
 
@@ -63,15 +67,16 @@ const OrderProgress = ({ order }) => {
 
   return (
     <>
-      <div className="w-full flex flex-col items-center">
+      <div className="w-full flex flex-col items-center bg-blue-50 p-6 rounded-lg">
         <StepIndicator
           order={order}
           currentStep={order.currentStep}
           setFocusStep={setFocusStep}
+          focusStep={focusStep}
         />
 
         {focusStep !== null && (
-          <div className="w-full bg-gray-800 text-white p-4 mt-4 rounded-lg">
+          <div className="w-full bg-blue-500 text-white p-4 mt-4 rounded-lg shadow-lg">
             <h3 className="text-lg font-semibold">
               Step {focusStep + 1}: {stages[focusStep]}
             </h3>
@@ -83,10 +88,10 @@ const OrderProgress = ({ order }) => {
                 <input
                   type="file"
                   onChange={handleFileChange}
-                  className="mt-2 mb-4 p-2 border rounded"
+                  className="mt-2 mb-4 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
                   onClick={handleUpload}
                 >
                   Upload PO
@@ -95,7 +100,11 @@ const OrderProgress = ({ order }) => {
                 {POfile && (
                   <div className="mt-4">
                     <h4 className="text-md font-semibold">Preview:</h4>
-                    <iframe src={POfile} title="PO File Preview"></iframe>
+                    <iframe
+                      src={POfile}
+                      title="PO File Preview"
+                      className="w-full h-64 border"
+                    ></iframe>
                   </div>
                 )}
               </>

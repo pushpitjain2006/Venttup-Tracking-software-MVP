@@ -1,6 +1,7 @@
 import React from 'react'
 
-const Contract_manufacturing = (stepNumber) => {
+const Contract_manufacturing = (values) => {
+
   return (
     <div>
       

@@ -21,10 +21,16 @@ const ViewOrders = () => {
     }
   };
 
-  const filteredOrders = orders.filter(order => {
-    const orderTypeMatch = order.orderType.toLowerCase().includes(searchTerm.toLowerCase());
-    const sectorMatch = order.sector.toLowerCase().includes(searchTerm.toLowerCase());
-    const commentsMatch = (order.comments || "").toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredOrders = orders.filter((order) => {
+    const orderTypeMatch = order.orderType
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const sectorMatch = order.sector
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const commentsMatch = (order.comments || "")
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
     return orderTypeMatch || sectorMatch || commentsMatch;
   });
 
@@ -59,42 +65,39 @@ const ViewOrders = () => {
         </div>
 
         {/* Search and Sort Section */}
-          <div className="mb-6 flex flex-col md:flex-row items-center justify-between">
-            <input
-              type="text"
-              placeholder="Search orders..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="border border-gray-300 rounded-lg p-2 md:p-3 w-full  mb-2 md:mb-0 mr-2 focus:outline-none focus:ring-2 focus:ring-green-400 transition duration-200"
-            />
-            <select
-              value={sortOption}
-              onChange={(e) => setSortOption(e.target.value)}
-              className="border border-gray-300 rounded-lg p-2 md:p-3 w-full max-w-36 focus:outline-none focus:ring-2 focus:ring-green-400 transition duration-200"
-            >
-              <option value="default">Sort By</option>
-              <option value="price">Price</option>
-              <option value="date">Date</option>
-            </select>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {loading ? (
-              <p className="text-center text-gray-600 font-medium">
-                Loading orders...
-              </p>
-            ) : error ? (
-              <p className="text-center text-red-600 font-medium">
-                Error fetching orders.
-              </p>
-            ) : sortedOrders && sortedOrders.length > 0 ? (
-              sortedOrders.map((order, index) => (
-                <div
-            key={order.id || index}
-            onClick={() => {
-                  if (order.currentStatus !== "Vendor Assigned") {
-                    navigate(`/order-details/${order._id}`);
-                  }
+        <div className="mb-6 flex flex-col md:flex-row items-center justify-between">
+          <input
+            type="text"
+            placeholder="Search orders..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="border border-gray-300 rounded-lg p-2 md:p-3 w-full  mb-2 md:mb-0 mr-2 focus:outline-none focus:ring-2 focus:ring-green-400 transition duration-200"
+          />
+          <select
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+            className="border border-gray-300 rounded-lg p-2 md:p-3 w-full max-w-36 focus:outline-none focus:ring-2 focus:ring-green-400 transition duration-200"
+          >
+            <option value="default">Sort By</option>
+            <option value="price">Price</option>
+            <option value="date">Date</option>
+          </select>
+        </div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {loading ? (
+            <p className="text-center text-gray-600 font-medium">
+              Loading orders...
+            </p>
+          ) : error ? (
+            <p className="text-center text-red-600 font-medium">
+              Error fetching orders.
+            </p>
+          ) : sortedOrders && sortedOrders.length > 0 ? (
+            sortedOrders.map((order, index) => (
+              <div
+                key={order.id || index}
+                onClick={() => {
+                  navigate(`/order-details/${order._id}`);
                 }}
                 className={`p-4 border-2 border-gray-300 rounded-lg shadow hover:shadow-lg hover:border-green-600 transition duration-300 cursor-pointer ${getStatusColorClass(
                   order.currentStatus
@@ -125,6 +128,10 @@ const ViewOrders = () => {
                 <p>
                   <span className="font-medium">Date:</span>{" "}
                   {new Date(order.createdAt).toLocaleString()}
+                </p>
+                <p>
+                  <span className="font-medium">Last Updated:</span>{" "}
+                  {new Date(order.updatedAt).toLocaleString()}
                 </p>
               </div>
             ))

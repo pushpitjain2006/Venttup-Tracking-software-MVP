@@ -35,6 +35,10 @@ const orderSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    customerApproval: {
+      type: Boolean,
+      default: false,
+    },
     sector: {
       type: String,
       required: true,

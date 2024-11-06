@@ -8,15 +8,30 @@ const OrderUploadForm = () => {
   const navigate = useNavigate();
   const axios = useAxios();
   const [formData, setFormData] = useState({
-    customerGstin: "",
+    customerId: "",
     orderType: "",
-    amount: "",
+    totalAmount: "",
+    currentStatus: "Waiting Admin Approval",
+    vendorId: "",
+    adminApproval: true,
+    customerApproval: false,
     sector: "",
+    comments: "",
+    documents: [],
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    const fileData = files.map((file) => ({
+      name: file.name,
+      url: URL.createObjectURL(file),
+    }));
+    setFormData({ ...formData, documents: fileData });
   };
 
   const handleSubmit = async (e) => {
@@ -27,10 +42,16 @@ const OrderUploadForm = () => {
       });
       toast(response.data.message);
       setFormData({
-        customerGstin: "",
+        customerId: "",
         orderType: "",
-        amount: "",
+        totalAmount: "",
+        currentStatus: "Waiting Admin Approval",
+        vendorId: "",
+        adminApproval: true,
+        customerApproval: false,
         sector: "",
+        comments: "",
+        documents: [],
       });
     } catch (err) {
       toast.error(err.message);
@@ -39,37 +60,39 @@ const OrderUploadForm = () => {
 
   return (
     <>
-      <div className="fixed w-full h-16 flex justify-between bg-slate-400">
+      <div className="sticky w-full h-16 flex justify-between bg-gray-900 shadow-md z-10">
         <House
-          className="w-10 h-10 m-3 cursor-pointer"
+          className="w-12 h-12 m-3 cursor-pointer text-white hover:text-gray-400 transition-colors"
           onClick={() => navigate("/")}
         />
       </div>
-      <div className="flex justify-center items-center h-screen w-screen">
-        <div className="w-96 p-4 border rounded-lg shadow-lg">
-          <h2 className="text-2xl font-bold mb-4 text-center">ORDER UPLOAD</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-green-400 to-blue-500 ">
+        <div className="w-full max-w-lg p-6 bg-white rounded-xl shadow-lg m-10">
+          <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">
+            Order Upload
+          </h2>
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label
-                htmlFor="customerGstin"
-                className="block text-lg font-medium mb-1"
+                htmlFor="customerId"
+                className="block text-lg font-medium text-gray-700 mb-2"
               >
-                Customer GSTIN
+                Customer
               </label>
               <input
                 type="text"
-                id="customerGstin"
-                name="customerGstin"
-                value={formData.customerGstin}
+                id="customerId"
+                name="customerId"
+                value={formData.customerId}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-lg"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 required
               />
             </div>
             <div>
               <label
                 htmlFor="orderType"
-                className="block text-lg font-medium mb-1"
+                className="block text-lg font-medium text-gray-700 mb-2"
               >
                 Order Type
               </label>
@@ -78,36 +101,61 @@ const OrderUploadForm = () => {
                 name="orderType"
                 value={formData.orderType}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-lg"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 required
               >
                 <option value="">Select Order Type</option>
                 <option value="localization">Localization</option>
-                <option value="contract_manufacturing">Contract Manufacturing</option>
+                <option value="contract_manufacturing">
+                  Contract Manufacturing
+                </option>
                 <option value="supply_chain">Supply Chain</option>
               </select>
             </div>
             <div>
               <label
-                htmlFor="amount"
-                className="block text-lg font-medium mb-1"
+                htmlFor="totalAmount"
+                className="block text-lg font-medium text-gray-700 mb-2"
               >
-                Amount
+                Total Amount
               </label>
               <input
                 type="number"
-                id="amount"
-                name="amount"
-                value={formData.amount}
+                id="totalAmount"
+                name="totalAmount"
+                value={formData.totalAmount}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-lg"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 required
               />
             </div>
             <div>
               <label
+                htmlFor="currentStatus"
+                className="block text-lg font-medium text-gray-700 mb-2"
+              >
+                Current Status
+              </label>
+              <select
+                id="currentStatus"
+                name="currentStatus"
+                value={formData.currentStatus}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                required
+              >
+                <option value="Waiting Admin Approval">
+                  Waiting Admin Approval
+                </option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+                <option value="Canceled">Canceled</option>
+              </select>
+            </div>
+            <div>
+              <label
                 htmlFor="sector"
-                className="block text-lg font-medium mb-1"
+                className="block text-lg font-medium text-gray-700 mb-2"
               >
                 Sector
               </label>
@@ -116,7 +164,7 @@ const OrderUploadForm = () => {
                 name="sector"
                 value={formData.sector}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-lg"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 required
               >
                 <option value="">Select Sector</option>
@@ -127,9 +175,41 @@ const OrderUploadForm = () => {
                 <option value="sector_5">Sector 5</option>
               </select>
             </div>
+            <div>
+              <label
+                htmlFor="comments"
+                className="block text-lg font-medium text-gray-700 mb-2"
+              >
+                Comments (Optional)
+              </label>
+              <textarea
+                id="comments"
+                name="comments"
+                value={formData.comments}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                rows="4"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="documents"
+                className="block text-lg font-medium text-gray-700 mb-2"
+              >
+                Upload Documents
+              </label>
+              <input
+                type="file"
+                id="documents"
+                name="documents"
+                onChange={handleFileChange}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                multiple
+              />
+            </div>
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600"
+              className="w-full py-3 bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold rounded-lg shadow-md hover:bg-gradient-to-l hover:from-blue-600 hover:to-green-500 transition-colors"
             >
               Upload Order
             </button>
