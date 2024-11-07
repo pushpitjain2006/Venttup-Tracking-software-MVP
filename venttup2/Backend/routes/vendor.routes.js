@@ -5,15 +5,16 @@ import {
   SignupVendor,
   AcceptOrders,
   DeclineOrders,
-  UpdateProgress,
   GetVendorOrders,
   GetCustomerDetails,
+  UpdateProgress,
 } from "../controllers/vendor.controller.js";
 
 // import { ViewOrders, TrackOrders } from "../controllers/order.controller.js";
 import protectedRoute from "../middlewares/ProtectedRoute.js";
 import isVendor from "../middlewares/isVendor.js";
 import { OrderDetails } from "../controllers/order.controller.js";
+import { fileUpload } from "../controllers/admin.controller.js";
 const router = express.Router();
 
 router.post("/login", LoginVendor); //Working
@@ -32,5 +33,6 @@ router.get(
   GetCustomerDetails
 );
 router.post("/view-order-details", protectedRoute, isVendor, OrderDetails);
+router.post("/upload", protectedRoute, isVendor, fileUpload);
 
 export default router;

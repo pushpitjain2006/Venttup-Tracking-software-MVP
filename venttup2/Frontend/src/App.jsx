@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import MasterDashboard from "./pages/Dashboard/AdminDashboard/masterDashboard.jsx";
 import CustomerDashboard from "./pages/Dashboard/customerDashboard/customerDashboard.jsx";
 import VendorDashboard from "./pages/Dashboard/VendorDashboard/vendorDashboard.jsx";
-import EditUsers from "./components/AdminDashboard/EditUsers.jsx";
+import EditUsers from "./pages/Admin-pages/EditUsers.jsx";
 import PlaceOrder from "./pages/Customer-pages/placeOrder.jsx";
 import ViewOrders from "./pages/Customer-pages/viewOrders.jsx";
 import OrderUploadForm from "./pages/Admin-pages/OrderUpload.jsx";

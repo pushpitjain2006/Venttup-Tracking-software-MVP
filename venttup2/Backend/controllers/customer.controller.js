@@ -121,14 +121,33 @@ export const ApproveGRN = async (req, res) => {
     if (!order) {
       return res.status(400).json({ message: "Order not found" });
     }
-    if(order.currentStatus !== "GRN"){
+    if (order.currentStatus !== "GRN") {
       return res.status(400).json({ message: "GRN not yet submitted" });
     }
     order.currentStatus = "GRN Approved";
     order.currentStep += 1;
     order.adminApproval = false;
+    order.customerApproval = true;
     await order.save();
     res.status(200).json({ message: "GRN Approved" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const ConfirmGate = async (req, res) => {
+  try {
+    const { orderId } = req.body;
+    if (!orderId) {
+      return res.status(400).json({ message: "Please provide orderId" });
+    }
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(400).json({ message: "Order not found" });
+    }
+    order.customerApproval = true;
+    await order.save();
+    res.status(200).json({ message: "Update Confirmed" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

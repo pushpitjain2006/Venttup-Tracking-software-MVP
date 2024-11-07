@@ -6,7 +6,9 @@ import generateTokenAndSetCookie from "../utils/GenerateJWT.js";
 import bcrypt from "bcryptjs";
 import orderStatuses from "../config/orderStatusConfig.js";
 import multer from "multer";
-import uploadToCloudinary from "../utils/cloudinary.js";
+import uploadToCloudinary, {
+  deleteFromCloudinary,
+} from "../utils/cloudinary.js";
 import fs from "fs";
 import path from "path";
 
@@ -268,10 +270,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 export const fileUpload = (req, res) => {
-  console.log("------------------ File Upload ------------------");
   upload.single("file")(req, res, async (err) => {
+    const { orderId, documentName } = req.body;
+    console.log(orderId, documentName);
     if (err) {
-      console.error("Line 242 : Error uploading file:", err);
       return res
         .status(500)
         .json({ message: "File upload failed", error: err });
@@ -280,17 +282,26 @@ export const fileUpload = (req, res) => {
       console.error("File not found in the request");
       return res.status(400).json({ message: "No file uploaded" });
     }
-    const order = await Order.findById(req.body.orderId);
+    const order = await Order.findById(orderId);
+    console.log(order);
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
     try {
       const result = await uploadToCloudinary(req.file.path);
       fs.unlinkSync(req.file.path);
-      order.documents.push({
-        name: "PO",
-        url: result.secure_url,
-      });
+      const doc = order.documents.find(
+        (doc) => doc.name === documentName ?? order.currentStatus
+      );
+      if (doc) {
+        await deleteFromCloudinary(doc.url);
+        doc.url = result.secure_url;
+      } else {
+        order.documents.push({
+          name: documentName ?? order.currentStatus,
+          url: result.secure_url,
+        });
+      }
       await order.save();
       return res.status(200).json({
         message: "File uploaded successfully",
@@ -298,9 +309,59 @@ export const fileUpload = (req, res) => {
         cloudinaryUrl: result.secure_url,
       });
     } catch (cloudinaryError) {
+      console.log(" cloudinaryError ", cloudinaryError);
       return res
         .status(500)
         .json({ message: "Cloudinary upload failed", error: cloudinaryError });
     }
   });
+};
+
+export const UpdateProgressAdmin = async (req, res) => {
+  try {
+    const { orderId } = req.body;
+    if (!orderId) {
+      return res.status(400).json({ message: "Please fill all the fields" });
+    }
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+    const arr = orderStatuses[order.orderType];
+    if (order.currentStatus === "GRN") {
+      return res
+        .status(400)
+        .json({ message: "Order waiting for customer approval" });
+    }
+    if (order.currentStatus === "Order completed") {
+      return res.status(400).json({ message: "Order already completed" });
+    }
+    if (order.currentStatus === "Gate 2") {
+      order.customerApproval = false;
+    } else if (order.currentStatus === "Gate 3") {
+      if (!order.customerApproval) {
+        return res
+          .status(400)
+          .json({ message: "Order waiting for customer approval" });
+      }
+      order.customerApproval = false;
+    } else if (order.currentStatus === "Gate 4") {
+      if (!order.customerApproval) {
+        return res
+          .status(400)
+          .json({ message: "Order waiting for customer approval" });
+      }
+    }
+    if (order.currentStep + 1 < arr.length) {
+      order.currentStep += 1;
+      order.currentStatus = arr[order.currentStep];
+      order.adminApproval = true;
+    } else {
+      res.status(400).json({ message: "Invalid request" });
+    }
+    await order.save();
+    return res.status(200).json({ message: "Progress Updated" });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 };

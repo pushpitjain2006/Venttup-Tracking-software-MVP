@@ -4,6 +4,7 @@ import Contract_manufacturing from "./TypeGate/contract_manufacturing.jsx";
 import Supply_chain from "./TypeGate/supply_chain.jsx";
 
 const GateDetails = (values) => {
+  console.log("Values:", values);
   const { order } = values;
   const orderType = order.orderType;
   if (orderType == "localization") {

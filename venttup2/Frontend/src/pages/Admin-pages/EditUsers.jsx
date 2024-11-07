@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useFetchUsers from "../../../hooks/useFetchUsers";
+import useFetchUsers from "../../../hooks/useFetchUsers.js";
 import useAxios from "../../utils/useAxios.js";
 import { toast } from "react-toastify";
 import {
@@ -43,8 +43,21 @@ const EditUsers = () => {
     setEditedUserData(user);
   };
 
-  const handleSaveEdit = () => {
-    // Placeholder save logic for edit
+  const handleSaveEdit = async () => {
+    const res = await axios.put(`/admin/update-user`, {
+      type: userType,
+      id: editUserId,
+      data: editedUserData,
+    });
+    if (res.status !== 200) {
+      console.error("Failed to update user:", res.data.message);
+      return toast.error("Failed to update user.");
+    }
+    setUsers(
+      users.map((user) =>
+        user._id === editUserId ? { ...user, ...editedUserData } : user
+      )
+    );
     toast.success("User details updated successfully!");
     setEditUserId(null);
   };

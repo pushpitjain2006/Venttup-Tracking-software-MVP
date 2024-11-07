@@ -130,7 +130,7 @@ export const ConfirmGRN = async (req, res) => {
 
 export const editOrder = async (req, res) => {
   try {
-    const { orderId, updates } = req.body;
+    const { orderId, updates, LoggedInUserType } = req.body;
     if (!orderId) {
       return res.status(400).json({ message: "Please provide orderId" });
     }
@@ -141,6 +141,24 @@ export const editOrder = async (req, res) => {
     if (!updates) {
       return res.status(200).json({ message: "No updates provided" });
     }
+    if (LoggedInUserType === "customer") {
+      if (order.customerId != req.body.customerId) {
+        return res
+          .status(400)
+          .json({ message: "Only Customer can update the order." });
+      }
+      if (order.currentStep > 0) {
+        return res
+          .status(400)
+          .json({ message: "Only Admin can update the order." });
+      }
+    }
+    if (LoggedInUserType === "vendor") {
+      return res
+        .status(400)
+        .json({ message: "Only Admin can update the order." });
+    }
+
     if (updates.vendorId && order.vendorId != updates.vendorId) {
       const oldVendor = await Vendor.findById(order.vendorId);
       const newVendor = await Vendor.findById(updates.vendorId);

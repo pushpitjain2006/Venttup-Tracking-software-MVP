@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import orderStatuses from "../../config/orderStatusConfig";
 import StepIndicator from "../StepIndicator";
 import useAxios from "../../utils/useAxios";
+import GateDetails from "../GateDetails";
+import { toast } from "react-toastify";
 
 const OrderProgress = ({ order }) => {
   const axios = useAxios();
   const [file, setFile] = useState(null);
-  const [message, setMessage] = useState("");
-  const stages = order ? orderStatuses[order.orderType] || [] : [];
+  const stages = order ? orderStatuses[order.orderType] : [];
   const [focusStep, setFocusStep] = useState(order.currentStep);
   const [POfile, setPOfile] = useState(null);
 
@@ -31,36 +32,38 @@ const OrderProgress = ({ order }) => {
     setFocusStep(order.currentStep);
   }, [order]);
 
-  console.log("PO file:");
-
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       setFile(selectedFile);
-      console.log("Selected file:", selectedFile);
     } else {
-      setMessage("No file selected");
+      toast.info("File not selected.");
     }
   };
 
   const handleUpload = async () => {
     if (!file) {
-      setMessage("Please select a file first.");
+      toast.info("Please select a file first.");
       return;
     }
 
     const formData = new FormData();
     formData.append("file", file);
     formData.append("orderId", order._id);
+    formData.append("documentName", stages[focusStep]);
     try {
       const response = await axios.post("/admin/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      setMessage(response.data.message || "File uploaded successfully!");
+      if (response.status === 200) {
+        toast.success("File uploaded successfully!");
+      } else {
+        toast.error("Failed to upload file.");
+      }
     } catch (error) {
-      setMessage("Failed to upload file.");
+      toast.error("Failed to upload file.");
       console.error("Upload error:", error.response || error.message || error);
     }
   };
@@ -80,9 +83,7 @@ const OrderProgress = ({ order }) => {
             <h3 className="text-lg font-semibold">
               Step {focusStep + 1}: {stages[focusStep]}
             </h3>
-            <p className="text-sm mt-2">
-              Description and details for {stages[focusStep]}.
-            </p>
+            {GateDetails({ order, stepNumber: focusStep })}
             {order?.currentStep === 3 && (
               <>
                 <input
@@ -96,7 +97,6 @@ const OrderProgress = ({ order }) => {
                 >
                   Upload PO
                 </button>
-                <p className="mt-2 text-red-500">{message}</p>
                 {POfile && (
                   <div className="mt-4">
                     <h4 className="text-md font-semibold">Preview:</h4>

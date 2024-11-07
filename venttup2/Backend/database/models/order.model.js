@@ -37,7 +37,7 @@ const orderSchema = new mongoose.Schema(
     },
     customerApproval: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     sector: {
       type: String,
