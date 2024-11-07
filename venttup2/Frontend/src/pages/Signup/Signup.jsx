@@ -21,11 +21,10 @@ const Signup = () => {
       {/* Background Animation */}
       <div
         className="absolute top-0 left-0 w-full h-full bg-cover bg-center opacity-20"
-        style={{ backgroundImage: "url('/images/eco-background.jpg')" }}
       ></div>
       {adminLoggedIn && (
         <button
-          onClick={()=>window.history.back()}
+          onClick={() => window.history.back()}
           className="absolute top-4 left-4 flex items-center space-x-2 bg-white text-blue-600 py-2 px-4 rounded-full shadow-md hover:bg-blue-600 hover:text-white transition duration-300"
         >
           <FaArrowLeft />
@@ -69,12 +68,12 @@ const Signup = () => {
         <div className="mt-4">
           <p className="text-white text-sm sm:text-base">
             Already have an account?{" "}
-            <span
+            <button
               className="text-green-200 hover:text-blue-400 cursor-pointer underline"
               onClick={() => navigate("/login")}
             >
               Login
-            </span>
+            </button>
           </p>
         </div>
       </div>

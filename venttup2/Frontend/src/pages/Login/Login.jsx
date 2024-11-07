@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AdminLogin from "../../components/Login-components/Adminlogin.jsx";
 import VendorLogin from "../../components/Login-components/VendorLogin.jsx";
 import CustomerLogin from "../../components/Login-components/CustomerLogin.jsx";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaLeaf, FaUserShield, FaUsers } from "react-icons/fa";
 
 const Login = () => {
@@ -18,7 +18,6 @@ const Login = () => {
       {/* Background Animation */}
       <div
         className="absolute top-0 left-0 w-full h-full bg-cover bg-center opacity-20"
-        style={{ backgroundImage: "url('/images/eco-background.jpg')" }}
       ></div>
 
       {/* Main container with eco-themed styles */}
@@ -58,12 +57,12 @@ const Login = () => {
         <div className="mt-6">
           <p className="text-white text-sm sm:text-base">
             Don't have an account?{" "}
-            <span
+            <button
               className="text-green-200 hover:text-blue-400 cursor-pointer underline"
               onClick={() => navigate("/signup")}
             >
               Signup
-            </span>
+            </button>
           </p>
         </div>
       </div>

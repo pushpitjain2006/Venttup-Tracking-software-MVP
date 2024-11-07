@@ -1,12 +1,6 @@
 import React from "react";
-
 const Contract_manufacturing = (values) => {
+  return (<div></div>);
+};
 
-  return (
-    <div>
-      
-    </div>
-  )
-}
-
-export default Contract_manufacturing
+export default Contract_manufacturing;
