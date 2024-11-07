@@ -3,9 +3,12 @@ import AdminSignup from "../../components/Signup-components/AdminSignup.jsx";
 import VendorSignup from "../../components/Signup-components/VendorSignup.jsx";
 import CustomerSignup from "../../components/Signup-components/CustomerSignup.jsx";
 import { useNavigate } from "react-router-dom";
-import { FaLeaf, FaUserShield, FaUsers } from "react-icons/fa";
+import { FaArrowLeft, FaLeaf, FaUserShield, FaUsers } from "react-icons/fa";
+import { useAuth } from "../../../context/AuthContext.jsx";
 
 const Signup = () => {
+  const { auth } = useAuth();
+  const adminLoggedIn = auth?.userType === "admin";
   const navigate = useNavigate();
   const [selected, setSelected] = useState("Admin");
 
@@ -20,7 +23,15 @@ const Signup = () => {
         className="absolute top-0 left-0 w-full h-full bg-cover bg-center opacity-20"
         style={{ backgroundImage: "url('/images/eco-background.jpg')" }}
       ></div>
-
+      {adminLoggedIn && (
+        <button
+          onClick={()=>window.history.back()}
+          className="absolute top-4 left-4 flex items-center space-x-2 bg-white text-blue-600 py-2 px-4 rounded-full shadow-md hover:bg-blue-600 hover:text-white transition duration-300"
+        >
+          <FaArrowLeft />
+          <span>Back</span>
+        </button>
+      )}
       {/* Main container with eco-themed styles */}
       <div className="flex flex-col items-center p-4 sm:p-8 w-full max-w-lg relative z-10 space-y-6">
         {/* Header Tabs with Icons */}

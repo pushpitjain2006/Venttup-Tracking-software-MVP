@@ -40,7 +40,7 @@ const ViewOrders = () => {
     } else if (sortOption === "date") {
       return new Date(a.createdAt) - new Date(b.createdAt);
     }
-    return 0; // Default case: no sorting
+    return 0;
   });
 
   return (

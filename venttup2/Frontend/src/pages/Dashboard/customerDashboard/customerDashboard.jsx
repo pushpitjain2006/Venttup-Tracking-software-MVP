@@ -20,11 +20,6 @@ const CustomerDashboard = () => {
       <div className="flex items-center justify-between bg-green-600 shadow-md p-4 mb-6 rounded-lg">
         <div className="flex gap-4 items-center">
           <GiFactory className="text-white w-8 h-8" />
-          {/* <img
-            src="https://img.icons8.com/ios-filled/50/000000/plant-under-sun.png"
-            alt="Place Order"
-            className="mx-auto mt-4"
-          /> */}
           <h1 className="text-3xl font-semibold text-white">
             Customer Dashboard
           </h1>

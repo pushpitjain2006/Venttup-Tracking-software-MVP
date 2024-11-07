@@ -1,9 +1,3 @@
-// • GSTIN (username)
-// • Hashed password
-// • Address
-// • contact info
-// • Available - boolean - free or not
-
 import mongoose from "mongoose";
 
 const vendorSchema = new mongoose.Schema(

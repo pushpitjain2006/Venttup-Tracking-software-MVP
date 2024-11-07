@@ -69,7 +69,6 @@ const AdminSignup = () => {
   );
 };
 
-// Reusable Input Component
 const InputField = ({ label, id, type, value, onChange, placeholder }) => (
   <div className="space-y-1">
     <label htmlFor={id} className="block text-sm font-medium text-gray-700">
@@ -87,7 +86,6 @@ const InputField = ({ label, id, type, value, onChange, placeholder }) => (
   </div>
 );
 
-// Reusable Submit Button Component
 const SubmitButton = ({ loading, text }) => (
   <button
     type="submit"

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { House } from "lucide-react";
+import { FaArrowLeft } from "react-icons/fa";
 import useAxios from "../../utils/useAxios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -60,12 +60,13 @@ const OrderUploadForm = () => {
 
   return (
     <>
-      <div className="sticky w-full h-16 flex justify-between bg-gray-900 shadow-md z-10">
-        <House
-          className="w-12 h-12 m-3 cursor-pointer text-white hover:text-gray-400 transition-colors"
-          onClick={() => navigate("/")}
-        />
-      </div>
+      <button
+        onClick={() => window.history.back()}
+        className="absolute top-4 left-4 flex items-center space-x-2 bg-white text-blue-600 py-2 px-4 rounded-full shadow-md hover:bg-blue-600 hover:text-white transition duration-300"
+      >
+        <FaArrowLeft />
+        <span>Back</span>
+      </button>
       <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-green-400 to-blue-500 ">
         <div className="w-full max-w-lg p-6 bg-white rounded-xl shadow-lg m-10">
           <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">

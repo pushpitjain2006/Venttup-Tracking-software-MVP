@@ -9,22 +9,18 @@ import {
   GetCustomerDetails,
   UpdateProgress,
 } from "../controllers/vendor.controller.js";
-
-// import { ViewOrders, TrackOrders } from "../controllers/order.controller.js";
 import protectedRoute from "../middlewares/ProtectedRoute.js";
 import isVendor from "../middlewares/isVendor.js";
 import { OrderDetails } from "../controllers/order.controller.js";
 import { fileUpload } from "../controllers/admin.controller.js";
 const router = express.Router();
 
-router.post("/login", LoginVendor); //Working
-router.get("/logout", LogoutVendor); //Working
-router.post("/signup", SignupVendor); //Working
-// router.get("/view-orders", protectedRoute, isVendor, ViewOrders); //Working
-router.post("/accept-order", protectedRoute, isVendor, AcceptOrders); //Working
+router.post("/login", LoginVendor);
+router.get("/logout", LogoutVendor);
+router.post("/signup", SignupVendor);
+router.post("/accept-order", protectedRoute, isVendor, AcceptOrders);
 router.post("/decline-order", protectedRoute, isVendor, DeclineOrders);
-router.post("/update-progress", protectedRoute, isVendor, UpdateProgress); //Working
-// router.get("/track-orders", protectedRoute, isVendor, TrackOrders);
+router.post("/update-progress", protectedRoute, isVendor, UpdateProgress);
 router.post("/get-vendor-orders", protectedRoute, isVendor, GetVendorOrders);
 router.get(
   "/get-customer-details",

@@ -1,6 +1,6 @@
 import React from "react";
 import orderStatuses from "../config/orderStatusConfig";
-import { CheckCircle, Leaf } from "lucide-react"; // Icons for sustainability theme
+import { CheckCircle, Leaf } from "lucide-react";
 
 const ProgressBar = ({ order, setCurrentStep, isAcceptancePending }) => {
   const stages = order ? orderStatuses[order.orderType] || [] : [];

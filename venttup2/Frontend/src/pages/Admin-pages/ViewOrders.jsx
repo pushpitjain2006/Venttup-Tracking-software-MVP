@@ -154,7 +154,7 @@ const AllOrderDetails = () => {
                 <span className="font-semibold text-gray-500">Sector:</span>{" "}
                 {order.sector}
               </p>
-              <p className="text-blue-500 mb-2">
+              <div className="text-blue-500 mb-2">
                 <span className="font-semibold text-gray-500">
                   Admin Approval:
                 </span>{" "}
@@ -168,24 +168,24 @@ const AllOrderDetails = () => {
                   </span>
                 )}
                 <div className="flex justify-between pt-2">
-                  <p className="text-gray-500 mb-1 text-xs">
+                  <span className="text-gray-500 mb-1 text-xs">
                     <div className="font-semibold text-gray-600">
                       Created At:
                     </div>
                     <span className="text-gray-400">
                       {new Date(order.createdAt).toLocaleString()}
                     </span>
-                  </p>
-                  <p className="text-gray-500 mb-1 text-xs">
+                  </span>
+                  <span className="text-gray-500 mb-1 text-xs">
                     <div className="font-semibold text-gray-600">
                       Last Updated At:
                     </div>
                     <span className="text-gray-400">
                       {new Date(order.updatedAt).toLocaleString()}
                     </span>
-                  </p>
+                  </span>
                 </div>
-              </p>
+              </div>
               <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-opacity-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                   className="bg-blue-600 text-white py-2 px-4 w-full h-12 rounded-b-lg font-semibold hover:bg-blue-700 shadow-lg transition-transform duration-200 transform hover:scale-110"

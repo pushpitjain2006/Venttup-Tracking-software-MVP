@@ -10,19 +10,19 @@ const AdminDashboard = () => {
   const axios = useAxios();
 
   async function handleUserManagement() {
-    navigate("/view-users"); // Navigating to user management page
+    navigate("/view-users");
   }
 
   async function handleOrderManagement() {
-    navigate("/admin/ViewOrders"); // Navigating to order management page
+    navigate("/admin/ViewOrders"); 
   }
 
   async function handleAddUser() {
-    navigate("/Admin-signup"); // Navigating to add user page
+    navigate("/Admin-signup"); 
   }
 
   async function handleUploadOrder() {
-    navigate("/upload-order"); // Navigating to upload order page
+    navigate("/upload-order");
   }
 
   async function handleLogout() {
