@@ -87,7 +87,6 @@ const OrderDetailsVendor = () => {
           {isAcceptancePending ? "Withdraw Submission" : "Update Progress"}
         </button>
       )}
-      {/* Order details */}
       <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 w-full max-w-3xl mt-6 sm:mt-8 space-y-4 sm:space-y-6">
         {order && (
           <div className="text-center space-y-3 sm:space-y-4">

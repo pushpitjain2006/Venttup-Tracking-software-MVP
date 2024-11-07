@@ -7,7 +7,7 @@ const ViewOrders = () => {
   const { orders, error, loading } = useFetchOrders();
   const [count, setCount] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortOption, setSortOption] = useState("default"); // 'default', 'price', 'date'
+  const [sortOption, setSortOption] = useState("default");
   const navigate = useNavigate();
 
   const getStatusColorClass = (status) => {
@@ -64,7 +64,6 @@ const ViewOrders = () => {
           </button>
         </div>
 
-        {/* Search and Sort Section */}
         <div className="mb-6 flex flex-col md:flex-row items-center justify-between">
           <input
             type="text"

@@ -1,11 +1,11 @@
 import { CircleCheckBig } from "lucide-react";
 import orderStatuses from "../config/orderStatusConfig";
 
-const StepIndicator = ({ order, currentStep, setFocusStep,focusStep }) => {
+const StepIndicator = ({ order, currentStep, setFocusStep, focusStep }) => {
   const stages = order ? orderStatuses[order.orderType] || [] : [];
 
   return (
-    <div className="w-full h-16 flex justify-center items-center bg-white rounded-md shadow-md">
+    <div className="w-full flex flex-wrap justify-center items-center bg-white rounded-md shadow-md p-2">
       {stages.map((step, index) => (
         <div
           key={index}
@@ -36,7 +36,9 @@ const StepIndicator = ({ order, currentStep, setFocusStep,focusStep }) => {
                 ? "text-blue-600 font-medium"
                 : "text-gray-500"
             } ${
-              currentStep === index || focusStep === index ? "max-w-xs text-blue-600 opacity-100 " : ""
+              currentStep === index || focusStep === index
+                ? "max-w-xs text-blue-600 opacity-100 "
+                : ""
             }`}
           >
             {step}

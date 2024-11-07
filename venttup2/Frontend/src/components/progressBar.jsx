@@ -9,7 +9,7 @@ const ProgressBar = ({ order, setCurrentStep, isAcceptancePending }) => {
     <div className="mt-8 flex justify-center px-4">
       <div className="flex flex-wrap items-start justify-center gap-6 lg:flex-nowrap max-w-full">
         {stages.map((stage, index) => {
-          const isCompleted = index <= order?.currentStep;
+          const isCompleted = index < order?.currentStep;
           const isCurrent = index === order?.currentStep;
           const isGateStage = stage.toLowerCase().includes("gate");
 
@@ -18,7 +18,6 @@ const ProgressBar = ({ order, setCurrentStep, isAcceptancePending }) => {
               key={index}
               className="flex items-center flex-col sm:w-24 md:w-28 lg:w-32 text-center"
             >
-              {/* Step Circle */}
               <div
                 className={`relative flex items-center justify-center
                 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full border-2 transition-all duration-300
@@ -49,7 +48,6 @@ const ProgressBar = ({ order, setCurrentStep, isAcceptancePending }) => {
                 )}
               </div>
 
-              {/* Step Label */}
               <div
                 className={`mt-2 text-xs sm:text-sm md:text-base font-medium transition duration-300
                 ${

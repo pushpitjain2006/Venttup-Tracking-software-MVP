@@ -33,7 +33,6 @@ const AdminSignup = () => {
         Admin Signup
       </h2>
       <form onSubmit={handleSubmit} className="space-y-6 max-w-md mx-auto">
-        {/** Username Field */}
         <InputField
           label="Username"
           id="username"
@@ -43,7 +42,6 @@ const AdminSignup = () => {
           placeholder="Enter username"
         />
 
-        {/** Password Field */}
         <InputField
           label="Password"
           id="password"
@@ -53,7 +51,6 @@ const AdminSignup = () => {
           placeholder="Enter password"
         />
 
-        {/** Confirm Password Field */}
         <InputField
           label="Confirm Password"
           id="confirmPassword"

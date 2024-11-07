@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { ChevronLeft } from "lucide-react";
 import OrderProgress from "../../components/AdminDashboard/OrderProgress";
 import orderStatuses from "../../config/orderStatusConfig.js";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const OrderDetails = () => {
   const axios = useAxios();
@@ -14,8 +15,6 @@ const OrderDetails = () => {
   const [vendorId, setVendorId] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [updates, setUpdates] = useState({});
-  const [showOrderDetails, setShowOrderDetails] = useState(true);
-  const [showOrderProgress, setShowOrderProgress] = useState(false);
   const [loading, setLoading] = useState(false);
   const Statuses = orderStatuses[details?.orderType] || [];
 
@@ -98,6 +97,29 @@ const OrderDetails = () => {
     }
   };
 
+  const handleDisapproveUpdate = async () => {
+    try {
+      await axios.post(`/admin/disapprove-update`, { orderId });
+      setDetails((prev) => ({ ...prev, adminApproval: false }));
+      toast.success("Order disapproved successfully");
+    } catch (err) {
+      toast.error("Failed to disapprove order");
+    }
+  };
+
+  const handleUpdateProgress = async () => {
+    toast.info("Updating order progress...");
+    try {
+      const res = await axios.post(`/admin/update-progress`, {
+        orderId,
+      });
+      console.log(res);
+      toast.success("Order progress updated successfully");
+    } catch (err) {
+      toast.error(err.response.data.message);
+    }
+  };
+
   return (
     <div className="w-full min-h-screen bg-gradient-to-b from-blue-100 via-gray-100 to-blue-50 text-gray-800">
       <div className="w-full h-16 bg-blue-700 flex items-center px-4">
@@ -111,31 +133,32 @@ const OrderDetails = () => {
 
       {details ? (
         <>
-          <div className="w-full p-6 bg-white bg-opacity-70 rounded-lg my-4 transition-all duration-300 ease-in-out">
-            <div className="w-full p-4 bg-opacity-70 rounded-lg">
+          <div className="w-full bg-white bg-opacity-70 rounded-lg my-4 transition-all duration-300 ease-in-out flex flex-col justify-center items-center">
+            <div className="w-full py-2 max-w-4xl bg-opacity-70 rounded-lg">
               <div className="overflow-hidden mt-4">
-                <OrderProgress order={details} />
+                <OrderProgress
+                  order={details}
+                  handleUpdateProgress={handleUpdateProgress}
+                  handleApproveUpdate={handleApproveUpdate}
+                  handleDisapproveUpdate={handleDisapproveUpdate}
+                />
               </div>
             </div>
 
-            <div
-              onClick={() => setShowOrderDetails((prev) => !prev)}
-              className="w-full text-left font-semibold text-xl bg-blue-600 py-2 px-4 rounded-md text-gray-50 hover:bg-blue-500 transition-all duration-200"
-            >
-              Order Details
-            </div>
-
-            <div className="overflow-hidden mt-4">
-              <div className="space-y-4 grid grid-cols-2 gap-4">
-                <div>
+            <div className=" mt-4 px-3">
+              <div className="my-5 text-left font-semibold text-xl bg-blue-600 py-2 px-4 rounded-md text-gray-50">
+                Order Details
+              </div>
+              <div className="space-y-4 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
+                <div className="flex flex-col">
                   <h3 className="text-lg font-medium">Order ID</h3>
-                  <p className="text-gray-500">{details._id}</p>
+                  <p className="text-gray-500 truncate">{details._id}</p>
                 </div>
-                <div>
+                <div className="flex flex-col">
                   <h3 className="text-lg font-medium">Customer ID</h3>
-                  <p className="text-gray-500">{details.customerId}</p>
+                  <p className="text-gray-500 truncate">{details.customerId}</p>
                 </div>
-                <div>
+                <div className="flex flex-col">
                   <h3 className="text-lg font-medium">Order Type</h3>
                   {isEditing ? (
                     <select
@@ -155,7 +178,7 @@ const OrderDetails = () => {
                     <p className="text-gray-500">{details.orderType}</p>
                   )}
                 </div>
-                <div>
+                <div className="flex flex-col">
                   <h3 className="text-lg font-medium">Total Amount</h3>
                   {isEditing ? (
                     <input
@@ -170,7 +193,7 @@ const OrderDetails = () => {
                     <p className="text-gray-500">₹{details.totalAmount}</p>
                   )}
                 </div>
-                <div>
+                <div className="flex flex-col">
                   <h3 className="text-lg font-medium">Current Status</h3>
                   {isEditing ? (
                     <input
@@ -185,24 +208,22 @@ const OrderDetails = () => {
                     <p className="text-gray-500">{details.currentStatus}</p>
                   )}
                 </div>
-                <div>
+                <div className="flex flex-col">
                   <h3 className="text-lg font-medium">Current Step</h3>
                   {isEditing ? (
-                    <>
-                      <input
-                        type="number"
-                        className="p-2 bg-gray-200 text-gray-700 focus:outline-none"
-                        value={updates?.currentStep ?? details.currentStep}
-                        onChange={(e) =>
-                          handleChange("currentStep", e.target.value)
-                        }
-                      />
-                    </>
+                    <input
+                      type="number"
+                      className="p-2 bg-gray-200 text-gray-700 focus:outline-none"
+                      value={updates?.currentStep ?? details.currentStep}
+                      onChange={(e) =>
+                        handleChange("currentStep", e.target.value)
+                      }
+                    />
                   ) : (
                     <p className="text-gray-500">{details.currentStep}</p>
                   )}
                 </div>
-                <div>
+                <div className="flex flex-col">
                   <h3 className="text-lg font-medium">Vendor ID</h3>
                   <div className="text-gray-500">
                     {details.vendorId ? (
@@ -234,6 +255,7 @@ const OrderDetails = () => {
                   </div>
                 </div>
               </div>
+
               <div className="flex justify-end items-center space-x-4 mt-6">
                 {!details.adminApproval && (
                   <button
@@ -269,7 +291,10 @@ const OrderDetails = () => {
           </div>
         </>
       ) : loading ? (
-        <h1 className="text-blue-600">Loading...</h1>
+        <div className="flex justify-center items-center text-blue-700">
+          <AiOutlineLoading3Quarters className="animate-spin text-4xl" />
+          <p className="ml-3 text-lg">Loading...</p>
+        </div>
       ) : (
         <h1 className="text-red-500">Order not found.</h1>
       )}

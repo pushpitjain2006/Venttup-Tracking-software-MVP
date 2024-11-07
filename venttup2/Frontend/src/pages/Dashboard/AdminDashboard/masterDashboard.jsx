@@ -1,7 +1,12 @@
 import React from "react";
 import { useAuth } from "../../../../context/AuthContext.jsx";
 import useAxios from "../../../utils/useAxios.js";
-import { FaUserShield, FaClipboardList, FaUserPlus, FaUpload } from "react-icons/fa"; // Additional icons for admin functionalities
+import {
+  FaUserShield,
+  FaClipboardList,
+  FaUserPlus,
+  FaUpload,
+} from "react-icons/fa"; // Additional icons for admin functionalities
 import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
@@ -14,11 +19,11 @@ const AdminDashboard = () => {
   }
 
   async function handleOrderManagement() {
-    navigate("/admin/ViewOrders"); 
+    navigate("/admin/ViewOrders");
   }
 
   async function handleAddUser() {
-    navigate("/Admin-signup"); 
+    navigate("/Admin-signup");
   }
 
   async function handleUploadOrder() {
@@ -33,23 +38,20 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-400 via-white to-blue-200 p-8">
-      {/* Navbar */}
-      <header className="flex items-center justify-between bg-blue-700 shadow-lg p-5 rounded-xl mb-8 text-white">
-        <div className="flex items-center gap-4">
+      <header className="flex items-center justify-between bg-blue-700 shadow-lg p-5 rounded-xl mb-8 text-white flex-wrap sm:flex-nowrap">
+        <div className="flex items-center gap-4 w-full sm:w-auto mb-4 sm:mb-0">
           <h1 className="text-3xl font-bold tracking-wide">Admin Dashboard</h1>
           <FaUserShield className="text-4xl" />
         </div>
         <button
           onClick={handleLogout}
-          className="text-sm font-semibold tracking-wide px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-md transition-all"
+          className="text-sm font-semibold tracking-wide px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-md transition-all w-full sm:w-auto"
         >
           Logout
         </button>
       </header>
 
-      {/* Main Content */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-        {/* Manage Users */}
         <div
           className="flex-1 bg-white shadow-md rounded-xl p-[5rem] text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg cursor-pointer border-l-8 border-blue-600 transform hover:rotate-1"
           onClick={handleUserManagement}
@@ -62,7 +64,6 @@ const AdminDashboard = () => {
           </p>
         </div>
 
-        {/* Manage Orders */}
         <div
           className="flex-1 bg-white shadow-md rounded-xl p-[5rem] text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg cursor-pointer border-l-8 border-blue-600 transform hover:-rotate-1"
           onClick={handleOrderManagement}
@@ -75,7 +76,6 @@ const AdminDashboard = () => {
           </p>
         </div>
 
-        {/* Add User */}
         <div
           className="flex-1 bg-white shadow-md rounded-xl p-[5rem] text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg cursor-pointer border-l-8 border-blue-600 transform hover:rotate-1"
           onClick={handleAddUser}
@@ -88,7 +88,6 @@ const AdminDashboard = () => {
           </p>
         </div>
 
-        {/* Upload Order */}
         <div
           className="flex-1 bg-white shadow-md rounded-xl p-[5rem] text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg cursor-pointer border-l-8 border-blue-600 transform hover:-rotate-1"
           onClick={handleUploadOrder}

@@ -32,7 +32,6 @@ const CustomerDashboard = () => {
         </button>
       </div>
 
-      {/* Main Content */}
       <div className="flex flex-col sm:flex-row gap-6">
         <div
           onClick={() => {

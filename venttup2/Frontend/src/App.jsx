@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Redirect from "./components/Redirect";
 import { useAuth } from "../context/AuthContext";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const AdminRoutes = lazy(() => import("./routes/AdminRoutes"));
 const CustomerRoutes = lazy(() => import("./routes/CustomerRoutes"));
@@ -12,7 +13,14 @@ function App() {
 
   return (
     <Router>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={
+          <div className="flex justify-center items-center text-blue-400">
+            <AiOutlineLoading3Quarters className="animate-spin text-4xl" />
+            <p className="ml-3 text-lg">Loading...</p>
+          </div>
+        }
+      >
         <Routes>
           <Route path="/" element={<Redirect page="" />} />
           <Route path="/login" element={<Redirect page="login" />} />

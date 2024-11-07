@@ -64,7 +64,6 @@ const EditUsers = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-100 text-gray-900 p-8">
-      {/* Back Button */}
       <button
         onClick={() => window.history.back()}
         className="mb-6 text-blue-600 flex items-center gap-2 hover:text-blue-500 transition"
@@ -78,7 +77,6 @@ const EditUsers = () => {
         Edit Users
       </h1>
 
-      {/* User Type Toggle */}
       <div className="flex justify-center mb-8 gap-4">
         <button
           onClick={() => setUserType("vendor")}
@@ -112,7 +110,6 @@ const EditUsers = () => {
         <p className="text-center text-red-500 font-semibold">{error}</p>
       )}
 
-      {/* Users Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {users.map((user) => (
           <div

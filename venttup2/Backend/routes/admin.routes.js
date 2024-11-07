@@ -12,6 +12,7 @@ import {
   ApproveUpdate,
   fileUpload,
   UpdateProgressAdmin,
+  DisapproveUpdate,
 } from "../controllers/admin.controller.js";
 import {
   deleteOrder,
@@ -24,9 +25,7 @@ import {
 
 import protectedRoute from "../middlewares/ProtectedRoute.js";
 import isAdmin from "../middlewares/isAdmin.js";
-import {
-  AcceptOrders,
-} from "../controllers/vendor.controller.js";
+import { AcceptOrders } from "../controllers/vendor.controller.js";
 
 const router = express.Router();
 
@@ -49,6 +48,7 @@ router.get("/order/:orderID", protectedRoute, isAdmin, OrderDetails);
 router.delete("/delete-order", protectedRoute, isAdmin, deleteOrder);
 router.put("/modify-order", protectedRoute, isAdmin, editOrder);
 router.post("/approve-update", protectedRoute, isAdmin, ApproveUpdate);
+router.post("/disapprove-update", protectedRoute, isAdmin, DisapproveUpdate);
 router.post("/upload", protectedRoute, isAdmin, fileUpload);
 
 router.post("/confirm-grn", protectedRoute, isAdmin, ConfirmGRN);

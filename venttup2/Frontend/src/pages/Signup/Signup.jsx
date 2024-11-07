@@ -18,10 +18,7 @@ const Signup = () => {
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-r from-green-600 to-blue-700 relative overflow-hidden">
-      {/* Background Animation */}
-      <div
-        className="absolute top-0 left-0 w-full h-full bg-cover bg-center opacity-20"
-      ></div>
+      <div className="absolute top-0 left-0 w-full h-full bg-cover bg-center opacity-20"></div>
       {adminLoggedIn && (
         <button
           onClick={() => window.history.back()}
@@ -31,9 +28,7 @@ const Signup = () => {
           <span>Back</span>
         </button>
       )}
-      {/* Main container with eco-themed styles */}
       <div className="flex flex-col items-center p-4 sm:p-8 w-full max-w-lg relative z-10 space-y-6">
-        {/* Header Tabs with Icons */}
         <div className="flex justify-around w-full bg-white bg-opacity-70 border-2 border-blue-600 rounded-full shadow-lg mb-4 transition duration-500 ease-in-out hover:shadow-2xl">
           {[
             { name: "Admin", icon: <FaUserShield /> },
@@ -57,14 +52,12 @@ const Signup = () => {
           ))}
         </div>
 
-        {/* Signup Form Card */}
         <div className="w-full max-w-lg p-5 bg-white/90 backdrop-blur-md rounded-3xl shadow-xl max-h-[85vh] overflow-y-auto transition duration-500 hover:scale-105 hover:shadow-2xl">
           {selected === "Admin" && <AdminSignup />}
           {selected === "Vendor" && <VendorSignup />}
           {selected === "Customer" && <CustomerSignup />}
         </div>
 
-        {/* Login Link */}
         <div className="mt-4">
           <p className="text-white text-sm sm:text-base">
             Already have an account?{" "}
@@ -78,7 +71,6 @@ const Signup = () => {
         </div>
       </div>
 
-      {/* Floating Leaf Animation */}
       <div className="absolute -bottom-12 -left-16 w-36 h-36 bg-blue-300 rounded-full filter blur-lg animate-pulse opacity-60"></div>
       <div className="absolute -top-16 -right-16 w-32 h-32 bg-green-400 rounded-full filter blur-lg animate-bounce opacity-70"></div>
     </div>

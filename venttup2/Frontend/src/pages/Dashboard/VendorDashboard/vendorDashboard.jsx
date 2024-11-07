@@ -21,7 +21,6 @@ const VendorDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-400 via-white to-green-200 p-8">
-      {/* Navbar */}
       <header className="flex items-center justify-between bg-green-700 shadow-lg p-5 rounded-xl mb-8 text-white">
         <div className="flex items-center gap-4">
           <h1 className="text-3xl font-bold tracking-wide">Vendor Dashboard</h1>
@@ -34,10 +33,7 @@ const VendorDashboard = () => {
           Logout
         </button>
       </header>
-
-      {/* Main Content */}
       <div className="flex flex-col sm:flex-row gap-8">
-        {/* View Requests */}
         <div
           className="flex-1 bg-white shadow-md rounded-xl p-[5rem] text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg cursor-pointer border-l-8 border-green-600 transform hover:rotate-1"
           onClick={() => {
@@ -51,8 +47,6 @@ const VendorDashboard = () => {
             Review new requests and manage them efficiently.
           </p>
         </div>
-
-        {/* View & Update Current Order */}
         <div
           className="flex-1 bg-white shadow-md rounded-xl p-[5rem] text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg cursor-pointer border-l-8 border-green-600 transform hover:-rotate-1"
           onClick={() => {

@@ -50,7 +50,6 @@ const AllOrderDetails = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-400  to-green-700 text-white font-sans">
-      {/* Header */}
       <div className="w-full h-24 bg-blue-800 flex items-center justify-between p-6 shadow-md">
         <House
           className="w-10 h-10 cursor-pointer text-white hover:text-blue-400 transition-colors"
@@ -80,7 +79,6 @@ const AllOrderDetails = () => {
         Orders
       </h1>
 
-      {/* Filter Section */}
       <div className="flex flex-wrap justify-center gap-5 mb-6 bg-opacity-10 bg-white p-2">
         <select
           value={adminApprovalFilter}
@@ -110,7 +108,6 @@ const AllOrderDetails = () => {
         </div>
       </div>
 
-      {/* Orders Display */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
         {loading ? (
           <div className="flex justify-center items-center">
@@ -120,77 +117,81 @@ const AllOrderDetails = () => {
           filteredOrders.map((order) => (
             <div
               key={order._id}
+              onClick={() => navigate(`/order/${order._id}`)}
               className="relative group min-h-80 bg-gray-100 rounded-lg transition-transform duration-300 hover:scale-105 hover:shadow-xl p-5 m-3 shadow-lg border-l-4 border-blue-500"
             >
-              <h2 className="text-xl font-bold mb-4 text-gray-500">
+              <h2 className="text-xl font-bold text-gray-500">
                 Order ID: {order._id}
               </h2>
-              <p className="text-blue-500 mb-2">
-                <FaLeaf className="inline mr-2 text-blue-400" />
-                <span className="font-semibold text-gray-500">
-                  Order Type:
-                </span>{" "}
-                {order.orderType}
-              </p>
-              <p className="text-blue-500 mb-2">
-                <FaMoneyBillWave className="inline mr-2 text-blue-400" />
-                <span className="font-semibold text-gray-500">
-                  Total Amount:
-                </span>{" "}
-                ₹{order.totalAmount}
-              </p>
-              <p className="text-blue-500 mb-2">
-                <MdOutlineBusinessCenter className="inline mr-2 text-blue-400" />
-                <span className="font-semibold text-gray-500">
-                  Current Status:
-                </span>{" "}
-                {order.currentStatus}
-              </p>
-              <p className="text-blue-500 mb-2">
-                <span className="font-semibold text-gray-500">Vendor ID:</span>{" "}
-                {order.vendorId || "Not Assigned"}
-              </p>
-              <p className="text-blue-500 mb-2">
-                <span className="font-semibold text-gray-500">Sector:</span>{" "}
-                {order.sector}
-              </p>
-              <div className="text-blue-500 mb-2">
-                <span className="font-semibold text-gray-500">
-                  Admin Approval:
-                </span>{" "}
-                {order.adminApproval ? (
-                  <span className="text-green-500 flex items-center">
-                    <BsFillCheckCircleFill className="mr-1" /> Approved
-                  </span>
-                ) : (
-                  <span className="text-yellow-300 flex items-center">
-                    <BsFillXCircleFill className="mr-1" /> Pending
-                  </span>
-                )}
-                <div className="flex justify-between pt-2">
-                  <span className="text-gray-500 mb-1 text-xs">
-                    <div className="font-semibold text-gray-600">
-                      Created At:
-                    </div>
-                    <span className="text-gray-400">
-                      {new Date(order.createdAt).toLocaleString()}
+              <div className="my-6">
+                <p className="text-blue-500 mb-2">
+                  <FaLeaf className="inline mr-2 text-blue-400" />
+                  <span className="font-semibold text-gray-500">
+                    Order Type:
+                  </span>{" "}
+                  {order.orderType}
+                </p>
+                <p className="text-blue-500 mb-2">
+                  <FaMoneyBillWave className="inline mr-2 text-blue-400" />
+                  <span className="font-semibold text-gray-500">
+                    Total Amount:
+                  </span>{" "}
+                  ₹{order.totalAmount}
+                </p>
+                <p className="text-blue-500 mb-2">
+                  <MdOutlineBusinessCenter className="inline mr-2 text-blue-400" />
+                  <span className="font-semibold text-gray-500">
+                    Current Status:
+                  </span>{" "}
+                  {order.currentStatus}
+                </p>
+                <p className="text-blue-500 mb-2">
+                  <span className="font-semibold text-gray-500">
+                    Vendor ID:
+                  </span>{" "}
+                  {order.vendorId || "Not Assigned"}
+                </p>
+                <p className="text-blue-500 mb-2">
+                  <span className="font-semibold text-gray-500">Sector:</span>{" "}
+                  {order.sector}
+                </p>
+                <div className="text-blue-500 mb-2">
+                  <div className="flex gap-2">
+                    <span className="font-semibold text-gray-500">
+                      Admin Approval:
                     </span>
-                  </span>
-                  <span className="text-gray-500 mb-1 text-xs">
-                    <div className="font-semibold text-gray-600">
-                      Last Updated At:
-                    </div>
-                    <span className="text-gray-400">
-                      {new Date(order.updatedAt).toLocaleString()}
+                    {order.adminApproval ? (
+                      <span className="text-green-500 flex items-center">
+                        <BsFillCheckCircleFill className="mr-1" /> Approved
+                      </span>
+                    ) : (
+                      <span className="text-yellow-300 flex items-center">
+                        <BsFillXCircleFill className="mr-1" /> Pending
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex justify-between pt-2">
+                    <span className="text-gray-500 mb-1 text-xs">
+                      <div className="font-semibold text-gray-600">
+                        Created At:
+                      </div>
+                      <span className="text-gray-400">
+                        {new Date(order.createdAt).toLocaleString()}
+                      </span>
                     </span>
-                  </span>
+                    <span className="text-gray-500 mb-1 text-xs">
+                      <div className="font-semibold text-gray-600">
+                        Last Updated At:
+                      </div>
+                      <span className="text-gray-400">
+                        {new Date(order.updatedAt).toLocaleString()}
+                      </span>
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-opacity-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                <button
-                  className="bg-blue-600 text-white py-2 px-4 w-full h-12 rounded-b-lg font-semibold hover:bg-blue-700 shadow-lg transition-transform duration-200 transform hover:scale-110"
-                  onClick={() => navigate(`/order/${order._id}`)}
-                >
+              <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-opacity-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <button className="bg-blue-600 text-white py-2 px-4 w-full h-12 rounded-b-lg font-semibold hover:bg-blue-700 shadow-lg transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                   View Order Details
                 </button>
               </div>
@@ -201,7 +202,6 @@ const AllOrderDetails = () => {
         )}
       </div>
 
-      {/* Floating Dock for Order Type Selection */}
       <div className="fixed bottom-4 left-0 right-0 mx-auto flex justify-center bg-blue-900 p-2 sm:p-3 rounded-full shadow-lg max-w-full w-[90%] sm:w-max transition-transform duration-300 hover:scale-105 gap-1 sm:gap-2">
         {["all", "localization", "contract_manufacturing", "supply_chain"].map(
           (type) => (

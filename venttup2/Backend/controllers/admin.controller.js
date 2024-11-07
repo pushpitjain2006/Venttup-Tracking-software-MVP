@@ -257,6 +257,26 @@ export const ApproveUpdate = async (req, res) => {
   }
 };
 
+export const DisapproveUpdate = async (req, res) => {
+  try {
+    const { orderId } = req.body;
+    if (!orderId) {
+      return res.status(400).json({ message: "Please fill all the fields" });
+    }
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+    order.currentStep -= 1;
+    order.currentStatus = orderStatuses[order.orderType][order.currentStep];
+    order.adminApproval = true;
+    await order.save();
+    res.status(200).json({ message: "Progress Disapproved" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.resolve("public/uploads"));
