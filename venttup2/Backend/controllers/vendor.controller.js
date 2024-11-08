@@ -163,10 +163,10 @@ export const UpdateProgress = async (req, res) => {
     }
 
     if (!order.adminApproval) {
-      return res.status(200).json({ message: "Waiting for admin approval" });
+      return res.status(400).json({ message: "Waiting for admin approval" });
     }
     if (!order.customerApproval) {
-      return res.status(200).json({ message: "Waiting for customer approval" });
+      return res.status(400).json({ message: "Waiting for customer approval" });
     }
     if (order.currentStatus === "GRN") {
       return res
@@ -177,6 +177,9 @@ export const UpdateProgress = async (req, res) => {
       return res.status(400).json({ message: "Order already completed" });
     }
     const arr = orderStatuses[order.orderType];
+    if (!arr) {
+      return res.status(400).json({ message: "Invalid order type" });
+    }
     if (order.currentStep + 1 < arr.length) {
       order.currentStep += 1;
       order.currentStatus = arr[order.currentStep];
@@ -189,7 +192,10 @@ export const UpdateProgress = async (req, res) => {
       .status(200)
       .json({ message: "Progress Updated, waiting for admin approval" });
   } catch (error) {
-    res.status(500).json({ error });
+    console.error("Error updating progress:", error);
+    res
+      .status(500)
+      .json({ message: "Internal Server Error", error: error.message });
   }
 };
 

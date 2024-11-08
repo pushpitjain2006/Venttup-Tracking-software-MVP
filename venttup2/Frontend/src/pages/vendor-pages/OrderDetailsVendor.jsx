@@ -40,15 +40,15 @@ const OrderDetailsVendor = () => {
         orderId,
         action: isAcceptancePending ? "withdraw" : "update",
       });
+
       if (res.status === 200) {
         setIsSubmissionPending(!isAcceptancePending);
-        fetchData();
       }
     } catch (error) {
       toast.error(
         `Error ${
           isAcceptancePending ? "withdrawing submission" : "updating progress"
-        }`
+        }, ${error.response?.data?.message || "please try again"}`
       );
       console.error("Error updating progress:", error);
     }
