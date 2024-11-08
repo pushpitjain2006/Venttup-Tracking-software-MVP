@@ -14,6 +14,7 @@ const Localization = ({ values }) => {
   const [file, setFile] = useState(null);
   const axios = useAxios();
   const themeColor = userType === "admin" ? "blue" : "green";
+  const [loading, setLoading] = useState(false);
   const handelApproveCustomer = async () => {
     try {
       const response = await axios.post("/customer/approve-order", {
@@ -48,6 +49,7 @@ const Localization = ({ values }) => {
       toast.info("Please select a file first.");
       return;
     }
+    setLoading(true);
     const formData = new FormData();
     formData.append("file", file);
     formData.append("orderId", order._id);
@@ -65,6 +67,8 @@ const Localization = ({ values }) => {
       }
     } catch (error) {
       console.error("Upload error:", error.response || error.message || error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -90,8 +94,11 @@ const Localization = ({ values }) => {
           className={`w-full sm:w-auto px-5 py-3 bg-${themeColor}-600 text-white rounded-md cursor-pointer transition-colors duration-300 ease-in-out hover:bg-${themeColor}-800 text-center`}
         />
         <button
-          className={`w-full sm:w-auto px-5 py-3 bg-${themeColor}-600 text-white rounded-md cursor-pointer transition-colors duration-300 ease-in-out hover:bg-${themeColor}-800 text-center`}
+          className={`w-full sm:w-auto px-5 py-3 bg-${themeColor}-600 text-white rounded-md cursor-pointer transition-colors duration-300 ease-in-out ${
+            !loading ? `hover:bg-${themeColor}-800` : ""
+          } text-center ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
           onClick={handleUploadDocument}
+          disabled={loading}
         >
           Upload
         </button>
