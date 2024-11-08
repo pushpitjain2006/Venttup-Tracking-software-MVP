@@ -51,7 +51,7 @@ const PlaceOrder = () => {
     formData.append("file", file);
     formData.append("orderId", res?.orderId);
     formData.append("documentName", "Waiting Admin Approval");
-    const resFile = axios.post(`/customer/upload`, formData, {
+    const resFile = await axios.post(`/customer/upload`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

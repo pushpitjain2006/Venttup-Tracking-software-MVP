@@ -57,10 +57,16 @@ const OrderDetails = () => {
 
   const handleDeleteOrder = async () => {
     try {
-      await axios.delete(`/admin/delete-order`, { data: { orderId } });
-      setDetails(null);
-      toast.success("Order deleted successfully.");
-      window.history.back();
+      const res = await axios.delete(`/admin/delete-order`, {
+        data: { orderId },
+      });
+      if (res.status === 200) {
+        setDetails(null);
+        toast.success("Order deleted successfully.");
+        window.history.back();
+      } else {
+        toast.error("Failed to delete order.");
+      }
       setOp(!op);
     } catch (err) {
       toast.error("Failed to delete order.");
