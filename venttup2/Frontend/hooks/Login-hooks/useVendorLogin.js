@@ -28,7 +28,6 @@ export const useVendorLogin = () => {
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
-      toast.error("Login failed");
     } finally {
       setLoading(false);
     }

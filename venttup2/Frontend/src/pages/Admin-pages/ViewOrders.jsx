@@ -14,7 +14,7 @@ const AllOrderDetails = () => {
   const [selectedOrderType, setSelectedOrderType] = useState("all");
   const [sortOption, setSortOption] = useState("updatedAtDesc");
   const [adminApprovalFilter, setAdminApprovalFilter] = useState("all");
-  const [amountRange, setAmountRange] = useState([0, 100000]);
+  const [amountRange, setAmountRange] = useState([0, Number.MAX_SAFE_INTEGER]);
 
   const filteredOrders = orders
     .filter((order) => {
@@ -104,14 +104,16 @@ const AllOrderDetails = () => {
           <input
             type="number"
             placeholder="Min"
-            value={amountRange[0]}
+            value={amountRange[0] > 0 ? amountRange[0] : ""}
             onChange={(e) => setAmountRange([+e.target.value, amountRange[1]])}
             className="w-20 p-2 mr-2 rounded-lg bg-transparent text-white focus:outline-none ring-1 focus:ring-2 focus:ring-blue-400 transition"
           />
           <input
             type="number"
             placeholder="Max"
-            value={amountRange[1]}
+            value={
+              amountRange[1] < Number.MAX_SAFE_INTEGER ? amountRange[1] : ""
+            }
             onChange={(e) => setAmountRange([amountRange[0], +e.target.value])}
             className="w-20 p-2 rounded-lg bg-transparent text-white focus:outline-none ring-1 focus:ring-2 focus:ring-blue-400 transition"
           />

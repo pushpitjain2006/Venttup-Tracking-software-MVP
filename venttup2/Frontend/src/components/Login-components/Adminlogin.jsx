@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useAdminLogin } from "../../../hooks/Login-hooks/useAdminLogin.js";
 import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const AdminLogin = () => {
   const { adminLogin, error, loading } = useAdminLogin();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e) => {
     try {
@@ -53,19 +55,28 @@ const AdminLogin = () => {
         <div className="space-y-2 w-full">
           <label
             htmlFor="password"
-            className="block mb-2 text-lg font-medium text-gray-900 "
+            className="block mb-2 text-lg font-medium text-gray-900"
           >
             Password
           </label>
-          <input
-            className="bg-gray-50 backdrop-blur-lg border border-green-400 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:ring-green-500 focus:border-green-500"
-            id="password"
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="relative">
+            <input
+              className="bg-gray-50 backdrop-blur-lg border border-green-400 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:ring-green-500 focus:border-green-500 pr-10"
+              id="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)} // Toggle showPassword state
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 hover:text-gray-800"
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
         </div>
         <button
           type="submit"

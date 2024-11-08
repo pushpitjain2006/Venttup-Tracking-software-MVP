@@ -10,12 +10,24 @@ const VendorSignup = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [contact, setContact] = useState("");
   const [address, setAddress] = useState("");
+  const gstinPattern = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z][Z][0-9A-Z]$/;
+  const [isValidGSTIN, setIsValidGSTIN] = useState(true);
+  const [PasswordMatch, setPasswordMatch] = useState(true);
 
+  const handleGSTChange = (e) => {
+    const input = e.target.value;
+    setGSTIN(input);
+    setIsValidGSTIN(gstinPattern.test(input));
+  };
   function handleSubmit(e) {
     try {
       e.preventDefault();
       if (!GSTIN || !password || !confirmPassword || !contact || !address) {
         toast.warn("Please fill all the fields");
+        return;
+      }
+      if (!isValidGSTIN) {
+        toast.warn("Invalid GSTIN format");
         return;
       }
       if (password !== confirmPassword) {
@@ -59,9 +71,13 @@ const VendorSignup = () => {
           id="GSTIN"
           type="text"
           value={GSTIN}
-          onChange={(e) => setGSTIN(e.target.value)}
+          onChange={handleGSTChange}
           placeholder="Enter GSTIN"
+          required
         />
+        {!isValidGSTIN && (
+          <p className="text-red-300 text-sm">Invalid GSTIN format.</p>
+        )}
         <InputField
           label="Password"
           id="password"
@@ -75,9 +91,15 @@ const VendorSignup = () => {
           id="confirmPassword"
           type="password"
           value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          onChange={(e) => {
+            setConfirmPassword(e.target.value);
+            setPasswordMatch(password === e.target.value);
+          }}
           placeholder="Confirm Password"
         />
+        {!PasswordMatch && (
+          <p className="text-red-300 text-sm">Passwords do not match</p>
+        )}
 
         <SubmitButton loading={loading} text="Signup" />
       </form>

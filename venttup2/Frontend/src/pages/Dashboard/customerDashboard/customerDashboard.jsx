@@ -25,8 +25,8 @@ const CustomerDashboard = () => {
           </h1>
         </div>
         <button
-          className="text-white hover:text-black font-medium hover:underline cursor-pointer hover:bg-slate-600 bg-slate-400 py-2 px-3 rounded-lg"
-          onClick={handleLogout}
+          className="text-white font-medium bg-green-500 py-2 px-4 rounded-lg hover:bg-green-700 transition duration-200"
+          onClick={() => handleLogout()}
         >
           Logout
         </button>

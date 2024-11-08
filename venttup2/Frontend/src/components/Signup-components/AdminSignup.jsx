@@ -68,7 +68,11 @@ const AdminSignup = () => {
           placeholder="Confirm password"
         />
 
-        <SubmitButton loading={loading} text="Signup" />
+        <SubmitButton
+          loading={loading}
+          text="Signup"
+          disabled={auth.userType !== "admin"}
+        />
       </form>
     </>
   );
@@ -91,11 +95,13 @@ const InputField = ({ label, id, type, value, onChange, placeholder }) => (
   </div>
 );
 
-const SubmitButton = ({ loading, text }) => (
+const SubmitButton = ({ loading, text, disabled }) => (
   <button
     type="submit"
-    className="w-full py-2 bg-blue-700 hover:bg-blue-800 text-white font-medium rounded-lg transition-colors"
-    disabled={loading}
+    className={`w-full py-2 bg-blue-700 hover:bg-blue-800 text-white font-medium rounded-lg transition-colors ${
+      loading || disabled ? "opacity-50 cursor-not-allowed" : ""
+    }`}
+    disabled={loading || disabled}
   >
     {text}
   </button>

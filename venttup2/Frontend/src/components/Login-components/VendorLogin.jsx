@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useVendorLogin } from "../../../hooks/Login-hooks/useVendorLogin";
 import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const VendorLogin = () => {
   const [password, setPassword] = useState("");
   const [GSTIN, setGSTIN] = useState("");
   const { vendorLogin, error, loading } = useVendorLogin();
+  const [showPassword, setShowPassword] = useState(false);
 
   function handleSubmit(e) {
     try {
@@ -53,19 +55,29 @@ const VendorLogin = () => {
         <div className="space-y-2 w-full">
           <label
             htmlFor="password"
-            className="block mb-2 text-lg font-medium text-gray-900 "
+            className="block mb-2 text-lg font-medium text-gray-900"
           >
             Password
           </label>
-          <input
-            className="bg-gray-50 border border-green-400 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
-            id="password"
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="relative">
+            <input
+              className="bg-gray-50 border border-green-400 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 pr-10"
+              id="password"
+              type={showPassword ? "text" : "password"} // Toggle type based on showPassword
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)} // Toggle visibility
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 hover:text-gray-800"
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}{" "}
+              {/* Conditional icon */}
+            </button>
+          </div>
         </div>
         <button
           type="submit"
