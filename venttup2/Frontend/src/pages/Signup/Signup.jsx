@@ -58,17 +58,19 @@ const Signup = () => {
           {selected === "Customer" && <CustomerSignup />}
         </div>
 
-        <div className="mt-4">
-          <p className="text-white text-sm sm:text-base">
-            Already have an account?{" "}
-            <button
-              className="text-green-200 hover:text-blue-400 cursor-pointer underline"
-              onClick={() => navigate("/login")}
-            >
-              Login
-            </button>
-          </p>
-        </div>
+        {!adminLoggedIn && (
+          <div className="mt-4">
+            <p className="text-white text-sm sm:text-base">
+              Already have an account?{" "}
+              <button
+                className="text-green-200 hover:text-blue-400 cursor-pointer underline"
+                onClick={() => navigate("/login")}
+              >
+                Login
+              </button>
+            </p>
+          </div>
+        )}
       </div>
 
       <div className="absolute -bottom-12 -left-16 w-36 h-36 bg-blue-300 rounded-full filter blur-lg animate-pulse opacity-60"></div>

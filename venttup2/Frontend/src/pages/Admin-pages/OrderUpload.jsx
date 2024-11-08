@@ -5,17 +5,13 @@ import { toast } from "react-toastify";
 
 const OrderUploadForm = () => {
   const axios = useAxios();
+  const [file, setFile] = useState(null);
   const [formData, setFormData] = useState({
-    customerId: "",
+    customerGstin: "",
     orderType: "",
     totalAmount: "",
-    currentStatus: "Waiting Admin Approval",
-    vendorId: "",
-    adminApproval: true,
-    customerApproval: false,
     sector: "",
     comments: "",
-    documents: [],
   });
 
   const handleChange = (e) => {
@@ -24,12 +20,7 @@ const OrderUploadForm = () => {
   };
 
   const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
-    const fileData = files.map((file) => ({
-      name: file.name,
-      url: URL.createObjectURL(file),
-    }));
-    setFormData({ ...formData, documents: fileData });
+    setFile(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
@@ -41,19 +32,28 @@ const OrderUploadForm = () => {
       if (response.status === 201) {
         toast.success("Order uploaded successfully!");
         setFormData({
-          customerId: "",
+          customerGstin: "",
           orderType: "",
           totalAmount: "",
-          currentStatus: "Waiting Admin Approval",
-          vendorId: "",
-          adminApproval: true,
-          customerApproval: false,
           sector: "",
           comments: "",
-          documents: [],
         });
       } else {
         toast.error("Failed to upload order.");
+      }
+      const formData2 = new FormData();
+      formData2.append("file", file);
+      formData2.append("orderId", response?.data.orderId);
+      formData2.append("documentName", "Waiting Admin Approval");
+      const resFile = await axios.post(`/admin/upload`, formData2, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (resFile.status === 200) {
+        toast.success("File uploaded successfully!");
+      } else {
+        toast.error("Failed to upload file.");
       }
     } catch (err) {
       toast.error(err.message);
@@ -85,8 +85,8 @@ const OrderUploadForm = () => {
               <input
                 type="text"
                 id="customerId"
-                name="customerId"
-                value={formData.customerId}
+                name="customerGstin"
+                value={formData.customerGstin}
                 onChange={handleChange}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 required
@@ -131,29 +131,6 @@ const OrderUploadForm = () => {
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 required
               />
-            </div>
-            <div>
-              <label
-                htmlFor="currentStatus"
-                className="block text-lg font-medium text-gray-700 mb-2"
-              >
-                Current Status
-              </label>
-              <select
-                id="currentStatus"
-                name="currentStatus"
-                value={formData.currentStatus}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                required
-              >
-                <option value="Waiting Admin Approval">
-                  Waiting Admin Approval
-                </option>
-                <option value="In Progress">In Progress</option>
-                <option value="Completed">Completed</option>
-                <option value="Canceled">Canceled</option>
-              </select>
             </div>
             <div>
               <label
@@ -203,11 +180,8 @@ const OrderUploadForm = () => {
               </label>
               <input
                 type="file"
-                id="documents"
-                name="documents"
                 onChange={handleFileChange}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                multiple
               />
             </div>
             <button

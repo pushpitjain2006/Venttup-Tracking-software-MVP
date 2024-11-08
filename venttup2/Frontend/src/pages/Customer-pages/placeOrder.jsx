@@ -19,11 +19,9 @@ const PlaceOrder = () => {
   const [message, setMessage] = useState("");
   const [file, setFile] = useState(null);
   const [totalAmount, setTotalAmount] = useState("");
-  const [selectedStep, setSelectedStep] = useState("");
   const axios = useAxios();
   const { setAuth } = useAuth();
   const navigate = useNavigate();
-  const arrayOfSteps = orderStatuses.orderType;
 
   const handleFileUpload = (e) => setFile(e.target.files[0]);
 
@@ -52,7 +50,7 @@ const PlaceOrder = () => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("orderId", res?.orderId);
-    formData.append("documentName", selectedStep);
+    formData.append("documentName", "Waiting Admin Approval");
     const resFile = axios.post(`/customer/upload`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -169,25 +167,6 @@ const PlaceOrder = () => {
               className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-green-600 file:text-white hover:file:bg-green-700"
             />
           </div>
-
-          <div>
-            <label className="flex items-center text-green-700 font-medium mb-2">
-              <FaFileUpload className="mr-2" /> Select Step for File Upload
-            </label>
-            <select
-              value={selectedStep}
-              onChange={(e) => setSelectedStep(e.target.value)}
-              className="w-full p-2 sm:p-3 rounded border-2 border-gray-300 focus:border-green-500"
-            >
-              <option value="">Select Step</option>
-              {arrayOfSteps.map((step, index) => (
-                <option key={index} value={step}>
-                  {step}
-                </option>
-              ))}
-            </select>
-          </div>
-
           <button
             type="submit"
             className="w-full py-2 sm:py-3 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition duration-300"

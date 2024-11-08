@@ -12,7 +12,7 @@ const AllOrderDetails = () => {
   const { orders, error, loading } = useFetchOrders();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedOrderType, setSelectedOrderType] = useState("all");
-  const [sortOption, setSortOption] = useState("");
+  const [sortOption, setSortOption] = useState("updatedAtDesc");
   const [adminApprovalFilter, setAdminApprovalFilter] = useState("all");
   const [amountRange, setAmountRange] = useState([0, 100000]);
 
@@ -44,6 +44,14 @@ const AllOrderDetails = () => {
       if (sortOption === "amountDesc") return b.totalAmount - a.totalAmount;
       if (sortOption === "statusAsc") return a.currentStep - b.currentStep;
       if (sortOption === "statusDesc") return b.currentStep - a.currentStep;
+      if (sortOption === "createdAtAsc")
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      if (sortOption === "createdAtDesc")
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      if (sortOption === "updatedAtAsc")
+        return new Date(a.updatedAt) - new Date(b.updatedAt);
+      if (sortOption === "updatedAtDesc")
+        return new Date(b.updatedAt) - new Date(a.updatedAt);
       return 0;
     });
 
@@ -66,7 +74,10 @@ const AllOrderDetails = () => {
           onChange={(e) => setSortOption(e.target.value)}
           className="ml-4 p-2 rounded-lg bg-blue-600 bg-opacity-25 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
         >
-          <option value="">Sort By</option>
+          <option value="updatedAtDesc">Updated At (New to Old)</option>
+          <option value="updatedAtAsc">Updated At (Old to New)</option>
+          <option value="createdAtDesc">Created At (New to Old)</option>
+          <option value="createdAtAsc">Created At (Old to New)</option>
           <option value="amountAsc">Amount (Low to High)</option>
           <option value="amountDesc">Amount (High to Low)</option>
           <option value="statusAsc">Status (Low to High)</option>

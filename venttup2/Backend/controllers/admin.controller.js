@@ -211,8 +211,10 @@ export const deleteUsers = async (req, res) => {
 
 export const orderUpload = async (req, res) => {
   try {
-    const { customerGstin, orderType, amount, sector } = req.body.data;
-    if (!customerGstin || !orderType || !amount || !sector) {
+    const { customerGstin, orderType, totalAmount, sector, comments } =
+      req.body.data;
+    // console.log(req.body.data);
+    if (!customerGstin || !orderType || !totalAmount || !sector) {
       return res.status(400).json({ message: "All fields are required." });
     }
     const customer = await Customer.findOne({ GSTIN: customerGstin });
@@ -222,15 +224,16 @@ export const orderUpload = async (req, res) => {
     const newOrder = new Order({
       customerId: customer._id,
       orderType,
-      totalAmount: amount,
+      totalAmount,
       currentStatus: "Vendor Selection",
       sector,
+      comments,
     });
 
     await newOrder.save();
     res
       .status(201)
-      .json({ message: "Order uploaded successfully", order: newOrder });
+      .json({ message: "Order uploaded successfully", orderId: newOrder._id });
   } catch (error) {
     console.error("Error uploading order:", error.message);
     res.status(500).json({ message: "Server error. Please try again later." });
@@ -290,9 +293,14 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 export const fileUpload = (req, res) => {
+  // console.log("fileUpload");
+  // console.log(req);
   upload.single("file")(req, res, async (err) => {
+    // console.log(req.body);
     const { orderId, documentName } = req.body;
-    console.log(orderId, documentName);
+    if (!orderId || orderId == "" || orderId == "undefined") {
+      return res.status(400).json({ message: "Please provide orderId" });
+    }
     if (err) {
       return res
         .status(500)
@@ -311,7 +319,7 @@ export const fileUpload = (req, res) => {
       const result = await uploadToCloudinary(req.file.path);
       fs.unlinkSync(req.file.path);
       const doc = order.documents.find(
-        (doc) => doc.name === documentName ?? order.currentStatus
+        (doc) => doc.name === documentName || order.currentStatus
       );
       if (doc) {
         await deleteFromCloudinary(doc.url);
