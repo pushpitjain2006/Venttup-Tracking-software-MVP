@@ -67,7 +67,6 @@ const OrderDetails = () => {
       } else {
         toast.error("Failed to delete order.");
       }
-      setOp(!op);
     } catch (err) {
       toast.error("Failed to delete order.");
     }
