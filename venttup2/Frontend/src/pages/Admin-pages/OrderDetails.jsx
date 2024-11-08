@@ -17,6 +17,7 @@ const OrderDetails = () => {
   const [updates, setUpdates] = useState({});
   const [loading, setLoading] = useState(false);
   const Statuses = orderStatuses[details?.orderType] || [];
+  const [op, setOp] = useState(false);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -33,7 +34,7 @@ const OrderDetails = () => {
       }
     };
     fetchDetails();
-  }, [axios]);
+  }, [axios, op]);
 
   const handleAssignVendor = async () => {
     if (!vendorId.trim()) {
@@ -48,6 +49,7 @@ const OrderDetails = () => {
       setDetails((prev) => ({ ...prev, vendorId: response.data.vendorId }));
       setShowVendorInput(false);
       toast.success("Vendor assigned successfully");
+      setOp(!op);
     } catch (err) {
       toast.error("Failed to assign vendor");
     }
@@ -59,6 +61,7 @@ const OrderDetails = () => {
       setDetails(null);
       toast.success("Order deleted successfully.");
       window.history.back();
+      setOp(!op);
     } catch (err) {
       toast.error("Failed to delete order.");
     }
@@ -72,8 +75,12 @@ const OrderDetails = () => {
     try {
       const res = await axios.put("/admin/modify-order", { orderId, updates });
       setIsEditing(false);
-      setDetails((prev) => ({ ...prev, ...updates }));
-      toast.success("Order updated successfully");
+      if (res.status === 200) {
+        setDetails((prev) => ({ ...prev, ...updates }));
+        toast.success("Order updated successfully");
+      } else {
+        toast.error("Failed to update order");
+      }
     } catch (err) {
       console.log(err);
       toast.error("Failed to update order");
@@ -89,9 +96,13 @@ const OrderDetails = () => {
 
   const handleApproveUpdate = async () => {
     try {
-      await axios.post(`/admin/approve-update`, { orderId });
-      setDetails((prev) => ({ ...prev, adminApproval: true }));
-      toast.success("Order approved successfully");
+      const res = await axios.post(`/admin/approve-update`, { orderId });
+      if (res.status === 200) {
+        setDetails((prev) => ({ ...prev, adminApproval: true }));
+        toast.success("Order approved successfully");
+      } else {
+        toast.error("Failed to approve order");
+      }
     } catch (err) {
       toast.error("Failed to approve order");
     }
@@ -99,22 +110,29 @@ const OrderDetails = () => {
 
   const handleDisapproveUpdate = async () => {
     try {
-      await axios.post(`/admin/disapprove-update`, { orderId });
-      setDetails((prev) => ({ ...prev, adminApproval: false }));
-      toast.success("Order disapproved successfully");
+      const res = await axios.post(`/admin/disapprove-update`, { orderId });
+      if (res.status === 200) {
+        setDetails((prev) => ({ ...prev, adminApproval: false }));
+        toast.success("Order disapproved successfully");
+      } else {
+        toast.error("Failed to disapprove order");
+      }
     } catch (err) {
       toast.error("Failed to disapprove order");
     }
   };
 
   const handleUpdateProgress = async () => {
-    toast.info("Updating order progress...");
     try {
       const res = await axios.post(`/admin/update-progress`, {
         orderId,
       });
-      console.log(res);
-      toast.success("Order progress updated successfully");
+      if (res.status === 200) {
+        setDetails((prev) => ({ ...prev, currentStep: prev.currentStep + 1 }));
+        toast.success("Order progress updated successfully");
+      } else {
+        toast.error("Failed to update order progress");
+      }
     } catch (err) {
       toast.error(err.response.data.message);
     }

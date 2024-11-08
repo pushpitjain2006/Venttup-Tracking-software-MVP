@@ -11,20 +11,28 @@ const AdminSignup = () => {
   const { auth } = useAuth();
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!username || !password || !confirmPassword) {
-      toast.warn("Please fill all the fields");
-      return;
+    try {
+      e.preventDefault();
+      if (!username || !password || !confirmPassword) {
+        toast.warn("Please fill all the fields");
+        return;
+      }
+      if (password !== confirmPassword) {
+        toast.warn("Passwords do not match");
+        return;
+      }
+      if (auth.userType !== "admin") {
+        toast.error("You are not authorized to signup a new admin");
+        return;
+      }
+      adminSignup(username, password, confirmPassword);
+      if (error) {
+        toast.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while signing up");
     }
-    if (password !== confirmPassword) {
-      toast.warn("Passwords do not match");
-      return;
-    }
-    if (auth.userType !== "admin") {
-      toast.error("You are not authorized to signup a new admin");
-      return;
-    }
-    adminSignup(username, password, confirmPassword);
   };
 
   return (

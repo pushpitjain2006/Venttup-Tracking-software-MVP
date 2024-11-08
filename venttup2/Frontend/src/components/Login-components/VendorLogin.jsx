@@ -8,12 +8,20 @@ const VendorLogin = () => {
   const { vendorLogin, error, loading } = useVendorLogin();
 
   function handleSubmit(e) {
-    e.preventDefault();
-    if (!GSTIN || !password) {
-      toast.warn("Please fill all the fields");
-      return;
+    try {
+      e.preventDefault();
+      if (!GSTIN || !password) {
+        toast.warn("Please fill all the fields");
+        return;
+      }
+      vendorLogin(GSTIN, password);
+      if (error) {
+        toast.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while logging in");
     }
-    vendorLogin(GSTIN, password);
   }
 
   return (

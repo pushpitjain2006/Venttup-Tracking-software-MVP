@@ -5,6 +5,7 @@ import orderStatuses from "../../config/orderStatusConfig";
 import { useParams } from "react-router-dom";
 import ProgressBar from "../../components/progressBar";
 import GateDetails from "../../components/GateDetails";
+import { toast } from "react-toastify";
 
 const OrderDetailsCustomer = () => {
   const orderId = useParams().orderId;
@@ -20,6 +21,7 @@ const OrderDetailsCustomer = () => {
       setOrder(res.data);
       setCurrentStep(res.data.currentStep);
     } catch (error) {
+      toast.error("Error fetching order data");
       console.error("Error fetching order data:", error);
     }
   };
@@ -61,6 +63,7 @@ const OrderDetailsCustomer = () => {
                 fetchData();
               }
             } catch (error) {
+              toast.error("Error approving GRN");
               console.error("Error approving GRN:", error);
             }
           }}

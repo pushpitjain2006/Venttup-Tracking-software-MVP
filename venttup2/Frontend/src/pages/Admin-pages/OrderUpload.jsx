@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import useAxios from "../../utils/useAxios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
 const OrderUploadForm = () => {
-  const navigate = useNavigate();
   const axios = useAxios();
   const [formData, setFormData] = useState({
     customerId: "",
@@ -40,19 +38,23 @@ const OrderUploadForm = () => {
       const response = await axios.post("/admin/upload-order", {
         data: formData,
       });
-      toast(response.data.message);
-      setFormData({
-        customerId: "",
-        orderType: "",
-        totalAmount: "",
-        currentStatus: "Waiting Admin Approval",
-        vendorId: "",
-        adminApproval: true,
-        customerApproval: false,
-        sector: "",
-        comments: "",
-        documents: [],
-      });
+      if (response.status === 201) {
+        toast.success("Order uploaded successfully!");
+        setFormData({
+          customerId: "",
+          orderType: "",
+          totalAmount: "",
+          currentStatus: "Waiting Admin Approval",
+          vendorId: "",
+          adminApproval: true,
+          customerApproval: false,
+          sector: "",
+          comments: "",
+          documents: [],
+        });
+      } else {
+        toast.error("Failed to upload order.");
+      }
     } catch (err) {
       toast.error(err.message);
     }

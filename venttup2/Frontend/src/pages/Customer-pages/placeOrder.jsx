@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import useAxios from "../../utils/useAxios.js";
 import { useAuth } from "../../../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
+import orderStatuses from "../../config/orderStatusConfig.js";
 
 const PlaceOrder = () => {
   const [orderType, setOrderType] = useState("");
@@ -18,51 +19,61 @@ const PlaceOrder = () => {
   const [message, setMessage] = useState("");
   const [file, setFile] = useState(null);
   const [totalAmount, setTotalAmount] = useState("");
+  const [selectedStep, setSelectedStep] = useState("");
   const axios = useAxios();
   const { setAuth } = useAuth();
   const navigate = useNavigate();
+  const arrayOfSteps = orderStatuses.orderType;
 
   const handleFileUpload = (e) => setFile(e.target.files[0]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!orderType || !selectedSector || !totalAmount) {
       return toast.error("Please fill all the fields");
     }
-      axios
-        .post("/customer/place-orders", {
-          orderType,
-          totalAmount,
-          sector: selectedSector,
-          comments: message,
-        })
-        .then((res) => {
-          if (res.status === 201) {
-            toast.success("Order placed successfully");
-            setOrderType("");
-            setSelectedSector("");
-            setMessage("");
-            setFile(null);
-            setTotalAmount("");
-          } else {
-            toast.error("Order placement failed");
-          }
-        })
-        .catch((error) => {
-          toast.error("An error occurred while placing the order");
-          console.error(error);
-        });
+    const res = await axios.post("/customer/place-orders", {
+      orderType,
+      totalAmount,
+      sector: selectedSector,
+      comments: message,
+    });
+
+    if (res.status === 201) {
+      toast.success("Order placed successfully");
+      setOrderType("");
+      setSelectedSector("");
+      setMessage("");
+      setFile(null);
+      setTotalAmount("");
+    } else {
+      toast.error("Order placement failed");
+    }
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("orderId", res?.orderId);
+    formData.append("documentName", selectedStep);
+    const resFile = axios.post(`/customer/upload`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    if (resFile.status === 200) {
+      toast.success("File uploaded successfully!");
+    } else {
+      toast.error("Failed to upload file.");
+    }
   };
 
-  async function handleLogout() {
+  const handleLogout = async () => {
     const res = await axios.get("/vendor/logout");
     setAuth(null);
     navigate("/");
-  }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-300 via-gray-100 to-green-100 p-8 flex justify-center items-center">
-      <div className="max-w-3xl w-full p-6 bg-white bg-opacity-90 rounded-lg shadow-lg">
+    <div className="min-h-screen bg-gradient-to-br from-green-300 via-gray-100 to-green-100 p-4 sm:p-8 flex justify-center items-center">
+      <div className="max-w-3xl w-full p-4 sm:p-6 bg-white bg-opacity-90 rounded-lg shadow-lg">
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={() => {
@@ -72,18 +83,18 @@ const PlaceOrder = () => {
           >
             <FaArrowLeft className="mr-2" /> Back
           </button>
-          <h1 className="text-2xl font-semibold text-green-700 flex items-center">
-            <FaLeaf className="text-3xl mr-2" /> Get Quote
+          <h1 className="text-xl sm:text-2xl font-semibold text-green-700 flex items-center">
+            <FaLeaf className="text-2xl sm:text-3xl mr-2" /> Get Quote
           </h1>
           <button
-            className="text-white bg-green-600 px-4 py-2 rounded hover:bg-green-700"
+            className="text-white bg-green-600 px-2 sm:px-4 py-2 rounded hover:bg-green-700"
             onClick={handleLogout}
           >
             Logout
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           <div>
             <label className="flex items-center text-green-700 font-medium mb-2">
               <FaIndustry className="mr-2" /> Requirement Selection
@@ -91,7 +102,7 @@ const PlaceOrder = () => {
             <select
               value={orderType}
               onChange={(e) => setOrderType(e.target.value)}
-              className="w-full p-3 rounded border-2 border-gray-300 focus:border-green-500"
+              className="w-full p-2 sm:p-3 rounded border-2 border-gray-300 focus:border-green-500"
             >
               <option value="">Select Requirement</option>
               <option value="localization">Localization / NPD</option>
@@ -109,7 +120,7 @@ const PlaceOrder = () => {
             <select
               value={selectedSector}
               onChange={(e) => setSelectedSector(e.target.value)}
-              className="w-full p-3 rounded border-2 border-gray-300 focus:border-green-500"
+              className="w-full p-2 sm:p-3 rounded border-2 border-gray-300 focus:border-green-500"
             >
               <option value="">Select Sector</option>
               <option value="Energy Sector">Energy Sector</option>
@@ -129,7 +140,7 @@ const PlaceOrder = () => {
               type="number"
               value={totalAmount}
               onChange={(e) => setTotalAmount(e.target.value)}
-              className="w-full p-3 rounded border-2 border-gray-300 focus:border-green-500"
+              className="w-full p-2 sm:p-3 rounded border-2 border-gray-300 focus:border-green-500"
               placeholder="Enter your proposed price"
             />
           </div>
@@ -142,7 +153,7 @@ const PlaceOrder = () => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               rows="4"
-              className="w-full p-3 rounded border-2 border-gray-300 focus:border-green-500"
+              className="w-full p-2 sm:p-3 rounded border-2 border-gray-300 focus:border-green-500"
               placeholder="Enter any specific requirements or comments here"
             ></textarea>
           </div>
@@ -159,9 +170,27 @@ const PlaceOrder = () => {
             />
           </div>
 
+          <div>
+            <label className="flex items-center text-green-700 font-medium mb-2">
+              <FaFileUpload className="mr-2" /> Select Step for File Upload
+            </label>
+            <select
+              value={selectedStep}
+              onChange={(e) => setSelectedStep(e.target.value)}
+              className="w-full p-2 sm:p-3 rounded border-2 border-gray-300 focus:border-green-500"
+            >
+              <option value="">Select Step</option>
+              {arrayOfSteps.map((step, index) => (
+                <option key={index} value={step}>
+                  {step}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <button
             type="submit"
-            className="w-full py-3 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition duration-300"
+            className="w-full py-2 sm:py-3 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition duration-300"
           >
             Get Quote
           </button>

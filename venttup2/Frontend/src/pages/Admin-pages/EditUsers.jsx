@@ -29,7 +29,7 @@ const EditUsers = () => {
         setUsers(users.filter((user) => user._id !== userId));
         toast.success("User deleted successfully!");
       } else {
-        toast.error("Failed to delete user.");
+        toast.error(res?.data?.message || "Failed to delete user.");
         console.error("Failed to delete user:", res.data.message);
       }
     } catch (err) {

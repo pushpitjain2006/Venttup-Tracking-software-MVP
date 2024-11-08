@@ -8,12 +8,20 @@ const CustomerLogin = () => {
   const { customerLogin, error, loading } = useCustomerLogin();
 
   function handleSubmit(e) {
-    e.preventDefault();
-    if (!GSTIN || !password) {
-      toast.warn("Please fill all the fields");
-      return;
+    try {
+      e.preventDefault();
+      if (!GSTIN || !password) {
+        toast.warn("Please fill all the fields");
+        return;
+      }
+      customerLogin(GSTIN, password);
+      if (error) {
+        toast.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while logging in");
     }
-    customerLogin(GSTIN, password);
   }
 
   return (

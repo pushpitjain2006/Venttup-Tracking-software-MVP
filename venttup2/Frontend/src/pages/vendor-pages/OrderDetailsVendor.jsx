@@ -5,6 +5,7 @@ import orderStatuses from "../../config/orderStatusConfig";
 import { useParams } from "react-router-dom";
 import ProgressBar from "../../components/progressBar";
 import GateDetails from "../../components/GateDetails";
+import { toast } from "react-toastify";
 
 const OrderDetailsVendor = () => {
   const orderId = useParams().orderId;
@@ -25,6 +26,7 @@ const OrderDetailsVendor = () => {
       setCurrentStep(res.data.currentStep);
     } catch (error) {
       console.error("Error fetching order data:", error);
+      toast.error("Error fetching order data");
     }
   };
 
@@ -43,6 +45,11 @@ const OrderDetailsVendor = () => {
         fetchData();
       }
     } catch (error) {
+      toast.error(
+        `Error ${
+          isAcceptancePending ? "withdrawing submission" : "updating progress"
+        }`
+      );
       console.error("Error updating progress:", error);
     }
   };

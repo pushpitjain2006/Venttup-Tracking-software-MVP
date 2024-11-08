@@ -6,7 +6,7 @@ import {
   FaClipboardList,
   FaUserPlus,
   FaUpload,
-} from "react-icons/fa"; // Additional icons for admin functionalities
+} from "react-icons/fa"; 
 import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {

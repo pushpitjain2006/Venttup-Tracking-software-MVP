@@ -8,12 +8,20 @@ const AdminLogin = () => {
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!username || !password) {
-      toast.warn("Please fill all the fields");
-      return;
+    try {
+      e.preventDefault();
+      if (!username || !password) {
+        toast.warn("Please fill all the fields");
+        return;
+      }
+      adminLogin(username, password);
+      if (error) {
+        toast.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while logging in");
     }
-    adminLogin(username, password);
   };
 
   return (
@@ -21,7 +29,10 @@ const AdminLogin = () => {
       <h2 className="text-3xl font-bold text-center text-green-800 mb-6">
         Admin Login
       </h2>
-      <form onSubmit={handleSubmit} className="space-y-4 flex-col flex justify-center items-center">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 flex-col flex justify-center items-center"
+      >
         <div className="space-y-2 w-full">
           <label
             htmlFor="username"

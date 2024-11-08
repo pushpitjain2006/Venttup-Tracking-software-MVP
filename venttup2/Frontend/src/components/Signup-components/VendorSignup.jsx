@@ -12,16 +12,24 @@ const VendorSignup = () => {
   const [address, setAddress] = useState("");
 
   function handleSubmit(e) {
-    e.preventDefault();
-    if (!GSTIN || !password || !confirmPassword || !contact || !address) {
-      toast.warn("Please fill all the fields");
-      return;
+    try {
+      e.preventDefault();
+      if (!GSTIN || !password || !confirmPassword || !contact || !address) {
+        toast.warn("Please fill all the fields");
+        return;
+      }
+      if (password !== confirmPassword) {
+        toast.warn("Passwords do not match");
+        return;
+      }
+      vendorSignup(GSTIN, password, confirmPassword, address, contact);
+      if (error) {
+        toast.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while signing up");
     }
-    if (password !== confirmPassword) {
-      toast.warn("Passwords do not match");
-      return;
-    }
-    vendorSignup(GSTIN, password, confirmPassword, address, contact);
   }
 
   return (

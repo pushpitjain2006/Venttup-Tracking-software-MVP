@@ -7,7 +7,6 @@ import DocumentPreview from "../DocumentPreviewDownload";
 
 const Localization = ({ values }) => {
   const { stepNumber, order } = values;
-  console.log("Order:", order);
   const arrayOfStatuses = orderStatuses.localization;
   const { auth } = useAuth();
   const userType = auth.userType;
@@ -20,8 +19,11 @@ const Localization = ({ values }) => {
       const response = await axios.post("/customer/approve-order", {
         orderId: order._id,
       });
-      console.log("Response:", response);
-      toast.success("Order approved successfully!");
+      if (response.status === 200) {
+        toast.success("Order approved successfully!");
+      } else {
+        toast.error("Failed to approve order.");
+      }
     } catch (error) {
       toast.error("Failed to approve order.");
       console.error(
@@ -66,6 +68,7 @@ const Localization = ({ values }) => {
         toast.error("Failed to upload file.");
       }
     } catch (error) {
+      toast.error(response?.data?.message || "Failed to upload file.");
       console.error("Upload error:", error.response || error.message || error);
     } finally {
       setLoading(false);

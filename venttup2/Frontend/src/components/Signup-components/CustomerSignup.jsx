@@ -12,21 +12,31 @@ const CustomerSignup = () => {
   const [address, setAddress] = useState("");
 
   function handleSubmit(e) {
-    e.preventDefault();
-    if (!GSTIN || !password || !confirmPassword || !contact || !address) {
-      toast.warn("Please fill all the fields");
-      return;
+    try {
+      e.preventDefault();
+      if (!GSTIN || !password || !confirmPassword || !contact || !address) {
+        toast.warn("Please fill all the fields");
+        return;
+      }
+      if (password !== confirmPassword) {
+        toast.warn("Passwords do not match");
+        return;
+      }
+      customerSignup(GSTIN, password, confirmPassword, address, contact);
+      if (error) {
+        toast.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while signing up");
     }
-    if (password !== confirmPassword) {
-      toast.warn("Passwords do not match");
-      return;
-    }
-    customerSignup(GSTIN, password, confirmPassword, address, contact);
   }
 
   return (
     <>
-      <h2 className="text-3xl font-bold text-center text-blue-600 mb-4">Customer Signup</h2>
+      <h2 className="text-3xl font-bold text-center text-blue-600 mb-4">
+        Customer Signup
+      </h2>
       <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
         <InputField
           label="Contact"

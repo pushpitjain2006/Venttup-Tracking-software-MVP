@@ -10,7 +10,6 @@ import { MdOutlineBusinessCenter } from "react-icons/md";
 const AllOrderDetails = () => {
   const navigate = useNavigate();
   const { orders, error, loading } = useFetchOrders();
-
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedOrderType, setSelectedOrderType] = useState("all");
   const [sortOption, setSortOption] = useState("");

@@ -105,7 +105,9 @@ export const PlaceOrders = async (req, res) => {
       comments,
     });
     await newOrder.save();
-    res.status(201).json({ message: "Order requested successfully" });
+    res
+      .status(201)
+      .json({ message: "Order requested successfully", orderId: newOrder._id });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
