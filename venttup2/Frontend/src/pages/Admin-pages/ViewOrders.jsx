@@ -112,7 +112,9 @@ const AllOrderDetails = () => {
             type="number"
             placeholder="Max"
             value={
-              amountRange[1] < Number.MAX_SAFE_INTEGER ? amountRange[1] : ""
+              amountRange[1] && amountRange[1] < Number.MAX_SAFE_INTEGER
+                ? amountRange[1]
+                : ""
             }
             onChange={(e) => setAmountRange([amountRange[0], +e.target.value])}
             className="w-20 p-2 rounded-lg bg-transparent text-white focus:outline-none ring-1 focus:ring-2 focus:ring-blue-400 transition"

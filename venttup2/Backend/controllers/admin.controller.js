@@ -318,12 +318,19 @@ export const fileUpload = (req, res) => {
     try {
       const result = await uploadToCloudinary(req.file.path);
       fs.unlinkSync(req.file.path);
-      const doc = order.documents.find(
-        (doc) => doc.name === documentName || order.currentStatus
-      );
+      const doc = order.documents.find((doc) => {
+        return documentName
+          ? doc.name === documentName
+          : doc.name === order.currentStatus;
+      });
+      // console.log(doc);
       if (doc) {
         await deleteFromCloudinary(doc.url);
-        doc.url = result.secure_url;
+        order.documents.find((doc) => {
+          return documentName
+            ? doc.name === documentName
+            : doc.name === order.currentStatus;
+        }).url = result.secure_url;
       } else {
         order.documents.push({
           name: documentName ?? order.currentStatus,
