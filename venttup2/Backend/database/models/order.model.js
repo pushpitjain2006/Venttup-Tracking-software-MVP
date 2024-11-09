@@ -60,6 +60,18 @@ const orderSchema = new mongoose.Schema(
         },
       },
     ],
+    AdminSeen: {
+      type: Boolean,
+      default: false,
+    },
+    CustomerSeen: {
+      type: Boolean,
+      default: false,
+    },
+    VendorSeen: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

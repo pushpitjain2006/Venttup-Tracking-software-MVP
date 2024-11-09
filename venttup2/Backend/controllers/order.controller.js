@@ -13,7 +13,6 @@ export const deleteOrder = async (req, res) => {
     if (!deletedOrder) {
       return res.status(404).json({ message: "Order not found" });
     }
-
     res.status(200).json({ message: "Order deleted successfully", orderId });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -121,6 +120,8 @@ export const ConfirmGRN = async (req, res) => {
     }
     order.currentStep += 1;
     order.currentStatus = "Order completed";
+    order.AdminSeen = false;
+    order.CustomerSeen = false;
     await order.save();
     res.status(200).json({ message: "GRN confirmed" });
   } catch (error) {
@@ -158,27 +159,84 @@ export const editOrder = async (req, res) => {
         .status(400)
         .json({ message: "Only Admin can update the order." });
     }
-
-    if (updates.vendorId && order.vendorId != updates.vendorId) {
-      const oldVendor = await Vendor.findById(order.vendorId);
-      const newVendor = await Vendor.findById(updates.vendorId);
-      if (!newVendor.available) {
-        return res.status(400).json({ message: "Vendor is not available" });
-      }
-      oldVendor.currentOrderCapacity += 1;
-      if (!oldVendor.available && oldVendor.currentOrderCapacity === 1) {
-        oldVendor.available = true;
-      }
-      newVendor.currentOrderCapacity -= 1;
-      if (newVendor.currentOrderCapacity === 0) {
-        newVendor.available = false;
-      }
-      await oldVendor.save();
-      await newVendor.save();
-    }
     Object.assign(order, updates);
+    order.VendorSeen = false;
+    order.CustomerSeen = false;
     await order.save();
     res.status(200).json({ message: "Order updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const GetNotification = async (req, res) => {
+  try {
+    const { LoggedInUserType } = req.body;
+    if (LoggedInUserType === "customer") {
+      const notifications = await Order.find({
+        customerId: req.body.customerId,
+        CustomerSeen: false,
+      });
+      console.log(notifications);
+      res.status(200).json(notifications);
+    }
+    if (LoggedInUserType === "vendor") {
+      const notifications = await Order.find({
+        vendorId: req.body.vendorId,
+        VendorSeen: false,
+      });
+      console.log(notifications);
+      res.status(200).json(notifications);
+    }
+    if (LoggedInUserType === "admin") {
+      const notifications = await Order.find({
+        AdminSeen: false,
+      });
+      console.log(notifications);
+      res.status(200).json(notifications);
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const ClearNotification = async (req, res) => {
+  try {
+    const { LoggedInUserType } = req.body;
+    console.log(req.body);
+    console.log(LoggedInUserType);
+    if (LoggedInUserType === "customer") {
+      const notifications = await Order.find({
+        customerId: req.body.customerId,
+        CustomerSeen: false,
+      });
+      notifications.forEach(async (notification) => {
+        notification.CustomerSeen = true;
+        await notification.save();
+      });
+      res.status(200).json({ message: "Notifications cleared" });
+    }
+    if (LoggedInUserType === "vendor") {
+      const orders = await Order.find({
+        vendorId: req.body.vendorId,
+        VendorSeen: false,
+      });
+      orders.forEach(async (order) => {
+        order.VendorSeen = true;
+        await order.save();
+      });
+      res.status(200).json({ message: "Notifications cleared" });
+    }
+    if (LoggedInUserType === "admin") {
+      const orders = await Order.find({
+        AdminSeen: false,
+      });
+      orders.forEach(async (order) => {
+        order.AdminSeen = true;
+        await order.save();
+      });
+      res.status(200).json({ message: "Notifications cleared" });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

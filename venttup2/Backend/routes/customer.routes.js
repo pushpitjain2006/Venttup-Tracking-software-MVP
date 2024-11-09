@@ -10,7 +10,9 @@ import {
   ConfirmGate,
 } from "../controllers/customer.controller.js";
 import {
+  ClearNotification,
   editOrder,
+  GetNotification,
   OrderDetails,
   ViewAllOrders,
 } from "../controllers/order.controller.js";
@@ -34,4 +36,6 @@ router.post("/approve-grn", protectedRoute, isCustomer, ApproveGRN);
 router.post("/editOrder", protectedRoute, isCustomer, editOrder);
 router.post("/approve-order", protectedRoute, isCustomer, ConfirmGate);
 router.post("/upload", protectedRoute, isCustomer, fileUpload);
+router.get("/get-notification", protectedRoute, isCustomer, GetNotification);
+router.get("/clear-notification", protectedRoute, isCustomer, ClearNotification);
 export default router;

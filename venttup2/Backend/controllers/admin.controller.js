@@ -123,6 +123,8 @@ export const AssignVendors = async (req, res) => {
     order.vendorId = vendor._id;
     order.currentStatus = "Vendor Assigned";
     order.currentStep = order.currentStep + 1;
+    order.CustomerSeen = false;
+    order.VendorSeen = false;
     await order.save();
     res.status(200).json({ message: "Vendor Assigned", vendorId: vendor._id });
   } catch (error) {
@@ -229,7 +231,8 @@ export const orderUpload = async (req, res) => {
       sector,
       comments,
     });
-
+    newOrder.AdminSeen = true;
+    newOrder.CustomerSeen = false;
     await newOrder.save();
     res
       .status(201)
@@ -253,6 +256,8 @@ export const ApproveUpdate = async (req, res) => {
     const arr = orderStatuses[order.orderType];
     order.currentStatus = arr[order.currentStep];
     order.adminApproval = true;
+    order.CustomerSeen = false;
+    order.VendorSeen = false;
     await order.save();
     res.status(200).json({ message: "Progress Approved" });
   } catch (error) {
@@ -273,6 +278,8 @@ export const DisapproveUpdate = async (req, res) => {
     order.currentStep -= 1;
     order.currentStatus = orderStatuses[order.orderType][order.currentStep];
     order.adminApproval = true;
+    order.CustomerSeen = false;
+    order.VendorSeen = false;
     await order.save();
     res.status(200).json({ message: "Progress Disapproved" });
   } catch (error) {
@@ -337,6 +344,8 @@ export const fileUpload = (req, res) => {
           url: result.secure_url,
         });
       }
+      order.CustomerSeen = false;
+      order.VendorSeen = false;
       await order.save();
       return res.status(200).json({
         message: "File uploaded successfully",
@@ -394,6 +403,8 @@ export const UpdateProgressAdmin = async (req, res) => {
     } else {
       res.status(400).json({ message: "Invalid request" });
     }
+    order.CustomerSeen = false;
+    order.VendorSeen = false;
     await order.save();
     return res.status(200).json({ message: "Progress Updated" });
   } catch (error) {

@@ -21,6 +21,8 @@ import {
   OrderDetails,
   editOrder,
   ConfirmGRN,
+  GetNotification,
+  ClearNotification,
 } from "../controllers/order.controller.js";
 
 import protectedRoute from "../middlewares/ProtectedRoute.js";
@@ -60,4 +62,6 @@ router.post(
   isAdmin,
   ViewOrdersWithFilters
 );
+router.get("/get-notification", protectedRoute, isAdmin, GetNotification);
+router.get("/clear-notification", protectedRoute, isAdmin, ClearNotification);
 export default router;

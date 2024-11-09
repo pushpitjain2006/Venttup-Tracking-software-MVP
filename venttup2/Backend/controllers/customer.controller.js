@@ -130,6 +130,8 @@ export const ApproveGRN = async (req, res) => {
     order.currentStep += 1;
     order.adminApproval = false;
     order.customerApproval = true;
+    order.AdminSeen = false;
+    order.VendorSeen = false;
     await order.save();
     res.status(200).json({ message: "GRN Approved" });
   } catch (error) {
@@ -148,6 +150,8 @@ export const ConfirmGate = async (req, res) => {
       return res.status(400).json({ message: "Order not found" });
     }
     order.customerApproval = true;
+    order.AdminSeen = false;
+    order.VendorSeen = false;
     await order.save();
     res.status(200).json({ message: "Update Confirmed" });
   } catch (error) {

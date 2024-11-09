@@ -14,7 +14,7 @@ const AdminRoutes = () => {
       <Route path="/view-users" element={<EditUsers />} />
       <Route path="/upload-order" element={<OrderUploadForm />} />
       <Route path="/admin/ViewOrders" element={<AllOrderDetails />} />
-      <Route path="/order/:orderId" element={<OrderDetails />} />
+      <Route path="/order-details/:orderId" element={<OrderDetails />} />
       <Route path="/Admin-signup" element={<Signup />} />
       <Route path="*" element={<h1>Not Found</h1>} />
     </Routes>

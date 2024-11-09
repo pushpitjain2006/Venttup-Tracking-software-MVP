@@ -131,7 +131,7 @@ const AllOrderDetails = () => {
           filteredOrders.map((order) => (
             <div
               key={order._id}
-              onClick={() => navigate(`/order/${order._id}`)}
+              onClick={() => navigate(`/order-details/${order._id}`)}
               className="relative group min-h-80 bg-gray-100 rounded-lg transition-transform duration-300 hover:scale-105 hover:shadow-xl p-5 m-3 shadow-lg border-l-4 border-blue-500"
             >
               <h2 className="text-xl font-bold text-gray-500">

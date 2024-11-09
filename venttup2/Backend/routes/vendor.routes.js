@@ -11,7 +11,7 @@ import {
 } from "../controllers/vendor.controller.js";
 import protectedRoute from "../middlewares/ProtectedRoute.js";
 import isVendor from "../middlewares/isVendor.js";
-import { OrderDetails } from "../controllers/order.controller.js";
+import { ClearNotification, GetNotification, OrderDetails } from "../controllers/order.controller.js";
 import { fileUpload } from "../controllers/admin.controller.js";
 const router = express.Router();
 
@@ -30,5 +30,6 @@ router.get(
 );
 router.post("/view-order-details", protectedRoute, isVendor, OrderDetails);
 router.post("/upload", protectedRoute, isVendor, fileUpload);
-
+router.get("/get-notification", protectedRoute, isVendor, GetNotification);
+router.get("/clear-notification", protectedRoute, isVendor, ClearNotification);
 export default router;

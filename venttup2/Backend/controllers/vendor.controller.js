@@ -96,6 +96,8 @@ export const AcceptOrders = async (req, res) => {
     order.currentStep += 1;
     const vendor = await Vendor.findById(vendorId);
     vendor.currentOrder = orderId;
+    order.AdminSeen = false;
+    order.CustomerSeen = false;
     await order.save();
     res.status(200).json({ message: "Order Accepted", orderId, vendorId });
   } catch (error) {
@@ -122,6 +124,8 @@ export const DeclineOrders = async (req, res) => {
     order.currentStatus = "Vendor Selection";
     order.currentStep -= 1;
     order.vendorId = null;
+    order.AdminSeen = false;
+    order.CustomerSeen = false;
     await order.save();
     res.status(200).json({ message: "Order Declined" });
   } catch (error) {
@@ -187,6 +191,8 @@ export const UpdateProgress = async (req, res) => {
     } else {
       res.status(400).json({ message: "Invalid request" });
     }
+    order.AdminSeen = false;
+    order.CustomerSeen = false;
     await order.save();
     return res
       .status(200)
