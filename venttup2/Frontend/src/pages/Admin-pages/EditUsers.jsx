@@ -19,6 +19,7 @@ const EditUsers = () => {
   const { users, setUsers, loading, error } = useFetchUsers(userType);
   const [editUserId, setEditUserId] = useState(null);
   const [editedUserData, setEditedUserData] = useState({});
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleDelete = async (userType, userId) => {
     try {
@@ -30,10 +31,8 @@ const EditUsers = () => {
         toast.success("User deleted successfully!");
       } else {
         toast.error(res?.data?.message || "Failed to delete user.");
-        console.error("Failed to delete user:", res.data.message);
       }
     } catch (err) {
-      console.error("Failed to delete user:", err);
       toast.error("Failed to delete user.");
     }
   };
@@ -50,7 +49,6 @@ const EditUsers = () => {
       data: editedUserData,
     });
     if (res.status !== 200) {
-      console.error("Failed to update user:", res.data.message);
       return toast.error("Failed to update user.");
     }
     setUsers(
@@ -61,6 +59,18 @@ const EditUsers = () => {
     toast.success("User details updated successfully!");
     setEditUserId(null);
   };
+
+  // Filter users based on searchTerm
+  const filteredUsers = users.filter(
+    (user) =>
+      user._id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.GSTIN.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.contactNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.currentOrderCapacity === parseInt(searchTerm) ||
+      user.available === (searchTerm.toLowerCase() === "available") ||
+      user.available === (searchTerm.toLowerCase() === "not available")
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-100 text-gray-900 p-8">
@@ -100,6 +110,16 @@ const EditUsers = () => {
         </button>
       </div>
 
+      {/* Search input */}
+      <div className="flex justify-center mb-8">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search by ID, GSTIN, Address, or Contact Number"
+          className="w-full md:w-1/2 p-3 rounded-lg bg-blue-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+        />
+      </div>
       {loading && (
         <div className="flex justify-center items-center text-blue-700">
           <AiOutlineLoading3Quarters className="animate-spin text-4xl" />
@@ -111,13 +131,17 @@ const EditUsers = () => {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {users.map((user) => (
+        {filteredUsers.map((user) => (
           <div
             key={user._id}
             className="relative bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:scale-105 border-l-4 border-blue-500"
           >
+            <p className="text-gray-500 text-sm absolute top-1 right-2">
+              ID: {user._id}
+            </p>
             {editUserId === user._id ? (
               <div className="flex flex-col gap-3">
+                {/* Input fields for editing user data */}
                 <input
                   type="text"
                   value={editedUserData.GSTIN}
@@ -205,43 +229,41 @@ const EditUsers = () => {
                   {user.contactNumber}
                 </p>
                 {userType === "vendor" && (
-                  <>
-                    <p className="mb-1 flex items-center gap-2">
+                  <div className="flex gap-4 items-center">
+                    <p className="flex items-center gap-1">
                       {user.available ? (
-                        <FaCheckCircle className="text-blue-500" />
+                        <FaCheckCircle className="text-green-500" />
                       ) : (
                         <FaTimesCircle className="text-red-500" />
                       )}
-                      Status: {user.available ? "Available" : "Unavailable"}
+                      <span className="text-sm">
+                        {user.available ? "Available" : "Not Available"}
+                      </span>
                     </p>
-                    <p className="mb-4 flex items-center gap-2">
-                      <MdTimer className="text-blue-500" /> Capacity:{" "}
-                      {user.currentOrderCapacity}
+                    <p className="flex items-center gap-1">
+                      <MdTimer className="text-blue-500" />
+                      <span className="text-sm">
+                        Order Capacity: {user.currentOrderCapacity}
+                      </span>
                     </p>
-                  </>
+                  </div>
                 )}
-                <div className="flex gap-2">
+                <div className="flex justify-end gap-2 mt-4">
                   <button
                     onClick={() => handleEditClick(user)}
-                    className="flex-1 py-2 text-blue-500 bg-blue-100 rounded-lg hover:bg-blue-200 transition-all flex items-center gap-2 justify-center"
+                    className="pl-3 pr-2.5 py-2 bg-yellow-200 text-yellow-700 rounded-lg hover:bg-yellow-300 transition-all"
                   >
-                    <FaEdit /> Edit
+                    <FaEdit />
                   </button>
                   <button
                     onClick={() => handleDelete(userType, user._id)}
-                    className="flex-1 py-2 text-red-500 bg-red-100 rounded-lg hover:bg-red-200 transition-all flex items-center gap-2 justify-center"
+                    className="px-3 py-2 bg-red-200 text-red-700 rounded-lg hover:bg-red-300 transition-all"
                   >
-                    <FaTrash /> Delete
+                    <FaTrash />
                   </button>
                 </div>
               </div>
             )}
-            <p className="text-xs text-gray-500 mt-4">
-              Created at: {new Date(user.createdAt).toLocaleString()}
-            </p>
-            <p className="text-xs text-gray-500">
-              Last Updated at: {new Date(user.updatedAt).toLocaleString()}
-            </p>
           </div>
         ))}
       </div>

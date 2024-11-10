@@ -392,6 +392,8 @@ export const UpdateProgressAdmin = async (req, res) => {
         .json({ message: "Order waiting for customer approval" });
     }
     if (order.currentStatus === "Order completed") {
+      order.currentStep = arr.length;
+      order.save();
       return res.status(400).json({ message: "Order already completed" });
     }
     // Localization-specific gates and approvals
