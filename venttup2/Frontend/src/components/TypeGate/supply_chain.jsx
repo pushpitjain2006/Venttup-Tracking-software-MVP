@@ -8,7 +8,7 @@ import DocumentPreview from "../DocumentPreviewDownload";
 const Supply_chain = ({ values }) => {
 
   const { stepNumber, order } = values;
-  const arrayOfStatuses = orderStatuses.contract_manufacturing;
+  const arrayOfStatuses = orderStatuses.supply_chain;
   const { auth } = useAuth();
   const userType = auth.userType;
   const [file, setFile] = useState(null);
