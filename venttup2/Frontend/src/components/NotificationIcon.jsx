@@ -72,7 +72,7 @@ const NotificationIcon = () => {
       ref={notificationRef}
       className={`fixed top-1/4 right-5 z-50 transition-all duration-500 ease-out ${
         shouldDisappear && !isDropdownOpen
-          ? "translate-x-full opacity-0"
+          ? "translate-x-full opacity-25"
           : "translate-x-0 opacity-100"
       }`}
     >
