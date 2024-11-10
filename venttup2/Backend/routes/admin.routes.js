@@ -23,6 +23,7 @@ import {
   ConfirmGRN,
   GetNotification,
   ClearNotification,
+  approveUpdate,
 } from "../controllers/order.controller.js";
 
 import protectedRoute from "../middlewares/ProtectedRoute.js";
@@ -64,4 +65,5 @@ router.post(
 );
 router.get("/get-notification", protectedRoute, isAdmin, GetNotification);
 router.get("/clear-notification", protectedRoute, isAdmin, ClearNotification);
+router.post("/approve-update-Approval", protectedRoute, isAdmin, approveUpdate);
 export default router;

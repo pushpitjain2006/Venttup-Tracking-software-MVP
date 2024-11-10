@@ -15,11 +15,14 @@ const Supply_chain = ({ values }) => {
   const themeColor = userType === "admin" ? "blue" : "green";
   const [loading, setLoading] = useState(false);
 
-  const handelApproveCustomer = async () => {
+  const handelApprove = async () => {
     try {
-      const response = await axios.post("/customer/approve-order", {
-        orderId: order._id,
-      });
+      const response = await axios.post(
+        `/${userType}/approve-update-Approval`,
+        {
+          orderId: order._id,
+        }
+      );
       if (response.status === 200) {
         toast.success("Order approved successfully!");
       } else {
@@ -84,7 +87,27 @@ const Supply_chain = ({ values }) => {
         <div className="mt-5">
           <button
             className="px-6 py-3 bg-green-600 text-white rounded-md cursor-pointer transition-colors duration-300 ease-in-out hover:bg-green-700 w-full sm:w-auto"
-            onClick={handelApproveCustomer}
+            onClick={handelApprove}
+          >
+            Approve
+          </button>
+        </div>
+      ) : null}
+      {userType === "admin" && !order.adminApproval ? (
+        <div className="mt-5">
+          <button
+            className="px-6 py-3 bg-blue-600 text-white rounded-md cursor-pointer transition-colors duration-300 ease-in-out hover:bg-blue-700 w-full sm:w-auto"
+            onClick={handelApprove}
+          >
+            Approve
+          </button>
+        </div>
+      ) : null}
+      {userType === "vendor" && !order.vendorApproval && order.adminApproval ? (
+        <div className="mt-5">
+          <button
+            className="px-6 py-3 bg-blue-600 text-white rounded-md cursor-pointer transition-colors duration-300 ease-in-out hover:bg-blue-700 w-full sm:w-auto"
+            onClick={handelApprove}
           >
             Approve
           </button>

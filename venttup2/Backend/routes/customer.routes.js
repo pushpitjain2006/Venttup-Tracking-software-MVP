@@ -10,6 +10,7 @@ import {
   ConfirmGate,
 } from "../controllers/customer.controller.js";
 import {
+  approveUpdate,
   ClearNotification,
   editOrder,
   GetNotification,
@@ -38,4 +39,5 @@ router.post("/approve-order", protectedRoute, isCustomer, ConfirmGate);
 router.post("/upload", protectedRoute, isCustomer, fileUpload);
 router.get("/get-notification", protectedRoute, isCustomer, GetNotification);
 router.get("/clear-notification", protectedRoute, isCustomer, ClearNotification);
+router.post("/approve-update-Approval", protectedRoute, isCustomer, approveUpdate);
 export default router;

@@ -16,7 +16,7 @@ const Localization = ({ values }) => {
   const [loading, setLoading] = useState(false);
   const handelApproveCustomer = async () => {
     try {
-      const response = await axios.post("/customer/approve-order", {
+      const response = await axios.post("/customer/approve-update-Approval", {
         orderId: order._id,
       });
       if (response.status === 200) {

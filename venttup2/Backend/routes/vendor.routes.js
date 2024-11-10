@@ -11,7 +11,12 @@ import {
 } from "../controllers/vendor.controller.js";
 import protectedRoute from "../middlewares/ProtectedRoute.js";
 import isVendor from "../middlewares/isVendor.js";
-import { ClearNotification, GetNotification, OrderDetails } from "../controllers/order.controller.js";
+import {
+  approveUpdate,
+  ClearNotification,
+  GetNotification,
+  OrderDetails,
+} from "../controllers/order.controller.js";
 import { fileUpload } from "../controllers/admin.controller.js";
 const router = express.Router();
 
@@ -32,4 +37,10 @@ router.post("/view-order-details", protectedRoute, isVendor, OrderDetails);
 router.post("/upload", protectedRoute, isVendor, fileUpload);
 router.get("/get-notification", protectedRoute, isVendor, GetNotification);
 router.get("/clear-notification", protectedRoute, isVendor, ClearNotification);
+router.post(
+  "/approve-update-Approval",
+  protectedRoute,
+  isVendor,
+  approveUpdate
+);
 export default router;
