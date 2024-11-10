@@ -133,7 +133,7 @@ export const DeclineOrders = async (req, res) => {
   }
 };
 
-export const UpdateProgress = async (req, res) => {
+export const UpdateProgressVendor = async (req, res) => {
   try {
     const { orderId, vendorId, action } = req.body;
     if (!orderId || !vendorId) {
@@ -151,7 +151,7 @@ export const UpdateProgress = async (req, res) => {
     }
 
     if (action === "withdraw") {
-      if (order.adminApproval === false) {
+      if (!order.adminApproval) {
         order.currentStep -= 1;
         order.currentStatus = orderStatuses[order.orderType][order.currentStep];
         order.adminApproval = true;
@@ -180,16 +180,52 @@ export const UpdateProgress = async (req, res) => {
     if (order.currentStatus === "Order completed") {
       return res.status(400).json({ message: "Order already completed" });
     }
+    // Define gates and logic for specific order types
     const arr = orderStatuses[order.orderType];
+    const isLocalization = order.orderType === "localization";
+    const isSupplyChain = order.orderType === "supply chain";
+    const isContractManufacturing =
+      order.orderType === "contract_manufacturing";
     if (!arr) {
       return res.status(400).json({ message: "Invalid order type" });
     }
+    // Localization-specific gates and approvals
+    if (isLocalization) {
+      if (order.currentStatus === "Gate 2") {
+        order.customerApproval = false;
+      } else if (order.currentStatus === "Gate 3") {
+        order.vendorApproval = false;
+      }
+    }
+    // Supply chain-specific gates and approvals
+    if (isSupplyChain) {
+      if (order.currentStatus === "Vendor Accepted") {
+        order.vendorApproval = false;
+      } else if (order.currentStatus === "Drawing / Data Sheet Verification") {
+        order.vendorApproval = false;
+      } else if (order.currentStatus === "Dispatch Status") {
+        order.customerApproval = false;
+      }
+    }
+    // Contract manufacturing-specific gates and approvals
+    if (isContractManufacturing) {
+      if (order.currentStatus === "Vendor Accepted") {
+        order.vendorApproval = false;
+      } else if (order.currentStatus === "PO Release") {
+        order.customerApproval = false;
+      } else if (order.currentStatus === "Drawing Approval") {
+        order.vendorApproval = false;
+      } else if (order.currentStatus === "Inspection Call") {
+        order.customerApproval = false;
+      } else if (order.currentStatus === "Dispatch Clearance") {
+        order.vendorApproval = false;
+      }
+    }
     if (order.currentStep + 1 < arr.length) {
       order.currentStep += 1;
-      order.currentStatus = arr[order.currentStep];
       order.adminApproval = false;
     } else {
-      res.status(400).json({ message: "Invalid request" });
+      return res.status(400).json({ message: "Invalid request" });
     }
     order.AdminSeen = false;
     order.CustomerSeen = false;
@@ -199,7 +235,7 @@ export const UpdateProgress = async (req, res) => {
       .json({ message: "Progress Updated, waiting for admin approval" });
   } catch (error) {
     console.error("Error updating progress:", error);
-    res
+    return res
       .status(500)
       .json({ message: "Internal Server Error", error: error.message });
   }

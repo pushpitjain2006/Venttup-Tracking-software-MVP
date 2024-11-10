@@ -6,7 +6,6 @@ import useAxios from "../../utils/useAxios.js";
 import DocumentPreview from "../DocumentPreviewDownload";
 
 const Supply_chain = ({ values }) => {
-
   const { stepNumber, order } = values;
   const arrayOfStatuses = orderStatuses.supply_chain;
   const { auth } = useAuth();
@@ -78,39 +77,40 @@ const Supply_chain = ({ values }) => {
   };
 
   return (
-  <div className="flex flex-col items-center mt-5 px-4 sm:px-8 lg:px-16 xl:px-24">
-    {userType === "customer" && !order.customerApproval ? (
-      <div className="mt-5">
+    <div className="flex flex-col items-center mt-5 px-4 sm:px-8 lg:px-16 xl:px-24">
+      {userType === "customer" &&
+      !order.customerApproval &&
+      order.adminApproval ? (
+        <div className="mt-5">
+          <button
+            className="px-6 py-3 bg-green-600 text-white rounded-md cursor-pointer transition-colors duration-300 ease-in-out hover:bg-green-700 w-full sm:w-auto"
+            onClick={handelApproveCustomer}
+          >
+            Approve
+          </button>
+        </div>
+      ) : null}
+
+      <DocumentPreview document={document} themeColor={themeColor} />
+
+      <div className="flex flex-col sm:flex-row sm:items-center mt-8 gap-4 w-full max-w-3xl">
+        <input
+          type="file"
+          onChange={handleChangeDocument}
+          className={`w-full sm:w-auto px-5 py-3 bg-${themeColor}-600 text-white rounded-md cursor-pointer transition-colors duration-300 ease-in-out hover:bg-${themeColor}-800 text-center`}
+        />
         <button
-          className="px-6 py-3 bg-green-600 text-white rounded-md cursor-pointer transition-colors duration-300 ease-in-out hover:bg-green-700 w-full sm:w-auto"
-          onClick={handelApproveCustomer}
+          className={`w-full sm:w-auto px-5 py-3 bg-${themeColor}-600 text-white rounded-md cursor-pointer transition-colors duration-300 ease-in-out ${
+            !loading ? `hover:bg-${themeColor}-800` : ""
+          } text-center ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+          onClick={handleUploadDocument}
+          disabled={loading}
         >
-          Approve
+          Upload
         </button>
       </div>
-    ) : null}
-
-    <DocumentPreview document={document} themeColor={themeColor} />
-
-    <div className="flex flex-col sm:flex-row sm:items-center mt-8 gap-4 w-full max-w-3xl">
-      <input
-        type="file"
-        onChange={handleChangeDocument}
-        className={`w-full sm:w-auto px-5 py-3 bg-${themeColor}-600 text-white rounded-md cursor-pointer transition-colors duration-300 ease-in-out hover:bg-${themeColor}-800 text-center`}
-      />
-      <button
-        className={`w-full sm:w-auto px-5 py-3 bg-${themeColor}-600 text-white rounded-md cursor-pointer transition-colors duration-300 ease-in-out ${
-          !loading ? `hover:bg-${themeColor}-800` : ""
-        } text-center ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
-        onClick={handleUploadDocument}
-        disabled={loading}
-      >
-        Upload
-      </button>
     </div>
-  </div>
   );
 };
 
 export default Supply_chain;
-

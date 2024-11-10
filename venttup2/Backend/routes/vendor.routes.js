@@ -7,7 +7,7 @@ import {
   DeclineOrders,
   GetVendorOrders,
   GetCustomerDetails,
-  UpdateProgress,
+  UpdateProgressVendor,
 } from "../controllers/vendor.controller.js";
 import protectedRoute from "../middlewares/ProtectedRoute.js";
 import isVendor from "../middlewares/isVendor.js";
@@ -20,7 +20,7 @@ router.get("/logout", LogoutVendor);
 router.post("/signup", SignupVendor);
 router.post("/accept-order", protectedRoute, isVendor, AcceptOrders);
 router.post("/decline-order", protectedRoute, isVendor, DeclineOrders);
-router.post("/update-progress", protectedRoute, isVendor, UpdateProgress);
+router.post("/update-progress", protectedRoute, isVendor, UpdateProgressVendor);
 router.post("/get-vendor-orders", protectedRoute, isVendor, GetVendorOrders);
 router.get(
   "/get-customer-details",

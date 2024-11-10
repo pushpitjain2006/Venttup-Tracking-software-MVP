@@ -26,7 +26,7 @@ const orderStatuses = {
     "Inspection Call",
     "Inspection Report",
     "Dispatch Clearance",
-    "Material Receipt",
+    "Dispatch Status",
     "GRN",
     "GRN Approved",
     "Order completed",

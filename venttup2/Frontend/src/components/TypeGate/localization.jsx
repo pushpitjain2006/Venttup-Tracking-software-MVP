@@ -77,7 +77,9 @@ const Localization = ({ values }) => {
 
   return (
     <div className="flex flex-col items-center mt-5 px-4 sm:px-8 lg:px-16 xl:px-24">
-      {userType === "customer" && !order.customerApproval ? (
+      {userType === "customer" &&
+      !order.customerApproval &&
+      order.adminApproval ? (
         <div className="mt-5">
           <button
             className="px-6 py-3 bg-green-600 text-white rounded-md cursor-pointer transition-colors duration-300 ease-in-out hover:bg-green-700 w-full sm:w-auto"

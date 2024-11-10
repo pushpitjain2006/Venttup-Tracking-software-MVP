@@ -372,6 +372,20 @@ export const UpdateProgressAdmin = async (req, res) => {
       return res.status(404).json({ message: "Order not found" });
     }
     const arr = orderStatuses[order.orderType];
+    const isLocalization = order.orderType === "localization";
+    const isSupplyChain = order.orderType === "supply chain";
+    const isContractManufacturing =
+      order.orderType === "contract_manufacturing";
+    if (!order.customerApproval) {
+      return res
+        .status(400)
+        .json({ message: "Order waiting for customer approval" });
+    }
+    if (!order.vendorApproval) {
+      return res
+        .status(400)
+        .json({ message: "Order waiting for vendor approval" });
+    }
     if (order.currentStatus === "GRN") {
       return res
         .status(400)
@@ -380,20 +394,36 @@ export const UpdateProgressAdmin = async (req, res) => {
     if (order.currentStatus === "Order completed") {
       return res.status(400).json({ message: "Order already completed" });
     }
-    if (order.currentStatus === "Gate 2") {
-      order.customerApproval = false;
-    } else if (order.currentStatus === "Gate 3") {
-      if (!order.customerApproval) {
-        return res
-          .status(400)
-          .json({ message: "Order waiting for customer approval" });
+    // Localization-specific gates and approvals
+    if (isLocalization) {
+      if (order.currentStatus === "Gate 2") {
+        order.customerApproval = false;
+      } else if (order.currentStatus === "Gate 3") {
+        order.vendorApproval = false;
       }
-      order.customerApproval = false;
-    } else if (order.currentStatus === "Gate 4") {
-      if (!order.customerApproval) {
-        return res
-          .status(400)
-          .json({ message: "Order waiting for customer approval" });
+    }
+    // Supply chain-specific gates and approvals
+    if (isSupplyChain) {
+      if (order.currentStatus === "Vendor Accepted") {
+        order.vendorApproval = false;
+      } else if (order.currentStatus === "Drawing / Data Sheet Verification") {
+        order.vendorApproval = false;
+      } else if (order.currentStatus === "Dispatch Status") {
+        order.customerApproval = false;
+      }
+    }
+    // Contract manufacturing-specific gates and approvals
+    if (isContractManufacturing) {
+      if (order.currentStatus === "Vendor Accepted") {
+        order.vendorApproval = false;
+      } else if (order.currentStatus === "PO Release") {
+        order.customerApproval = false;
+      } else if (order.currentStatus === "Drawing Approval") {
+        order.vendorApproval = false;
+      } else if (order.currentStatus === "Inspection Call") {
+        order.customerApproval = false;
+      } else if (order.currentStatus === "Dispatch Clearance") {
+        order.vendorApproval = false;
       }
     }
     if (order.currentStep + 1 < arr.length) {
@@ -401,13 +431,13 @@ export const UpdateProgressAdmin = async (req, res) => {
       order.currentStatus = arr[order.currentStep];
       order.adminApproval = true;
     } else {
-      res.status(400).json({ message: "Invalid request" });
+      return res.status(400).json({ message: "Invalid request" });
     }
     order.CustomerSeen = false;
     order.VendorSeen = false;
     await order.save();
     return res.status(200).json({ message: "Progress Updated" });
   } catch (error) {
-    res.status(500).json({ error });
+    return res.status(500).json({ error });
   }
 };
