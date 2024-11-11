@@ -245,6 +245,7 @@ export const ClearNotification = async (req, res) => {
 export const approveUpdate = async (req, res) => {
   try {
     const { orderId, LoggedInUserType } = req.body;
+    console.log(req.body);
     if (!orderId) {
       return res.status(400).json({ message: "Please provide orderId" });
     }
@@ -254,14 +255,17 @@ export const approveUpdate = async (req, res) => {
     }
     if (LoggedInUserType === "customer") {
       order.customerApproval = true;
+      order.save();
       return res.status(200).json({ message: "Customer approved the changes" });
     }
     if (LoggedInUserType === "vendor") {
       order.vendorApproval = true;
+      order.save();
       return res.status(200).json({ message: "Vendor approved the changes" });
     }
     if (LoggedInUserType === "admin") {
       order.adminApproval = true;
+      order.save();
       return res.status(200).json({ message: "Admin approved the changes" });
     }
     return res.status(400).json({ message: "Invalid user type" });
