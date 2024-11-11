@@ -309,6 +309,7 @@ export const fileUpload = (req, res) => {
       return res.status(400).json({ message: "Please provide orderId" });
     }
     if (err) {
+      console.error("File upload failed - ", err);
       return res
         .status(500)
         .json({ message: "File upload failed", error: err });
@@ -353,7 +354,7 @@ export const fileUpload = (req, res) => {
         cloudinaryUrl: result.secure_url,
       });
     } catch (cloudinaryError) {
-      console.log(" cloudinaryError ", cloudinaryError);
+      console.log(" cloudinaryError - ", cloudinaryError);
       return res
         .status(500)
         .json({ message: "Cloudinary upload failed", error: cloudinaryError });

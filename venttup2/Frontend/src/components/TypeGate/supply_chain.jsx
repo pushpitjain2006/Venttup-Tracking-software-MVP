@@ -70,6 +70,7 @@ const Supply_chain = ({ values }) => {
         toast.success("File uploaded successfully!");
       } else {
         toast.error("Failed to upload file.");
+        console.log("Upload error: ", response);
       }
     } catch (error) {
       toast.error(response?.data?.message || "Failed to upload file.");

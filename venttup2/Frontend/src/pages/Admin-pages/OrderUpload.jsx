@@ -40,12 +40,13 @@ const OrderUploadForm = () => {
         });
       } else {
         toast.error("Failed to upload order.");
+        console.log("Upload error: ", response);
       }
       const formData2 = new FormData();
       formData2.append("file", file);
       formData2.append("orderId", response?.data.orderId);
       formData2.append("documentName", "Waiting Admin Approval");
-      const resFile = await axios.post(`/admin/upload`, formData2, {
+      const resFile = await axios.post("/admin/upload", formData2, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -54,6 +55,7 @@ const OrderUploadForm = () => {
         toast.success("File uploaded successfully!");
       } else {
         toast.error("Failed to upload file.");
+        console.log("Upload error: ", response);
       }
     } catch (err) {
       toast.error(err.message);

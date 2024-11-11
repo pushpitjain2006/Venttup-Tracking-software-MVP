@@ -245,7 +245,7 @@ export const ClearNotification = async (req, res) => {
 export const approveUpdate = async (req, res) => {
   try {
     const { orderId, LoggedInUserType } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     if (!orderId) {
       return res.status(400).json({ message: "Please provide orderId" });
     }
