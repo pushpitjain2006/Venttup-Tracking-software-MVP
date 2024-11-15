@@ -9,7 +9,7 @@ const ProgressBar = ({ order, setCurrentStep, isAcceptancePending }) => {
     <div className="mt-8 flex justify-center px-4">
       <div className="flex flex-wrap items-start justify-center gap-6 lg:flex-nowrap max-w-full">
         {stages.map((stage, index) => {
-          const isCompleted = index < order?.currentStep;
+          const isCompleted = index < order?.currentStep || order.currentStatus === "Order completed";
           const isCurrent = index === order?.currentStep;
           const isGateStage = stage.toLowerCase().includes("gate");
 

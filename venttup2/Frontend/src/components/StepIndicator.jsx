@@ -14,7 +14,7 @@ const StepIndicator = ({ order, currentStep, setFocusStep, focusStep }) => {
         >
           <div
             className={`w-10 h-10 flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
-              currentStep > index
+              currentStep > index || order.currentStatus === "Order completed"
                 ? "bg-blue-600 border-blue-600 text-white"
                 : currentStep === index
                 ? "border-blue-600 text-blue-600"
