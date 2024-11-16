@@ -4,6 +4,9 @@ import VendorLogin from "../../components/Login-components/VendorLogin.jsx";
 import CustomerLogin from "../../components/Login-components/CustomerLogin.jsx";
 import { useNavigate } from "react-router-dom";
 import { FaLeaf, FaUserShield, FaUsers } from "react-icons/fa";
+import bgVideo from "../../assets/venttup2 (1).mp4";
+
+// Add the video element right after the first div in your return statement
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,8 +18,14 @@ const Login = () => {
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-green-700 relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full bg-cover bg-center opacity-20"></div>
-
+      <video
+        autoPlay
+        loop
+        muted
+        className="absolute top-0 left-0 w-full h-full object-cover opacity-20"
+      >
+        <source src={bgVideo} type="video/mp4" />
+      </video>
       <div className="flex flex-col items-center p-4 sm:p-8 w-full max-w-md relative z-10">
         <div className="flex justify-around w-full bg-white bg-opacity-70 border-2 border-green-600 rounded-full shadow-lg mb-4 transition duration-500 ease-in-out hover:shadow-2xl">
           {[
@@ -59,7 +68,6 @@ const Login = () => {
           </p>
         </div>
       </div>
-
       <div className="absolute -bottom-12 -left-16 w-36 h-36 bg-green-300 rounded-full filter blur-lg animate-pulse opacity-60"></div>
       <div className="absolute -top-16 -right-16 w-32 h-32 bg-blue-400 rounded-full filter blur-lg animate-bounce opacity-70"></div>
     </div>
