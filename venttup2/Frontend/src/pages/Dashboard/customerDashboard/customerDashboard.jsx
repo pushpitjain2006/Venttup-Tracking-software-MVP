@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../../../context/AuthContext.jsx";
 import useAxios from "../../../utils/useAxios.js";
 import { GiRecycle, GiFactory } from "react-icons/gi";
@@ -8,6 +8,7 @@ const CustomerDashboard = () => {
   const navigate = useNavigate();
   const axios = useAxios();
   const { setAuth } = useAuth();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   async function handleLogout() {
     setAuth(null);
@@ -17,6 +18,30 @@ const CustomerDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-200 via-gray-100 to-green-100 p-6">
+      {showLogoutModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
+          <div className="bg-white rounded-lg p-6 shadow-lg">
+            <h2 className="text-lg font-semibold text-green-700 mb-4">
+              Confirm Logout
+            </h2>
+            <p className="mb-4">Are you sure you want to logout?</p>
+            <div className="flex justify-end space-x-4">
+              <button
+                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                onClick={() => setShowLogoutModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="flex items-center justify-between bg-green-600 shadow-md p-4 mb-6 rounded-lg">
         <div className="flex gap-4 items-center">
           <GiFactory className="text-white w-8 h-8" />
@@ -26,7 +51,7 @@ const CustomerDashboard = () => {
         </div>
         <button
           className="text-white font-medium bg-green-500 py-2 px-4 rounded-lg hover:bg-green-700 transition duration-200"
-          onClick={() => handleLogout()}
+          onClick={() => setShowLogoutModal(true)}
         >
           Logout
         </button>

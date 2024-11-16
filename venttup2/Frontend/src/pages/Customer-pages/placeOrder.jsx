@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 import useAxios from "../../utils/useAxios.js";
 import { useAuth } from "../../../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
-import orderStatuses from "../../config/orderStatusConfig.js";
 
 const PlaceOrder = () => {
   const [orderType, setOrderType] = useState("");
@@ -19,6 +18,7 @@ const PlaceOrder = () => {
   const [message, setMessage] = useState("");
   const [file, setFile] = useState(null);
   const [totalAmount, setTotalAmount] = useState("");
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const axios = useAxios();
   const { setAuth } = useAuth();
   const navigate = useNavigate();
@@ -87,10 +87,35 @@ const PlaceOrder = () => {
           </h1>
           <button
             className="text-white bg-green-600 px-2 sm:px-4 py-2 rounded hover:bg-green-700"
-            onClick={handleLogout}
+            onClick={() => setShowLogoutModal(true)}
           >
             Logout
           </button>
+
+          {showLogoutModal && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="bg-white rounded-lg p-6 shadow-lg">
+                <h2 className="text-lg font-semibold text-green-700 mb-4">
+                  Confirm Logout
+                </h2>
+                <p className="mb-4">Are you sure you want to logout?</p>
+                <div className="flex justify-end space-x-4">
+                  <button
+                    className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                    onClick={() => setShowLogoutModal(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
