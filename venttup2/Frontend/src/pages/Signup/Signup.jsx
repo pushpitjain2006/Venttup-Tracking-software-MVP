@@ -5,13 +5,13 @@ import CustomerSignup from "../../components/Signup-components/CustomerSignup.js
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaLeaf, FaUserShield, FaUsers } from "react-icons/fa";
 import { useAuth } from "../../../context/AuthContext.jsx";
-import bgVideo from "../../assets/venttup2 (1).mp4";
+import BgVideo from "../../components/Login-components/BgVideo";
 
 const Signup = () => {
   const { auth } = useAuth();
   const adminLoggedIn = auth?.userType === "admin";
   const navigate = useNavigate();
-  const [selected, setSelected] = useState("Admin");
+  const [selected, setSelected] = useState(adminLoggedIn ? "Admin" : "Vendor");
 
   const handleSelect = (option) => {
     setSelected(option);
@@ -19,14 +19,7 @@ const Signup = () => {
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-r from-green-600 to-blue-700 relative overflow-hidden">
-      <video
-        autoPlay
-        loop
-        muted
-        className="absolute top-0 left-0 w-full h-full object-cover opacity-20"
-      >
-        <source src={bgVideo} type="video/mp4" />
-      </video>
+      <BgVideo />
       <div className="absolute top-0 left-0 w-full h-full bg-cover bg-center opacity-20"></div>
       {adminLoggedIn && (
         <button
