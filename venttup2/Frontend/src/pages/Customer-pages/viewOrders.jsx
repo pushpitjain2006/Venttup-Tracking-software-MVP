@@ -38,7 +38,7 @@ const ViewOrders = () => {
     if (sortOption === "price") {
       return a.totalAmount - b.totalAmount;
     } else if (sortOption === "date") {
-      return new Date(a.createdAt) - new Date(b.createdAt);
+      return new Date(b.createdAt) - new Date(a.createdAt);
     }
     return 0;
   });

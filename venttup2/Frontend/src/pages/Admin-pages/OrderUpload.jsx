@@ -12,6 +12,7 @@ const OrderUploadForm = () => {
     totalAmount: "",
     sector: "",
     comments: "",
+    name: "",
   });
 
   const handleChange = (e) => {
@@ -37,6 +38,7 @@ const OrderUploadForm = () => {
           totalAmount: "",
           sector: "",
           comments: "",
+          name: "",
         });
       } else {
         toast.error("Failed to upload order.");
@@ -77,6 +79,22 @@ const OrderUploadForm = () => {
             Order Upload
           </h2>
           <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label
+                htmlFor="name"
+                className="block text-lg font-medium text-gray-700 mb-2"
+              >
+                Order Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
             <div>
               <label
                 htmlFor="customerId"

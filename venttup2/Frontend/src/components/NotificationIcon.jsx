@@ -78,7 +78,7 @@ const NotificationIcon = () => {
     >
       <div className="relative cursor-pointer" onClick={handleIconClick}>
         <IoNotificationsOutline
-          size={32}
+          size={37}
           className={`text-black ${
             unreadCount > 0 ? "animate-bounce" : ""
           } transition-transform duration-300`}

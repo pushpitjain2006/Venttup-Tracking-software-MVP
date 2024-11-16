@@ -213,9 +213,9 @@ export const deleteUsers = async (req, res) => {
 
 export const orderUpload = async (req, res) => {
   try {
-    const { customerGstin, orderType, totalAmount, sector, comments } =
+    const { customerGstin, orderType, totalAmount, sector, comments, name } =
       req.body.data;
-    // console.log(req.body.data);
+    console.log(req.body.data);
     if (!customerGstin || !orderType || !totalAmount || !sector) {
       return res.status(400).json({ message: "All fields are required." });
     }
@@ -230,6 +230,7 @@ export const orderUpload = async (req, res) => {
       currentStatus: "Vendor Selection",
       sector,
       comments,
+      name,
     });
     newOrder.AdminSeen = true;
     newOrder.CustomerSeen = false;

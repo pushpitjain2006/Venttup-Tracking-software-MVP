@@ -3,6 +3,10 @@ import orderStatuses from "../../config/orderStatusConfig.js";
 
 const orderSchema = new mongoose.Schema(
   {
+    name: {
+      type: String,
+      required: false,
+    },
     customerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Customer",

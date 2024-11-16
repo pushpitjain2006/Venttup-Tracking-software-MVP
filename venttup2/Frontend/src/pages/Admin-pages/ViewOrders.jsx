@@ -32,11 +32,19 @@ const AllOrderDetails = () => {
       const matchesAmountRange =
         order.totalAmount >= amountRange[0] &&
         order.totalAmount <= amountRange[1];
+      const matchesOrderName = order.name
+        ? order.name.toLowerCase().includes(searchQuery.toLowerCase())
+        : true;
+      const matchesVendorId = order.vendorId
+        ? order.vendorId.includes(searchQuery)
+        : true;
       return (
         matchesSearch &&
         matchesOrderType &&
         matchesAdminApproval &&
-        matchesAmountRange
+        matchesAmountRange &&
+        matchesOrderName &&
+        matchesVendorId
       );
     })
     .sort((a, b) => {
@@ -134,9 +142,15 @@ const AllOrderDetails = () => {
               onClick={() => navigate(`/order-details/${order._id}`)}
               className="relative group min-h-80 bg-gray-100 rounded-lg transition-transform duration-300 hover:scale-105 hover:shadow-xl p-5 m-3 shadow-lg border-l-4 border-blue-500"
             >
-              <h2 className="text-xl font-bold text-gray-500">
-                Order ID: {order._id}
-              </h2>
+              {order.name ? (
+                <h2 className="text-xl font-bold text-gray-500">
+                  Order Name: {order.name}
+                </h2>
+              ) : (
+                <h2 className="text-xl font-bold text-gray-500">
+                  Order ID: {order._id}
+                </h2>
+              )}
               <div className="my-6">
                 <p className="text-blue-500 mb-2">
                   <FaLeaf className="inline mr-2 text-blue-400" />
@@ -204,6 +218,14 @@ const AllOrderDetails = () => {
                   </div>
                 </div>
               </div>
+              {order.name ? (
+                <div className="text-gray-500 text-xs flex justify-center">
+                  <span className="font-semibold text-gray-600">Order ID:</span>
+                  <span className="text-gray-400">{order._id}</span>
+                </div>
+              ) : (
+                ""
+              )}
               <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-opacity-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <button className="bg-blue-600 text-white py-2 px-4 w-full h-12 rounded-b-lg font-semibold hover:bg-blue-700 shadow-lg transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                   View Order Details
