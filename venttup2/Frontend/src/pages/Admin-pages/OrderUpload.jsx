@@ -40,6 +40,7 @@ const OrderUploadForm = () => {
           comments: "",
           name: "",
         });
+        setFile(null);
       } else {
         toast.error("Failed to upload order.");
         console.log("Upload error: ", response);
@@ -168,11 +169,12 @@ const OrderUploadForm = () => {
                 required
               >
                 <option value="">Select Sector</option>
-                <option value="sector_1">Sector 1</option>
-                <option value="sector_2">Sector 2</option>
-                <option value="sector_3">Sector 3</option>
-                <option value="sector_4">Sector 4</option>
-                <option value="sector_5">Sector 5</option>
+                <option value="Energy Sector">Energy Sector</option>
+                <option value="Manufacturing">Manufacturing</option>
+                <option value="EV">EV</option>
+                <option value="Defense / Aerospace">Defense / Aerospace</option>
+                <option value="Green Building">Green Building</option>
+                <option value="Other">Other</option>
               </select>
             </div>
             <div>

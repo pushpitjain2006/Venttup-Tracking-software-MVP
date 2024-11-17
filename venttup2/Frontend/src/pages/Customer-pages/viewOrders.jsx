@@ -103,7 +103,7 @@ const ViewOrders = () => {
                 )}`}
               >
                 <h3 className="text-lg font-semibold text-green-700 mb-2">
-                  Order #{index + 1}
+                  {order.name}
                 </h3>
                 <p>
                   <span className="font-medium">Requirement:</span>{" "}

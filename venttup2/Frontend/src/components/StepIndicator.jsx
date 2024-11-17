@@ -13,7 +13,7 @@ const StepIndicator = ({ order, currentStep, setFocusStep, focusStep }) => {
           onClick={() => setFocusStep(index)}
         >
           <div
-            className={`w-10 h-10 flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
+            className={`w-10 h-10 flex items-center justify-center rounded-full border-2 transition-all duration-500 ${
               currentStep > index || order.currentStatus === "Order completed"
                 ? "bg-blue-600 border-blue-600 text-white"
                 : currentStep === index
@@ -31,7 +31,7 @@ const StepIndicator = ({ order, currentStep, setFocusStep, focusStep }) => {
           </div>
 
           <div
-            className={`ml-2 overflow-hidden transition-all duration-300 max-w-0 opacity-0 group-hover:max-w-xs group-hover:opacity-100 ${
+            className={`ml-2 overflow-hidden transition-all duration-500 max-w-0 opacity-0 group-hover:max-w-xs group-hover:opacity-100 ${
               currentStep >= index
                 ? "text-blue-600 font-medium"
                 : "text-gray-500"
@@ -53,7 +53,7 @@ const StepIndicator = ({ order, currentStep, setFocusStep, focusStep }) => {
 
 const Arrow = ({ active }) => {
   return (
-    <div className="w-10 h-10 flex items-center justify-center -translate-x-4 transition-all duration-300">
+    <div className="w-10 h-10 flex items-center justify-center -translate-x-4 transition-all duration-500">
       <div
         className={`w-full h-full border-t-2 border-r-2 transform rotate-45 ${
           active ? "border-blue-600" : "border-gray-300"

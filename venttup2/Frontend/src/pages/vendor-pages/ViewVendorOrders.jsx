@@ -69,7 +69,7 @@ const ViewVendorOrders = () => {
                 )}`}
               >
                 <h3 className="text-base md:text-lg font-semibold text-green-700 mb-2">
-                  Order #{index + 1}
+                  {order.name}
                 </h3>
                 <p>
                   <span className="font-medium">Requirement:</span>{" "}

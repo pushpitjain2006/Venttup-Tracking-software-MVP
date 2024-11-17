@@ -228,6 +228,7 @@ export const orderUpload = async (req, res) => {
       orderType,
       totalAmount,
       currentStatus: "Vendor Selection",
+      currentStep: 1,
       sector,
       comments,
       name,

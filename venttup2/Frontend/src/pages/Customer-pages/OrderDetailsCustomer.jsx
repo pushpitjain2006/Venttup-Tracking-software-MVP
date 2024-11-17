@@ -76,11 +76,11 @@ const OrderDetailsCustomer = () => {
         {order && (
           <div className="text-center space-y-3 sm:space-y-4">
             <h2 className="text-xl sm:text-2xl font-bold text-green-800">
-              Order #{orderId}
+              {order.name}
             </h2>
             <p className="text-gray-600">
               <span className="font-semibold">Customer:</span>{" "}
-              {order.customerName}
+              {order.customerId}
             </p>
             <p className="text-gray-600">
               <span className="font-semibold">Vendor:</span>{" "}
@@ -96,6 +96,9 @@ const OrderDetailsCustomer = () => {
             <p className="text-gray-600">
               <span className="font-semibold">Comments:</span>{" "}
               {order.comments || "No additional comments"}
+            </p>
+            <p className="text-gray-600">
+              <span className="font-semibold">Id:</span> {order._id}
             </p>
           </div>
         )}
