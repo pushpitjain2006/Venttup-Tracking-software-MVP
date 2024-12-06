@@ -7,7 +7,7 @@ This is a MVP, which demonstrates a backend API built with Express.js and a fron
 Clone the Repository:
 
 ```bash
-  git clone https://github.com/pushpitjain2006/Venttup-Tracking-software--Updated-.git
+  git clone https://github.com/pushpitjain2006/Venttup-Tracking-software-MVP.git
 ```
 
 Install Dependencies:   
