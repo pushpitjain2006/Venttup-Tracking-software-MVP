@@ -1,6 +1,10 @@
-# VENTTUP
+# VENTTUP Order Tracking software
+<img width="1440" alt="Screenshot 2024-12-06 at 1 14 11 PM" src="https://github.com/user-attachments/assets/5ca98161-20f9-49ab-a7bd-af1fdb1c1cf7">
 
 This is a MVP, which demonstrates a backend API built with Express.js and a frontend built with Vite and React.
+
+<img width="1440" alt="Screenshot 2024-12-06 at 1 15 01 PM" src="https://github.com/user-attachments/assets/0331c7aa-b9a4-44a8-9af0-d555f2afcc13">
+<img width="1440" alt="Screenshot 2024-12-06 at 1 17 01 PM" src="https://github.com/user-attachments/assets/08556a4a-836a-4025-995a-42ffda4c4a5e">
 
 ## Getting Started
 
