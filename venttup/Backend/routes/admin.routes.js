@@ -13,6 +13,7 @@ import {
   fileUpload,
   UpdateProgressAdmin,
   DisapproveUpdate,
+  AdminExists
 } from "../controllers/admin.controller.js";
 import {
   deleteOrder,
@@ -35,6 +36,7 @@ const router = express.Router();
 router.post("/login", LoginAdmin);
 router.get("/logout", LogoutAdmin);
 router.post("/signup", protectedRoute, isAdmin, SignupAdmin);
+router.get("/admin-exists", AdminExists);
 router.get(
   "/get-available-vendors",
   protectedRoute,

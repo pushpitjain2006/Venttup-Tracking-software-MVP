@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAdminSignup } from "../../../hooks/signup-hooks/useAdminSignUp.js";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../context/AuthContext.jsx";
+import useAxios from "../../utils/useAxios.js";
 
 const AdminSignup = () => {
+  const [AdminExists, setAdminExists] = useState(false);
   const { adminSignup, error, loading } = useAdminSignup();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const { auth } = useAuth();
+  const Axios = useAxios();
+
+  useEffect(() => {
+    Axios.get("/admin/AdminExists").then((res) => {
+      setAdminExists(res.data.exists);
+    });
+  }, []);
 
   const handleSubmit = (e) => {
     try {
@@ -71,7 +80,7 @@ const AdminSignup = () => {
         <SubmitButton
           loading={loading}
           text="Signup"
-          disabled={auth.userType !== "admin"}
+          disabled={AdminExists && auth.userType !== "admin"}
         />
       </form>
     </>
