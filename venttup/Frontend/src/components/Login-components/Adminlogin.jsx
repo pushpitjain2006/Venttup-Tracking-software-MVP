@@ -27,10 +27,10 @@ const AdminLogin = () => {
   };
 
   const handleTryWebsite = (e) => {
+    e.preventDefault();
     setUsername("john_doe");
     setPassword("StrongPassword123!");
     try {
-      e.preventDefault();
       if (!username || !password) {
         toast.warn("Please fill all the fields");
         return;
