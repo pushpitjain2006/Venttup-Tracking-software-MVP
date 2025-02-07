@@ -26,6 +26,25 @@ const AdminLogin = () => {
     }
   };
 
+  const handleTryWebsite = (e) => {
+    setUsername("john_doe");
+    setPassword("StrongPassword123!");
+    try {
+      e.preventDefault();
+      if (!username || !password) {
+        toast.warn("Please fill all the fields");
+        return;
+      }
+      adminLogin(username, password);
+      if (error) {
+        toast.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while logging in");
+    }
+  };
+
   return (
     <>
       <h2 className="text-3xl font-bold text-center text-green-800 mb-6">
@@ -84,6 +103,13 @@ const AdminLogin = () => {
           disabled={loading}
         >
           Login
+        </button>
+        <button
+          type="button"
+          onClick={handleTryWebsite}
+          className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 transition-all duration-300 mt-4"
+        >
+          Try the Website
         </button>
       </form>
     </>
