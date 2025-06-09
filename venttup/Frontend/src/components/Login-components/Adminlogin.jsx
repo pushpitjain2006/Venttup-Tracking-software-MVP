@@ -31,10 +31,6 @@ const AdminLogin = () => {
     setUsername("john_doe");
     setPassword("StrongPassword123!");
     try {
-      if (!username || !password) {
-        toast.warn("Please fill all the fields");
-        return;
-      }
       adminLogin(username, password);
       if (error) {
         toast.error(error);
@@ -107,6 +103,7 @@ const AdminLogin = () => {
         <button
           type="button"
           onClick={handleTryWebsite}
+          disabled={loading}
           className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 transition-all duration-300 mt-4"
         >
           Try the Website
