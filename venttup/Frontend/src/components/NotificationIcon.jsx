@@ -51,7 +51,6 @@ const NotificationIcon = () => {
 
     if (!isDropdownOpen) {
       try {
-        await axios.get(`${userType}/clear-notification`);
         setUnreadCount(0);
         setTimeout(() => {
           setShouldDisappear(true);
@@ -62,7 +61,8 @@ const NotificationIcon = () => {
     }
   };
 
-  const handleNotificationClick = (orderId) => {
+  const handleNotificationClick = async (orderId) => {
+    await axios.get(`${userType}/clear-notification`);
     setIsDropdownOpen(false);
     navigate(`/order-details/${orderId}`);
   };
